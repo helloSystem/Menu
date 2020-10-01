@@ -16,4 +16,4 @@ target_link_libraries(${PLUGIN} PRIVATE
 )
 target_include_directories(${PLUGIN} PUBLIC ../interfaces)
 
-install(TARGETS ${PLUGIN} LIBRARY DESTINATION /usr/lib/panda-statusbar/plugins)
+install(TARGETS ${PLUGIN} LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/panda-statusbar/plugins)

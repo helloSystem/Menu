@@ -275,6 +275,26 @@ void AppMenuModel::onActiveWindowChanged(WId id)
             const QString menuObjectPath = QString::fromUtf8(getWindowPropertyString(id, s_x11AppMenuObjectPathPropertyName));
 
             if (!serviceName.isEmpty() && !menuObjectPath.isEmpty()) {
+                qDebug() << "serviceName:" << serviceName;
+                qDebug() << "menuObjectPath:" << menuObjectPath;
+                updateApplicationMenu(serviceName, menuObjectPath);
+                return true;
+            } else {
+                // probonopd
+                // const QString serviceName = QString::fromUtf8("org.kde.plasma.gmenu_dbusmenu_proxy");
+                // const QString menuObjectPath = QString::fromUtf8("/MenuBar/1");
+
+/*
+
+We SHOULD see something like this if things go well (example: GIMP):
+signal time=1601555828.384556 sender=:1.164 -> destination=(null destination) serial=1766 path=/MenuBar/10; interface=com.canonical.dbusmenu; member=LayoutUpdated
+
+(example: kde platformtheme)
+method call time=1601556054.458008 sender=:1.274 -> destination=:1.280 serial=387 path=/MenuBar/1; interface=com.canonical.dbusmenu; member=GetLayout
+
+*/
+
+
                 updateApplicationMenu(serviceName, menuObjectPath);
                 return true;
             }

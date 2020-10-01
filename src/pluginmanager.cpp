@@ -21,6 +21,7 @@
 #include <QDir>
 #include <QPluginLoader>
 #include <QDebug>
+#include <QApplication>
 
 PluginManager::PluginManager(QObject *parent)
   : QObject(parent)
@@ -30,7 +31,9 @@ PluginManager::PluginManager(QObject *parent)
 
 void PluginManager::start()
 {
-    QDir pluginsDir("/usr/lib/panda-statusbar/plugins");
+    QString pathPlugins;
+    auto pluginsDir = QDir(QCoreApplication::applicationDirPath() + \
+        QString("/../lib/panda-statusbar/plugins"));
     const QFileInfoList files = pluginsDir.entryInfoList(QDir::Files);
     for (const QFileInfo file : files) {
         const QString filePath = file.filePath();

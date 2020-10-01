@@ -51,4 +51,4 @@ target_link_libraries(${TARGET}
 
 )
 
-install(TARGETS ${TARGET} DESTINATION /usr/bin)
+install(TARGETS ${TARGET} DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
