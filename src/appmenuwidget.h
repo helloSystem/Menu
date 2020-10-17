@@ -28,6 +28,7 @@
 #include "appmenu/menuimporter.h"
 
 #include "actionsearch/actionsearch.h"
+#include "actionsearch/ui/dialog.h"
 
 class AppMenuWidget : public QWidget
 {
@@ -61,8 +62,12 @@ public slots:
     void actionLogout();
     bool which(QString command);
 
+private slots:
+    void acceptActionDialog();
+
 private:
     ActionSearch *actionSearch;
+    Dialog *actionDialog;
     AppMenuModel *m_appMenuModel;
     MenuImporter *m_menuImporter;
     QWidget *m_buttonsWidget;

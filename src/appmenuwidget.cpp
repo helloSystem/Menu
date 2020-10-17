@@ -143,15 +143,19 @@ AppMenuWidget::AppMenuWidget(QWidget *parent)
 
     // Load action search
     // FIXME: This needs to somehow be integrated with the AppMenuModel. How to do this?
-    ActionSearch *actionSearch = new ActionSearch(leftmostMenuBar); // probono: FIXME: Kinda works with leftmostMenuBar but not yet with m_menuBar
+    actionSearch = new ActionSearch(leftmostMenuBar); // probono: FIXME: Kinda works with leftmostMenuBar but not yet with m_menuBar
     actionSearch->update();
-    auto dialog = new Dialog{this, actionSearch->getActionNames()};
-    connect(dialog, &Dialog::accepted, [&actionSearch, &dialog]() {
-        actionSearch->execute(dialog->getActionName());
-    });
-    dialog->setModal(false);
-    dialog->setParent(this, Qt::Dialog); // setParent to this results in the menu not going away when the dialog is shown
-    dialog->show();
+    actionDialog = new Dialog{this, actionSearch->getActionNames()};
+    
+    connect(actionDialog, &QDialog::accepted, this, &AppMenuWidget::acceptActionDialog);
+
+    actionDialog->setModal(false);
+    actionDialog->setParent(this, Qt::Dialog); // setParent to this results in the menu not going away when the dialog is shown
+    actionDialog->show();
+}
+
+void AppMenuWidget::acceptActionDialog() {
+    actionSearch->execute(actionDialog->getActionName());
 }
 
 void AppMenuWidget::updateMenu()
