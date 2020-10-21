@@ -123,6 +123,7 @@ private:
 
     //! current active window used
     WId m_currentWindowId = 0;
+    WId m_initialApplicationFromWindowId = -1;
     //! window that its menu initialization may be delayed
     WId m_delayedMenuWindowId = 0;
 
