@@ -298,12 +298,26 @@ AppMenuWidget::AppMenuWidget(QWidget *parent)
     QStringList locationsContainingApps = {};
     locationsContainingApps.append(QDir::homePath());
     locationsContainingApps.append(QStandardPaths::writableLocation(QStandardPaths::DownloadLocation));
-    locationsContainingApps.append(QDir::homePath() + "/Applications");
+    ///locationsContainingApps.append(QDir::homePath() + "/Applications");
     locationsContainingApps.append(QDir::homePath() + "/bin");
     locationsContainingApps.append(QDir::homePath() + "/.bin");
     locationsContainingApps.append("/Applications");
     locationsContainingApps.removeDuplicates(); // Make unique
     findAppsInside(locationsContainingApps, m_systemMenu);
+   
+    // You should create the same setup for each menu on a specific directory,
+    // only one directory for now. The class can further expanded though. 
+    // Setup FS Watcher to track new applications and integrate into the menu
+    m_applicationMenu = m_systemMenu->addMenu("User Applications");
+    m_applicationMenu->setToolTipsVisible(true); 
+    m_applicationMenu->installEventFilter(this);
+
+    connect(m_applicationMenu, SIGNAL(triggered(QAction*)), this, SLOT(actionLaunch(QAction*)));
+       
+    m_appWatcher = new ApplicationWatcher(QDir::homePath() + "/Applications", this);
+    connect(m_appWatcher, &ApplicationWatcher::insertEntry, this, &AppMenuWidget::insertIntoApplicationMenu);
+    connect(m_appWatcher, &ApplicationWatcher::clearMenuRequested, this, &AppMenuWidget::clearApplicationMenu);
+
     m_systemMenu->addSeparator();
     QAction *restartAction = m_systemMenu->addAction("Restart");
     connect(restartAction, SIGNAL(triggered()), this, SLOT(actionLogout()));
@@ -343,6 +357,19 @@ AppMenuWidget::~AppMenuWidget() {
     if(actionSearch) {
         delete actionSearch;
     }
+}
+
+void AppMenuWidget::insertIntoApplicationMenu(const QString &title, const QString &path) {
+	auto action = m_applicationMenu->addAction(title);
+        action->setToolTip(path);
+        action->setProperty("path", path);
+	m_applicationMenu->addAction(action);
+	updateActionSearch(m_menuBar);
+}
+
+void AppMenuWidget::clearApplicationMenu() {
+	m_applicationMenu->clear();
+	updateActionSearch(m_menuBar);
 }
 
 void AppMenuWidget::integrateSystemMenu(QMenuBar *menuBar) {
@@ -702,13 +729,15 @@ void AppMenuWidget::actionAbout()
         // icon = "/usr/local/share/icons/elementary-xfce/devices/128/computer-laptop.png";
 
         // See https://github.com/openwebos/qt/blob/92fde5feca3d792dfd775348ca59127204ab4ac0/tools/qdbus/qdbusviewer/qdbusviewer.cpp#L477 for loading icon from resources
-        QString helloSystemInfo;
-        if(sha != "" && url != "" && build != "") {
+	QString helloSystemInfo = "Unknown";
+#if defined(Q_OS_FREEBSD) 
+	if(sha != "" && url != "" && build != "") {
             qDebug() << " xxxxxxxxxxxxxxxxxx  " ;
             helloSystemInfo = "</p>helloSystem build: "+ build +" for commit: <a href='" + url + "'>" + sha + "</a></p>";
         } else if(sha != "" && url != "") {
             helloSystemInfo = "</p>helloSystem commit: <a href='" + url + "'>" + sha + "</a></p>";
         }
+#endif // Q_OS_FREEBSD
 
         msgBox->setText("<center><img src=\"file://" + icon + "\"><h3>" + vendorname + " " + productname  + "</h3>" + \
                         "<p>" + operatingsystem +"</p><small>" + \

@@ -33,6 +33,8 @@
 
 #include "actionsearch/actionsearch.h"
 
+#include "applicationwatcher/applicationwatcher.h"
+
 class AppMenuWidget : public QWidget
 {
     Q_OBJECT
@@ -73,6 +75,8 @@ public slots:
 
 private slots:
     void handleActivated(const QString&);
+    void insertIntoApplicationMenu(const QString&, const QString&);
+    void clearApplicationMenu();
 
 /// For Action Search
 private:
@@ -81,9 +85,11 @@ private:
 /// For System Main Menu.
 private:
     QMenu *m_systemMenu;
+    QMenu *m_applicationMenu;
     void integrateSystemMenu(QMenuBar*);
 
 private:
+    ApplicationWatcher *m_appWatcher;
     QWidget *searchLineWidget;
     QLineEdit *searchLineEdit;
     QCompleter *actionCompleter;

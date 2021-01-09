@@ -34,6 +34,10 @@ set(SRCS
     appmenu/utils_p.h
     actionsearch/actionsearch.h
     actionsearch/actionsearch.cpp
+    applicationwatcher/applicationwatcher.h
+    applicationwatcher/applicationwatcher_p.h
+    applicationwatcher/applicationwatcher.cpp
+    applicationwatcher/applicationwatcher_p.cpp
     qtsingleapplication/qtsingleapplication.h
     qtsingleapplication/qtsingleapplication.cpp
     qtsingleapplication/qtlocalpeer.cpp
