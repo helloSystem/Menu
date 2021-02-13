@@ -20,6 +20,7 @@
 
 #include "appmenuwidget.h"
 #include "appmenu/menuimporteradaptor.h"
+#include "mainpanel.h"
 #include <QProcess>
 #include <QHBoxLayout>
 #include <QDebug>
@@ -453,8 +454,8 @@ void AppMenuWidget::updateActionSearch(QMenuBar *menuBar) {
 
 void AppMenuWidget::rebuildMenu()
 {
+    qobject_cast<MainPanel*>(parent())->rebuildSystemMenu();
     qDebug() << "AppMenuWidget::rebuildMenu() called";
-    qDebug() << "TODO: Find a way to rebuild the menu; especially run findAppsInside";
 }
 
 //doesn't work for https://github.com/helloSystem/Menu/issues/16
