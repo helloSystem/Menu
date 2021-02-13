@@ -29,6 +29,7 @@ class MainWindow : public QFrame
 
 public:
     MainWindow(QWidget *parent = 0);
+    MainPanel *m_mainPanel;
     ~MainWindow();
 
 protected:
@@ -40,7 +41,6 @@ private:
 
 private:
     QWidget *m_fakeWidget;
-    MainPanel *m_mainPanel;
 };
 
 #endif // MAINWINDOW_H

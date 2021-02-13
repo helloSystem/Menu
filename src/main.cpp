@@ -19,9 +19,12 @@
  
 #include "mainwindow.h"
 #include <QApplication>
+#include <csignal>
 
 #include <qtsingleapplication/qtsingleapplication.h>
 
+//our main window
+MainWindow* window;
 
 // probono: Subclassing QApplication so that we can see what events are going on
 // https://stackoverflow.com/a/27607947
@@ -40,6 +43,12 @@ public:
     }
 };
 
+//Rebuild the system menu on SIGUSR1 
+//https://github.com/helloSystem/Menu/issues/16
+void rebuildSystemMenuSignalHandler(int sig){
+    window->m_mainPanel->rebuildSystemMenu();
+}
+
 
 // probono: Using QtSingleApplication so that only one instance can run at any time,
 // launching it again just brings the running instance into focus
@@ -55,8 +64,12 @@ int main(int argc, char **argv)
     QApplication a(argc, argv); // probono: Use this instead of the line above for production
     MainWindow w;
     w.show();
+    window = &w;
 
     instance.setActivationWindow(&w);
+
+    //set up a signal for SIGUSR1
+    signal(SIGUSR1, rebuildSystemMenuSignalHandler);
 
     QObject::connect(&instance, SIGNAL(messageReceived(const QString&)),
              &w, SLOT(append(const QString&)));

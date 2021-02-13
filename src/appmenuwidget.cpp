@@ -276,6 +276,7 @@ AppMenuWidget::AppMenuWidget(QWidget *parent)
     // Add search box to menu
     searchLineEdit = new QLineEdit(this);
     searchLineEdit->setObjectName("actionSearch"); // probono: This name can be used in qss to style it specifically
+    searchLineEdit->setPlaceholderText("Search");
     auto* pLineEditEvtFilter = new MyLineEditEventFilter(searchLineEdit);
     searchLineEdit->installEventFilter(pLineEditEvtFilter);
     // searchLineEdit->setMinimumWidth(150);
@@ -456,6 +457,8 @@ void AppMenuWidget::rebuildMenu()
     qDebug() << "TODO: Find a way to rebuild the menu; especially run findAppsInside";
 }
 
+//doesn't work for https://github.com/helloSystem/Menu/issues/16
+//what does this even do??
 void AppMenuWidget::updateMenu()
 {
     // qDebug() << "AppMenuWidget::updateMenu() called";

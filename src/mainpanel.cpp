@@ -32,6 +32,9 @@
 #include <QMessageBox>
 #include <QDialog>
 
+//store our layout for rebuilding the menu
+QHBoxLayout* m_layout;
+
 MainPanel::MainPanel(QWidget *parent)
     : QWidget(parent),
       m_globalMenuLayout(new QHBoxLayout),
@@ -75,6 +78,20 @@ MainPanel::MainPanel(QWidget *parent)
     setLayout(layout);
 
     loadModules();
+    m_layout = layout;
+}
+
+void MainPanel::rebuildSystemMenu()
+{
+    qDebug() << "SIGSUR1 recived, rebuild the system menu";
+
+    if(m_appMenuWidget){
+        m_layout->removeWidget(m_appMenuWidget);
+        delete m_appMenuWidget;
+        m_appMenuWidget = new AppMenuWidget();
+        m_appMenuWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        m_layout->insertWidget(0, m_appMenuWidget);
+    }
 }
 
 void MainPanel::loadModules()
