@@ -38,8 +38,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     // We need to move it off-screen here before we show it with an animation,
     // otherwhise the animation gets spoiled by showing it for a split-second before the animation moves it into view
-//    this->move(0, - TOPBAR_HEIGHT);
-
+    //TODO: this doesn't work the animation still gets spoiled
+    //this->move(0, - TOPBAR_HEIGHT);
     QHBoxLayout *layout = new QHBoxLayout;
     layout->addSpacing(10);
     layout->addWidget(m_mainPanel);
@@ -69,19 +69,31 @@ MainWindow::MainWindow(QWidget *parent)
     // This should allow e.g., picom to set different settings regarding shadows and transparency
     KWindowSystem::setType(winId(), NET::TopMenu);
 
+    //TODO:
+    //Call this when the user sets the primary display via xrandr
     initSize();
 
+    //subscribe to changes on our display like if we change the screen resolution, orientation etc..
     connect(qApp->primaryScreen(), &QScreen::geometryChanged, this, &MainWindow::initSize);
+    connect(qApp->primaryScreen(), &QScreen::orientationChanged, this, &MainWindow::initSize);
+    connect(qApp->primaryScreen(), &QScreen::virtualGeometryChanged, this, &MainWindow::initSize);
+    connect(qApp->primaryScreen(), &QScreen::availableGeometryChanged, this, &MainWindow::initSize);
+    connect(qApp->primaryScreen(), &QScreen::logicalDotsPerInchChanged, this, &MainWindow::initSize);
+    connect(qApp->primaryScreen(), &QScreen::physicalDotsPerInchChanged, this, &MainWindow::initSize);
+    connect(qApp->primaryScreen(), &QScreen::physicalSizeChanged, this, &MainWindow::initSize);
+    connect(qApp->primaryScreen(), &QScreen::primaryOrientationChanged, this, &MainWindow::initSize);
+   
 
     // Appear with an animation
     QPropertyAnimation *animation = new QPropertyAnimation(this, "pos");
     animation->setDuration(1500);
-    animation->setStartValue(QPoint(0, -2 * this->height()));
-    animation->setEndValue(QPoint(0,0));
+    animation->setStartValue(QPoint(qApp->primaryScreen()->geometry().x(), -2 * qApp->primaryScreen()->geometry().height()));
+    animation->setEndValue(QPoint(qApp->primaryScreen()->geometry().x(),qApp->primaryScreen()->geometry().y()));
     animation->setEasingCurve(QEasingCurve::OutCubic);
     animation->start(QPropertyAnimation::DeleteWhenStopped);
     this->activateWindow(); // probono: Ensure that we have the focus when menu is launched so that one can enter text in the search box
     m_mainPanel->raise(); // probono: Trying to give typing focus to the search box that is in there. Needed? Does not seem tp hurt
+
 }
 
 MainWindow::~MainWindow()
@@ -116,7 +128,8 @@ void MainWindow::initSize()
     qreal scale = qApp->primaryScreen()->devicePixelRatio();
     setFixedWidth(primaryRect.width());
     setFixedHeight(TOPBAR_HEIGHT);
-    move(0, 0);
+    //move this to the active screen and xrandr position
+    move(qApp->primaryScreen()->geometry().x(), qApp->primaryScreen()->geometry().y());
 
     setStrutPartial();
     
@@ -129,7 +142,8 @@ void MainWindow::initSize()
 
 void MainWindow::setStrutPartial()
 {
-    // 不清真的作法，kwin设置blur后设置程序支撑导致模糊无效
+    //不清真的作法，kwin设置blur后设置程序支撑导致模糊无效
+    //TRANSLATED Unclear practice, setting program support after kwin set blur causes blur invalid
     QRect r(geometry());
     r.setHeight(1);
     r.setWidth(1);
