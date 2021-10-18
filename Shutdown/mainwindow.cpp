@@ -49,7 +49,7 @@ void MainWindow::on_shutdownButton_clicked()
     QProcess::execute("sudo", QStringList() << "shutdown" << "-p" << "now");
 }
 
-// When Xorg gets killed, window decorations disappear first, the whole thing is unsighty
+// When Xorg gets killed, window decorations disappear first, the whole thing is unsightly
 // hence we fill the screen before we exit
 void MainWindow::clearScreen()
 {
