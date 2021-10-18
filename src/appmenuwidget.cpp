@@ -403,7 +403,7 @@ void AppMenuWidget::updateActionSearch(QMenuBar *menuBar) {
     // TODO: https://stackoverflow.com/a/33790639
     // We could customize more aspects of the list view of the completer by
     //setting the CompletionMode to InlineCompletion, so there will be no popup.
-    // Then make your QListView indepedant of the QLineEdit;
+    // Then make your QListView independent of the QLineEdit;
     // just react to signals that indicate when a view types some text,...
 
     KWindowSystem::setType(actionCompleter->popup()->winId(), NET::DropdownMenu);
