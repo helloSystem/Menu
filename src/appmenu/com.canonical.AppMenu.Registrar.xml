@@ -21,7 +21,7 @@
 	     
 			  /note this method assumes that the connection from the caller is the DBus connection
 			    to use for the object.  Applications that use multiple DBus connections will need to
-			    ensure this method is called with the same connection that implmenets the object.
+			    ensure this method is called with the same connection that implements the object.
 			]]></dox:d>
 			<arg name="windowId" type="u" direction="in">
 				<dox:d>The XWindow ID of the window</dox:d>
