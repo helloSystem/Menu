@@ -104,7 +104,7 @@ user@FreeBSD$ gmenudbusmenuproxy &
 user@FreeBSD$ gimp
 ```
 
-Same: __Initially__ the menu is empty, but when I bring a Qt applciation to the front and __then__ switch back to the Inkscape window, then the menus __work__.
+Same: __Initially__ the menu is empty, but when I bring a Qt application to the front and __then__ switch back to the Inkscape window, then the menus __work__.
 
 Seeing lots of
 
