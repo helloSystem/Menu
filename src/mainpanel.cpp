@@ -83,7 +83,7 @@ MainPanel::MainPanel(QWidget *parent)
 
 void MainPanel::rebuildSystemMenu()
 {
-    qDebug() << "SIGSUR1 recived, rebuild the system menu";
+    qDebug() << "SIGSUR1 received, rebuild the system menu";
 
     if(m_appMenuWidget){
         m_layout->removeWidget(m_appMenuWidget);
