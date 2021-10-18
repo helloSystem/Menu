@@ -250,7 +250,7 @@ void AppMenuWidget::findAppsInside(QStringList locationsContainingApps, QMenu *m
                 QAction *action = submenu->addAction(base);
                 action->setToolTip("TODO: Convert " + file.absoluteFilePath() + " to an .app bundle");
                 action->setProperty("path", file.absoluteFilePath());
-                action->setDisabled(true); // As a reminder that we consider those legacy and encourage people to swtich
+                action->setDisabled(true); // As a reminder that we consider those legacy and encourage people to switch
                 // Finding the icon file is much more involved with XDG than with our simplified .app bundles, so it is not implemented here
             }
             else if (locationsContainingApps.contains(candidate) == false && file.isDir() && candidate.endsWith("/..") == false && candidate.endsWith("/.") == false && candidate.endsWith(".app") == false && candidate.endsWith(".AppDir") == false) {
