@@ -585,7 +585,7 @@ void AppMenuWidget::minimizeWindow()
     KWindowSystem::minimizeWindow(KWindowSystem::activeWindow());
 }
 
-void AppMenuWidget::clsoeWindow()
+void AppMenuWidget::closeWindow()
 {
     NETRootInfo(QX11Info::connection(), NET::CloseWindow).closeWindowRequest(KWindowSystem::activeWindow());
 }

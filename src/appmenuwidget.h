@@ -57,7 +57,7 @@ private:
     void onActiveWindowChanged();
     void onWindowChanged(WId id, NET::Properties properties, NET::Properties2 properties2);
     void minimizeWindow();
-    void clsoeWindow();
+    void closeWindow();
     void maxmizeWindow();
     void restoreWindow();
 
