@@ -4,7 +4,7 @@
 	  @mainpage
 	 
 	  An interface to register menus that are associated with a window in an application.  The
-	  main interface is docuemented here: @ref com::canonical::AppMenu::Registrar.
+	  main interface is documented here: @ref com::canonical::AppMenu::Registrar.
 	    
 	  The actual menus are transported using the dbusmenu protocol which is available
 	  here: @ref com::canonical::dbusmenu.
