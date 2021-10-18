@@ -500,7 +500,7 @@ void AppMenuWidget::toggleMaximizeWindow()
     if (isMax) {
         restoreWindow();
     } else {
-        maxmizeWindow();
+        maximizeWindow();
     }
 }
 
@@ -590,7 +590,7 @@ void AppMenuWidget::closeWindow()
     NETRootInfo(QX11Info::connection(), NET::CloseWindow).closeWindowRequest(KWindowSystem::activeWindow());
 }
 
-void AppMenuWidget::maxmizeWindow()
+void AppMenuWidget::maximizeWindow()
 {
     KWindowSystem::setState(KWindowSystem::activeWindow(), NET::Max);
 }
