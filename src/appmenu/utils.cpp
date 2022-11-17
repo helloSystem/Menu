@@ -25,7 +25,7 @@
 
 QString swapMnemonicChar(const QString &in, const char src, const char dst)
 {
-    QString out ="";
+    QString out;
     bool mnemonicFound = false;
 
     for (int pos = 0; pos < in.length(); ) {
@@ -51,7 +51,8 @@ QString swapMnemonicChar(const QString &in, const char src, const char dst)
             }
         } else if (ch == dst) {
             // Escape 'dst'
-            out = out + dst + dst;
+            out += dst;
+            out += dst;
             ++pos;
         } else {
             out += ch;

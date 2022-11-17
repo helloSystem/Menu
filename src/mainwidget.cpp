@@ -85,7 +85,6 @@ MainWidget::MainWidget(QWidget *parent)
     setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
     loadModules();
     m_layout = layout;
-
 }
 
 void MainWidget::rebuildSystemMenu()

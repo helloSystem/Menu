@@ -1,4 +1,4 @@
-    /******************************************************************
+/******************************************************************
  * Copyright 2016 Chinmoy Ranjan Pradhan <chinmoyrp65@gmail.com>
  *
  * This program is free software; you can redistribute it and/or
@@ -28,63 +28,14 @@
 #include <KWindowSystem>
 #include <QPointer>
 #include <QRect>
-#include <QDebug>
 #include <QTimer>
-#include <dbusmenu-qt5/dbusmenuimporter.h>
-#include <QHBoxLayout>
-#include <QMenu>
-#include <QMenuBar>
-#include <QActionEvent>
-#include <QApplication>
+class QMenu;
 class QAction;
 class QModelIndex;
 class QDBusServiceWatcher;
-class HMenu :public QMenu {
-public:
-    HMenu(QWidget* parent=0):QMenu(parent) {
+class DBusMenuImporter;
 
-
-    }
-protected:
-    void actionEvent(QActionEvent *e)  {
-
-        if(e->type() == QEvent::ActionAdded) {
-            if (qobject_cast<QMenuBar*>(parent())!=nullptr) {
-                if(e->action()->menu())
-                    qobject_cast<QMenuBar*>(parent())->addMenu(e->action()->menu());
-
-           }
-
-
-        }
-       if(e->type() == QEvent::ActionRemoved) {
-            if (qobject_cast<QMenuBar*>(parent())!=nullptr) {
-                     qobject_cast<QMenuBar*>(parent())->removeAction(e->action());
-
-        }
-       }
-
-}
-};
-
-
-class HDBusMenuImporter : public DBusMenuImporter
-{
-public:
-    HDBusMenuImporter(const QString &service, const QString &path, const enum DBusMenuImporterType type, QObject *parent=0)
-    : DBusMenuImporter(service, path, type,parent)
-
-    {
-
-    }
-
-    QMenu *createMenu(QWidget *parent) override {
-        HMenu * menu = new HMenu(parent);
-        return menu;
-    }
-
-};
-class AppMenuModel : public QAbstractItemModel, public QAbstractNativeEventFilter
+class AppMenuModel : public QAbstractListModel, public QAbstractNativeEventFilter
 {
     Q_OBJECT
 
@@ -106,20 +57,15 @@ public:
         MenuRole = Qt::UserRole + 1, // TODO this should be Qt::DisplayRole
         ActionRole
     };
-    QAction *findParent(QAction * child,QAction *root) const ;
+
     QVariant data(const QModelIndex &index, int role) const override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QHash<int, QByteArray> roleNames() const override;
 
-    QModelIndex index(int row, int column,
-                      const QModelIndex &parent = QModelIndex()) const override;
-    QModelIndex parent(const QModelIndex &index) const override;
-    int columnCount(const QModelIndex &parent = QModelIndex()) const override;
-    bool hasChildren(const QModelIndex &parent = QModelIndex()) const override;
+
     QMap<QString,QAction*> filteredActions() { return m_visibleActions; }
     void updateApplicationMenu(const QString &serviceName, const QString &menuObjectPath);
     void updateSearch();
-    void invalidateMenu() { m_menu=nullptr;}
     bool filterByActive() const;
     void setFilterByActive(bool active);
     // void execute(QString actionName);
@@ -130,15 +76,14 @@ public:
     void clearFilteredActions() { m_visibleActions.clear();}
     bool filterMenu(QMenu *searchMenu, QString searchString, bool includeDisabled, QStringList names);
     bool visible() const;
-    QList<QAction*>   mActions() { return m_actions; }
+
     QRect screenGeometry() const;
     void setScreenGeometry(QRect geometry);
 
     QVariant winId() const;
     void setWinId(const QVariant &id);
     void readMenuActions(QMenu* menu,QStringList names);
-    QPointer<QMenu> menu() { return m_menu; }
-    void refreshSearch();
+    QMenu *menu() { return m_menu; }
 signals:
     void requestActivateIndex(int index);
 
@@ -161,12 +106,11 @@ private Q_SLOTS:
     void setVisible(bool visible);
     void update();
 
-
 signals:
     void menuAvailableChanged();
     void modelNeedsUpdate();
-    void menuImported();
-    void firstLevelParsed();
+    void menuParsed();
+
     void filterByActiveChanged();
     void filterChildrenChanged();
     void visibleChanged();
@@ -174,15 +118,13 @@ signals:
     void winIdChanged();
 
 private:
-    void deleteActions(QMenu * menu());
-    QWidget *w_parent;
     QMap<QString,QAction*> m_names;
     bool m_filterByActive = false;
     bool m_filterChildren = false;
     bool m_menuAvailable;
     bool m_updatePending = false;
     bool m_visible = true;
-    bool m_awaitsUpdate;
+    QList<QMenu*> m_awaitsUpdate;
     QRect m_screenGeometry;
     bool    hasVisible =false;
     QMap<QString,QAction*> m_visibleActions;
@@ -192,14 +134,12 @@ private:
     WId m_initialApplicationFromWindowId = -1;
     //! window that its menu initialization may be delayed
     WId m_delayedMenuWindowId = 0;
-    QPointer<QMenu>  m_menu;
-    QList<QAction*> m_actions;
+    QPointer<QMenu> m_menu;
     QDBusServiceWatcher *m_serviceWatcher;
     QString m_serviceName;
     QString m_menuObjectPath;
-    bool m_refreshSearch;
-    DBusMenuImporter *m_importer;
-    QHash<QString,DBusMenuImporter*> m_importers;
+
+    QPointer<DBusMenuImporter> m_importer;
 };
 
 #endif

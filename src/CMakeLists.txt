@@ -20,14 +20,14 @@ set(SRCS
     appmenuwidget.h
     appmenu/appmenumodel.h
     appmenu/appmenumodel.cpp
-    # appmenu/dbusmenuimporter.h
-    # appmenu/dbusmenuimporter.cpp
-    # appmenu/dbusmenu_interface.h
-    # appmenu/dbusmenu_interface.cpp
-    # appmenu/dbusmenushortcut_p.h
-    # appmenu/dbusmenushortcut_p.cpp
-    # appmenu/dbusmenutypes_p.h
-    # appmenu/dbusmenutypes_p.cpp
+    appmenu/dbusmenuimporter.h
+    appmenu/dbusmenuimporter.cpp
+    appmenu/dbusmenu_interface.h
+    appmenu/dbusmenu_interface.cpp
+    appmenu/dbusmenushortcut_p.h
+    appmenu/dbusmenushortcut_p.cpp
+    appmenu/dbusmenutypes_p.h
+    appmenu/dbusmenutypes_p.cpp
     appmenu/menuimporteradaptor.h
     appmenu/menuimporteradaptor.cpp
     appmenu/menuimporter.h
@@ -63,10 +63,8 @@ add_executable(${TARGET} ${SRCS} resources.qrc)
 add_dependencies(${CMAKE_PROJECT_NAME} resources)
 
 find_package(Qt5 COMPONENTS Network REQUIRED)  # probono: For qtsingleapplication
-find_package(dbusmenu-qt5 REQUIRED)
 
-target_include_directories(${TARGET} PUBLIC ${dbusmenu-qt5_INCLUDE_DIRS})
-
+if(${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD")
 target_link_libraries(${TARGET}
     Qt5::DBus
     Qt5::Widgets
@@ -83,15 +81,27 @@ target_link_libraries(${TARGET}
     ${XCB_LIBRARIES}
     ${XCB_EWMH_LIBRARIES}
     ${XCB_EWMH_LIBRARIES}
-    dbusmenu-qt5
+    procstat
 )
-if("${CMAKE_SYSTEM_NAME}" MATCHES "FreeBSD")
-    target_link_libraries(${TARGET} procstat)
+else()
+target_link_libraries(${TARGET}
+    Qt5::DBus
+    Qt5::Widgets
+    Qt5::Concurrent
+    Qt5::X11Extras
+    Qt5::Network # probono: For qtsingleapplication
+    KF5::DBusAddons
+    KF5::WindowSystem
+    KF5::Baloo
+    ${X11_LIBRARIES}
+    ${XCOMPOSITE_LDFLAGS}
+    ${XDAMAGE_LIBRARIES}
+    ${XRENDER_LIBRARIES}
+    ${XCB_LIBRARIES}
+    ${XCB_EWMH_LIBRARIES}
+    ${XCB_EWMH_LIBRARIES}
+)
 endif()
 
-if("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
-    target_link_libraries(${TARGET} procps)
-endif()
 install(TARGETS ${TARGET} DESTINATION ${CMAKE_INSTALL_PREFIX})
 install(FILES ${QM_FILES} DESTINATION "${CMAKE_INSTALL_PREFIX}/Resources/translations")
-

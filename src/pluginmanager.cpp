@@ -59,7 +59,7 @@ void PluginManager::start()
             const QString filePath = file.filePath();
             if (!QLibrary::isLibrary(filePath))
                 continue;
-            qDebug() << filePath;
+
             QPluginLoader *loader = new QPluginLoader(filePath);
             StatusBarExtension *plugin = qobject_cast<StatusBarExtension *>(loader->instance());
 

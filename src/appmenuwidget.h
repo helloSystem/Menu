@@ -33,7 +33,6 @@
 #include <QTimer>
 #include <QDebug>
 #include <QLineEdit>
-#include <QVariant>
 #include "appmenu/appmenumodel.h"
 #include "appmenu/menuimporter.h"
 
@@ -77,7 +76,6 @@ class CloneAction : public QAction {
     QAction *m_orig;
     QMetaObject::Connection m_con;
   };
-
 class AppMenuWidget : public QWidget
 {
     Q_OBJECT
@@ -95,7 +93,7 @@ protected:
     bool eventFilter(QObject *watched, QEvent *event) override; // Make it possible to click on the menu entry for a submenu
 
 private:
-    bool m_isSearching=false;
+
     bool isAcceptWindow(WId id);
     void delayUpdateActiveWindow();
     void onActiveWindowChanged();
@@ -132,7 +130,6 @@ private:
     QMenu *m_systemMenu;
      QMenu *m_searchMenu;
      QList<QAction *> searchResults;
-     QMap<QAction*,QString*> filteredActions;
     void integrateSystemMenu(QMenuBar*);
     void searchEditingDone();
     void refreshTimer();
@@ -145,19 +142,6 @@ private:
     AppMenuModel *m_appMenuModel;
     MenuImporter *m_menuImporter;
     QWidget *m_buttonsWidget;
-    struct cmpAction {
-     std::string pText;
-     std::string text;
-      int     row;
-    };
-    friend inline bool operator==(struct AppMenuWidget::cmpAction& lhs, const struct AppMenuWidget::cmpAction& rhs)
-    {
-        return lhs.pText == rhs.pText &&
-               lhs.text     ==rhs.text &&
-               lhs.row      == rhs.row;
-    }
-
-    std::vector<cmpAction> m_wasVisible;
     WId m_currentWindowID=0;
     // QToolButton *m_minButton;
     // QToolButton *m_restoreButton;
@@ -165,7 +149,7 @@ private:
     //QPropertyAnimation *m_buttonsAnimation;
     WId m_windowID;
     QTimer *m_typingTimer;
-    QTimer *m_clearTimer;
+    
     //int m_buttonsWidth;
 
     void keyPressEvent(QKeyEvent * event) override;
