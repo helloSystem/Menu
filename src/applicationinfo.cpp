@@ -9,7 +9,7 @@
 #include <QDir>
 
 #include <limits.h>
-#if defined(__FreeBSD__)
+
 #include <sys/socket.h>
 #include <sys/sysctl.h>
 #include <sys/param.h>
@@ -17,9 +17,12 @@
 #include <sys/user.h>
 #include <QDir>
 #include <fcntl.h>
+#if defined(__FreeBSD__)
 #include <libprocstat.h>
 #endif
-
+#if defined(__linux__)
+#include <proc/readproc.h>
+#endif
 #include <QX11Info>
 
 // Theory of operation:
@@ -136,10 +139,33 @@ QString ApplicationInfo::environmentVariableForPId(unsigned int pid, const QByte
         procstat_freeenvv(prstat);
         procstat_close(prstat);
 
+#elif defined(__linux__)
+    pid_t pidList[1];
+    pidList[0]=pid;
+     PROCTAB * processes = openproc(PROC_PID|PROC_FILLENV,pidList,1);
+     proc_t *proc_inf;
+              proc_inf=readproc(processes,NULL);
+               while(proc_inf) {
+                   if(proc_inf->environ) {
+                    char *envvar = *proc_inf->environ;
+                      while(envvar) {
+                          char * key = strtok(envvar,"=");
+                          if(strncmp(environmentVariable.toStdString().c_str(),key,strlen(environmentVariable))==0) {
+                              path = QString::fromLocal8Bit(strtok(NULL,"="));
+                              if(!path.isEmpty())
+                                  return path;
+
+                          }
+                          proc_inf->environ++;
+                          envvar = *(proc_inf->environ);
+                      }
+                   }
+                      proc_inf=readproc(processes,NULL);
+
+               }
+        path="";
 #else
-        // Linux
-        qDebug() << "probono: TODO: Implement getting env";
-        path = "ThisIsOnlyImplementedForFreeBSDSoFar";
+      path = "NotImplemeted";
 #endif
 
     return path;
@@ -197,33 +223,50 @@ QString ApplicationInfo::pathForWId(unsigned long long winId) {
 
         // qDebug() << "probono: info.pid():" << info.pid();
         // qDebug() << "probono: info.windowClassName():" << info.windowClassName();
+#if defined(__FreeBSD__)
+            struct procstat *prstat = procstat_open_sysctl();
+        if (prstat == NULL) {
+            return "";
+        }
+        unsigned int cnt;
+        kinfo_proc *procinfo = procstat_getprocs(prstat, KERN_PROC_PID, info.pid(), &cnt);
+        if (procinfo == NULL || cnt != 1) {
+            procstat_close(prstat);
+            return "";
+        }
+        char **pargs = procstat_getargv(prstat, procinfo, 0);
+        if (pargs == NULL) {
+            procstat_close(prstat);
+            return "";
+        }
+        path = QString::fromLocal8Bit(pargs[0]);
+#endif
+#if defined(__linux__)
+        pid_t pidList[1];
+        pidList[0]=info.pid();
+        qDebug() << info.pid();
+         PROCTAB * processes = openproc(PROC_PID|PROC_FILLCOM,pidList,1);
+         proc_t *proc_inf;
+                  proc_inf=readproc(processes,NULL);
+                   while(proc_inf) {
+                       if(proc_inf->cmdline) {
 
-        QProcess p;
-        QStringList arguments;
-        if (QFile::exists(QString("/proc/%1/file").arg(info.pid()))) {
-            // FreeBSD
-            arguments = QStringList() << "-f" << QString("/proc/%1/file").arg(info.pid());
-        } else if (QFile::exists(QString("/proc/%1/exe").arg(info.pid()))) {
-            // Linux
-            arguments = QStringList() << "-f" << QString("/proc/%1/exe").arg(info.pid());
-        }
-        p.setProgram("readlink");
-        p.setArguments(arguments);
-        p.start();
-        p.waitForFinished();
-        QString retStr(p.readAllStandardOutput().trimmed());
-        if(! retStr.isEmpty()) {
-            // qDebug() << "probono:" << p.program() << p.arguments();
-            // qDebug() << "probono: retStr:" << retStr;
-            path = retStr;
-        }
-        // qDebug() << "probono: pathForWId returns:" << path;
+                        path = QString::fromLocal8Bit(*proc_inf->cmdline);
+                        return path;
+                       }
+                   proc_inf=readproc(processes,NULL);
+                   }
+
+#endif
+
+         qDebug() << "probono: pathForWId returns:" << path;
 
         setWindowProperty(winId, key, path.toUtf8());
         qDebug() << winId << ": Populated" << key << "atom from process environment:" << path;
 
         return path;
     }
+    return "unknown";
 }
 
 QString ApplicationInfo::applicationNiceNameForWId(unsigned long long winId) {

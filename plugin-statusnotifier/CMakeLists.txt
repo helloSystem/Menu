@@ -1,7 +1,6 @@
 set(PLUGIN "statusnotifier")
 project(${PLUGIN})
 
-find_package(dbusmenu-qt5 REQUIRED)
 find_package(KF5WindowSystem REQUIRED)
 
 set(SRCS
@@ -30,6 +29,7 @@ set(SRCS
 #)
 
 #set_source_files_properties(${DBUS_SOURCES} PROPERTIES SKIP_AUTOGEN ON)
+find_package(dbusmenu-qt5 REQUIRED)
 
 add_definitions("${QT_DEFINITIONS} -DQT_PLUGIN")
 add_library(${PLUGIN} SHARED ${SRCS})
@@ -40,8 +40,7 @@ target_link_libraries(${PLUGIN} PRIVATE
     Qt5::Concurrent
     Qt5::X11Extras
     KF5::WindowSystem
-    dbusmenu-qt5
 )
-target_include_directories(${PLUGIN} PUBLIC ../interfaces)
+target_include_directories(${PLUGIN} PUBLIC ../interfaces ${dbusmenu-qt5_INCLUDE_DIRS})
 
 install(TARGETS ${PLUGIN} LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/Resources/plugins)

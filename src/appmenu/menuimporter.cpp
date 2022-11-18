@@ -26,7 +26,6 @@
 
 #include "menuimporter.h"
 #include "menuimporteradaptor.h"
-#include "dbusmenutypes_p.h"
 #include <QDBusMessage>
 #include <QDBusObjectPath>
 #include <QDBusServiceWatcher>
@@ -41,7 +40,7 @@ MenuImporter::MenuImporter(QObject* parent)
 : QObject(parent)
 , m_serviceWatcher(new QDBusServiceWatcher(this))
 {
-    qDBusRegisterMetaType<DBusMenuLayoutItem>();
+    //qDBusRegisterMetaType<DBusMenuLayoutItem>();
     m_serviceWatcher->setConnection(QDBusConnection::sessionBus());
     m_serviceWatcher->setWatchMode(QDBusServiceWatcher::WatchForUnregistration);
     connect(m_serviceWatcher, &QDBusServiceWatcher::serviceUnregistered, this, &MenuImporter::slotServiceUnregistered);
@@ -65,9 +64,17 @@ bool MenuImporter::connectToBus()
 
 void MenuImporter::RegisterWindow(WId id, const QDBusObjectPath& path)
 {
+    qDebug() << path.path() << __LINE__ << message().service();
     KWindowInfo info(id, NET::WMWindowType, NET::WM2WindowClass);
     NET::WindowTypes mask = NET::AllTypesMask;
+    QString service = message().service();
+    if (!m_serviceWatcher->watchedServices().contains(service)) {
+        m_serviceWatcher->addWatchedService(service);
+    } else {
+        emit WindowRegistered(id, service, m_menuPaths[id]);
 
+        return;
+    }
     // Menu can try to register, right click in gimp for example
     if (info.windowType(mask) & (NET::Menu|NET::DropdownMenu|NET::PopupMenu)) {
         return;
@@ -76,24 +83,21 @@ void MenuImporter::RegisterWindow(WId id, const QDBusObjectPath& path)
     if (path.path().isEmpty()) //prevent bad dbusmenu usage
         return;
 
-    QString service = message().service();
+
 
     QString classClass = info.windowClassClass();
     m_windowClasses.insert(id, classClass);
     m_menuServices.insert(id, service);
     m_menuPaths.insert(id, path);
 
-    if (!m_serviceWatcher->watchedServices().contains(service)) {
-        m_serviceWatcher->addWatchedService(service);
-    }
+
 
     // Fix for Chrome and Firefox, thanks Jesper Schmitz Mouridsen (jsmdk)
-    if(path.path().startsWith(QStringLiteral("/com/canonical/menu")) && KWindowSystem::isPlatformX11()) {
+   if(path.path().startsWith(QStringLiteral("/com/canonical/menu")) && KWindowSystem::isPlatformX11()) {
         auto *c = QX11Info::connection();
         xcb_change_property(c, XCB_PROP_MODE_REPLACE, id, get_xcb_atom(_KDE_NET_WM_APPMENU_OBJECT_PATH,c), XCB_ATOM_STRING, 8, path.path().size(), qPrintable(path.path()));
 	xcb_change_property(c, XCB_PROP_MODE_REPLACE, id, get_xcb_atom(_KDE_NET_WM_APPMENU_SERVICE_PATH,c), XCB_ATOM_STRING, 8, service.length(), qPrintable(service));
-    }
-
+   }
     emit WindowRegistered(id, service, path);
 }
 

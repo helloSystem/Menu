@@ -26,27 +26,12 @@
 
 #include <QDir>
 #include <QFile>
+#include "../src/appmenu/appmenumodel.h"
 #include <dbusmenu-qt5/dbusmenuimporter.h>
 #include "sniasync.h"
 #include <QIcon>
 
-namespace
-{
-    /*! \brief specialized DBusMenuImporter to correctly create actions' icons based
-     * on name
-     */
-    class MenuImporter : public DBusMenuImporter
-    {
-    public:
-        using DBusMenuImporter::DBusMenuImporter;
 
-    protected:
-        virtual QIcon iconForName(const QString & name) override
-        {
-            return QIcon::fromTheme(name);
-        }
-    };
-}
 
 StatusNotifierButton::StatusNotifierButton(QString service, QString objectPath, QWidget *parent)
     : QToolButton(parent),
@@ -71,9 +56,13 @@ StatusNotifierButton::StatusNotifierButton(QString service, QString objectPath, 
 
     interface->propertyGetAsync(QLatin1String("Menu"), [this] (QDBusObjectPath path) {
         if (!path.path().startsWith("/NO_DBUSMENU")) {
-            m_menu = (new MenuImporter{interface->service(), path.path(), this})->menu();
+            DBusMenuImporter * imp = new DBusMenuImporter{interface->service(), path.path(), this};
+            m_menu =  imp->menu();
             m_menu->setObjectName(QLatin1String("StatusNotifierMenu"));
-        }
+            qDebug() << m_menu->title() << __LINE__;
+
+
+    }
     });
 
     interface->propertyGetAsync(QLatin1String("Status"), [this] (QString status) {

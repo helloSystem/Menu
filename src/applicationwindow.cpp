@@ -6,18 +6,19 @@
 #include <QProcess>
 #include <QFile>
 #include <QFileInfo>
-
-#include <sys/syslimits.h>
-#if defined(__FreeBSD__)
 #include <sys/socket.h>
 #include <sys/sysctl.h>
 #include <sys/param.h>
 #include <sys/queue.h>
+#if defined(__FreeBSD__)
+#include <sys/syslimits.h>
+#include <libprocstat.h>
+#endif
 #include <sys/user.h>
 #include <QDir>
 #include <fcntl.h>
-#include <libprocstat.h>
-#endif
+
+
 
 // Returns the name of the most nested bundle a file is in,
 // or an empty string if the file is not in a bundle
@@ -68,8 +69,7 @@ QString applicationNiceNameForPath(QString path) {
 QString bundlePathForPId(unsigned int pid) {
     QString path;
 
-    if (QFile::exists("/usr/bin/procstat")) {
-        // FreeBSD
+#ifdef __FreeBSD__
 
         struct procstat *prstat = procstat_open_sysctl();
         if (prstat == NULL) {
@@ -86,9 +86,23 @@ QString bundlePathForPId(unsigned int pid) {
             procstat_close(prstat);
             return "";
         }
+#elif defined __linux
 
-        for (int i = 0; envs[i] != NULL; i++) {
+    QString fname = QString("/proc/%1/environ").arg(pid);
+    QFile *file = new QFile();
+    file->setFileName(fname);
+    file->open(QIODevice::ReadOnly);
+    QList<QByteArray> envs =  file->readAll().split('\n');
+    file->close();
+#endif
+ #ifdef __FreeBSD__
+    for (int i = 0; envs[i] != NULL; i++) {
+
             const QString& entry = QString::fromLocal8Bit(envs[i]);
+ #elif defined __linux__
+    for (QString entry : envs) {
+
+ #endif
             const int splitPos = entry.indexOf('=');
 
             if (splitPos != -1) {
@@ -102,16 +116,13 @@ QString bundlePathForPId(unsigned int pid) {
                 }
             }
         }
-
+#ifdef __FreeBSD__
         procstat_freeenvv(prstat);
         procstat_close(prstat);
 
-    } else if (QFile::exists(QString("/proc/%1/environ").arg(pid))) {
-        // Linux
-        qDebug() << "probono: TODO: Implement getting env";
-        path = "ThisIsOnlyImplementedForFreeBSDSoFar";
-    }
 
+
+#endif
     // qDebug() << "probono: bundlePathForPId returns:" << path;
     return path;
 }

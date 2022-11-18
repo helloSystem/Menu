@@ -55,11 +55,11 @@ void rebuildSystemMenuSignalHandler(int sig){
 
 // probono: Using QtSingleApplication so that only one instance can run at any time,
 // launching it again just brings the running instance into focus
-// https://github.com/qtproject/qt-solutions/blob/master/qtsingleapplication/examples/trivial/main.cpp
+// https://github.com/qtprojectqtproject/qt-solutions/blob/master/qtsingleapplication/examples/trivial/main.cpp
 
 int main(int argc, char **argv)
 {
-    QtSingleApplication instance(argc, argv);
+    QtSingleApplication instance(argc, argv,true);
     if (instance.sendMessage("Wake up!")) {
         return 0;
     }
@@ -138,6 +138,6 @@ w.m_MainWidget->triggerFocusMenu();
     //
     // probono: QUESTION: How can we avoid the string "MainWindow" from being part of the '--method' argument?
     // The name 'MainWindow' is a mere implementation detail and should not leak to the outside world
-
+    instance.setActivationWindow(&w);
     return instance.exec();
 }

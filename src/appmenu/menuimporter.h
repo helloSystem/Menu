@@ -28,16 +28,15 @@
 #define MENUIMPORTER_H
 #include <xcb/xcb.h>
 // Qt
-
 #include <QDBusArgument>
 #include <QDBusContext>
 #include <QDBusObjectPath>
+#include <QDBusServiceWatcher>
 #include <QObject>
 #include <QX11Info>
 #include <QWidget> // For WId
 
-class QDBusObjectPath;
-class QDBusServiceWatcher;
+
 
 class MenuImporter : public QObject, protected QDBusContext
 {

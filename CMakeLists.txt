@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0)
 
-project(Menu)
+    project(Menu)
 
 set(CMAKE_INSTALL_PREFIX "/System/Menu.app")
 
@@ -9,7 +9,9 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
+
 # include(GNUInstallDirs)
+
 
 # Do not put qDebug() into Release builds
 if(NOT CMAKE_BUILD_TYPE STREQUAL Debug)
