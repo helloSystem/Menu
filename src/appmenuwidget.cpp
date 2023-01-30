@@ -1227,7 +1227,11 @@ void AppMenuWidget::actionAbout()
         // If we found a way to read dmi without needing to be root, we could show a notebook icon for notebooks...
         // icon = "/usr/local/share/icons/elementary-xfce/devices/128/computer-laptop.png";
 
-        msgBox->setStandardButtons(QMessageBox::Close);
+        auto hardwareProbeButton = msgBox->addButton("Hardware Probe", QMessageBox::ButtonRole::ActionRole);
+        connect(hardwareProbeButton, &QPushButton::clicked, [=]() {
+            QProcess::startDetached("launch", {"Hardware Probe"});
+        });
+        msgBox->addButton(QMessageBox::Close);
 
         msgBox->setText("<center><img src=\"file://" + icon + "\"><h3>helloDesktop</h3>" + \
                         "<p>Lovingly crafted by true connoisseurs<br>of the desktop metaphor</p>" + \
@@ -1363,7 +1367,13 @@ void AppMenuWidget::actionAbout()
         } else if(sha != "" && url != "") {
             helloSystemInfo = "</p>helloSystem commit: <a href='" + url + "'>" + sha + "</a></p>";
         }
-        msgBox->setStandardButtons(QMessageBox::Close);
+        auto hardwareProbeButton = msgBox->addButton("Hardware Probe", QMessageBox::ButtonRole::ActionRole);
+        connect(hardwareProbeButton, &QPushButton::clicked, [=]() {
+            QProcess::startDetached("launch", {"Hardware Probe"});
+        });
+        msgBox->addButton(QMessageBox::Close);
+
+        // msgBox->setStandardButtons(QMessageBox::Close);
         // msgBox->setStandardButtons(0); // Remove button. FIXME: This makes it impossible to close the window; why?
         msgBox->setText("<center><img src=\"file://" + icon + "\"><h3>" + vendorname + " " + productname  + "</h3>" + \
                         "<p>" + operatingsystem +"</p><small>" + \
