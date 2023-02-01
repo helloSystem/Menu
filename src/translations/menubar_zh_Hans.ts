@@ -9,12 +9,12 @@
         <translation>搜索</translation>
     </message>
     <message>
-        <location filename="../appmenuwidget.cpp" line="1270"/>
+        <location filename="../appmenuwidget.cpp" line="1223"/>
         <source>About helloDesktop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../appmenuwidget.cpp" line="1298"/>
+        <location filename="../appmenuwidget.cpp" line="1238"/>
         <source>About This Computer</source>
         <translation>关于此电脑</translation>
     </message>

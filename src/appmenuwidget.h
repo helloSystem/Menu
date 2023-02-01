@@ -34,6 +34,7 @@
 #include <QDebug>
 #include <QLineEdit>
 #include <QVariant>
+#include <QDialogButtonBox>
 #include "appmenu/appmenumodel.h"
 #include "appmenu/menuimporter.h"
 
@@ -174,6 +175,20 @@ private:
     //int m_buttonsWidth;
 
     void keyPressEvent(QKeyEvent * event) override;
+};
+
+class AboutDialog : public QDialog
+{
+    QDialogButtonBox *_buttonBox;
+    QLabel *_imageLabel, *_textLabel;
+    QVBoxLayout *_layout;
+
+public:
+    AboutDialog(QWidget *parent);
+    ~AboutDialog();
+
+    void setIconPixmap(const QPixmap&);
+    void setText(const QString&);
 };
 
 #endif // APPMENUWIDGET_H

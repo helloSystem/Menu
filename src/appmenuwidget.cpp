@@ -1213,58 +1213,11 @@ void AppMenuWidget::restoreWindow()
     KWindowSystem::clearState(KWindowSystem::activeWindow(), NET::Max);
 }
 
-class AboutDialog : public QDialog
-{
-    QDialogButtonBox *_buttonBox;
-    QLabel *_imageLabel, *_textLabel;
-    QVBoxLayout *_layout;
-
-public:
-    AboutDialog(QWidget *parent) : QDialog(parent, Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint)
-    {
-        _layout = new QVBoxLayout;
-        _imageLabel = new QLabel;
-        _textLabel = new QLabel;
-        _buttonBox = new QDialogButtonBox(this);
-
-        _layout->setSizeConstraint(QLayout::SetFixedSize);
-       _layout->addWidget(_imageLabel, 0, Qt::AlignHCenter);
-       _layout->addWidget(_textLabel, 0, Qt::AlignHCenter);
-       _layout->addWidget(_buttonBox);
-
-       connect(_buttonBox, SIGNAL(clicked(QAbstractButton*)), this, SLOT(accept()));
-       QPushButton *hardwareProbeButton = _buttonBox->addButton("Hardware Probe", QDialogButtonBox::ActionRole);
-       connect(hardwareProbeButton, &QPushButton::clicked, [=]() {
-           QProcess::startDetached("launch", {"/Applications/Utilities/Hardware Probe.app"});
-       });
-       _buttonBox->addButton(QDialogButtonBox::Close);
-
-       setAttribute(Qt::WA_DeleteOnClose);
-       setLayout(_layout);
-       setSizeGripEnabled(false);
-    }
-
-    ~AboutDialog()
-    {
-    }
-
-    void setIconPixmap(const QPixmap &pixmap)
-    {
-        _imageLabel->setPixmap(pixmap);
-    }
-
-    void setText(const QString &text)
-    {
-        _textLabel->setText(text);
-    }
-};
-
 void AppMenuWidget::actionAbout()
 {
     qDebug() << "actionAbout() called";
 
     AboutDialog *dialog = new AboutDialog(this);
-    dialog->setAttribute(Qt::WA_DeleteOnClose);
 
     if (QApplication::keyboardModifiers()){
         dialog->setWindowTitle(tr("About helloDesktop"));
@@ -1281,20 +1234,7 @@ void AppMenuWidget::actionAbout()
                         "<small>"
                         "<p>Recommended reading: <a href='https://dl.acm.org/doi/book/10.5555/573097'>ISBN 978-0-201-2216-4</a><br>"
                         "</small></center>");
-
-        // Center window on screen
-        QRect rec = QGuiApplication::screenAt(this->pos())->geometry();
-        QSize size = dialog->sizeHint();
-        QPoint topLeft = QPoint((rec.width() / 2) - (size.width() / 2), (rec.height() / 2) - (size.height() / 2));
-        dialog->setGeometry(QRect(topLeft, size));
-
-        dialog->setModal(false);
-
-        dialog->show();
-        return;
-
     } else {
-
         dialog->setWindowTitle(tr("About This Computer"));
 
         QString url;
@@ -1348,7 +1288,6 @@ void AppMenuWidget::actionAbout()
         productname.replace("\n", "");
         productname = productname.trimmed();
         qDebug() << "systemname:" << productname;
-        dialog->setText("<b>" + vendorname + " " + productname + "</b>");
 
         p.setProgram("pkg");
         p.setArguments({"info", "hello"});
@@ -1434,17 +1373,15 @@ void AppMenuWidget::actionAbout()
                                 "</small></center>"));
 
 #endif
-
-        // Center window on screen
-        QRect rec = QGuiApplication::screenAt(this->pos())->geometry();
-        QSize size = dialog->sizeHint();
-        QPoint topLeft = QPoint((rec.width() / 2) - (size.width() / 2), (rec.height() / 2) - (size.height() / 2));
-        dialog->setGeometry(QRect(topLeft, size));
-
-        dialog->setModal(false);
-
-        dialog->show();
     }
+
+    // Center window on screen
+    QRect rec = QGuiApplication::screenAt(this->pos())->geometry();
+    QSize size = dialog->sizeHint();
+    QPoint topLeft = QPoint((rec.width() / 2) - (size.width() / 2), (rec.height() / 2) - (size.height() / 2));
+    dialog->setGeometry(QRect(topLeft, size));
+
+    dialog->show();
 }
 
 void AppMenuWidget::actionLaunch(QAction *action)
@@ -1610,4 +1547,44 @@ bool AppMenuWidget::eventFilter(QObject *watched, QEvent *event)
         }
     }
     return QWidget::eventFilter(watched,event);
+}
+
+AboutDialog::AboutDialog(QWidget *parent) : QDialog(parent)
+{
+    _layout = new QVBoxLayout;
+    _imageLabel = new QLabel;
+    _textLabel = new QLabel;
+    _buttonBox = new QDialogButtonBox(this);
+
+    _layout->setSizeConstraint(QLayout::SetFixedSize);
+    _layout->addWidget(_imageLabel, 0, Qt::AlignHCenter);
+    _layout->addWidget(_textLabel, 0, Qt::AlignHCenter);
+    _layout->addWidget(_buttonBox);
+
+    connect(_buttonBox, SIGNAL(clicked(QAbstractButton*)), this, SLOT(accept()));
+    QPushButton *hardwareProbeButton = _buttonBox->addButton("Hardware Probe", QDialogButtonBox::ActionRole);
+    connect(hardwareProbeButton, &QPushButton::clicked, [=]() {
+        QProcess::startDetached("launch", {"/Applications/Utilities/Hardware Probe.app"});
+    });
+    hardwareProbeButton->setEnabled(QFile::exists("/Applications/Utilities/Hardware Probe.app"));
+    _buttonBox->addButton(QDialogButtonBox::Close);
+
+    setAttribute(Qt::WA_DeleteOnClose);
+    setLayout(_layout);
+    setModal(false);
+    setSizeGripEnabled(false);
+}
+
+AboutDialog::~AboutDialog()
+{
+}
+
+void AboutDialog::setIconPixmap(const QPixmap &pixmap)
+{
+    _imageLabel->setPixmap(pixmap);
+}
+
+void AboutDialog::setText(const QString &text)
+{
+    _textLabel->setText(text);
 }
