@@ -4,12 +4,17 @@
 <context>
     <name>AppMenuWidget</name>
     <message>
-        <location filename="../appmenuwidget.cpp" line="530"/>
+        <location filename="../appmenuwidget.cpp" line="532"/>
         <source>Search</source>
         <translation>Sök</translation>
     </message>
     <message>
-        <location filename="../appmenuwidget.cpp" line="1237"/>
+        <location filename="../appmenuwidget.cpp" line="1270"/>
+        <source>About helloDesktop</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../appmenuwidget.cpp" line="1298"/>
         <source>About This Computer</source>
         <translation>Om Denna dator</translation>
     </message>
@@ -22,73 +27,68 @@
         <translation type="vanished">Visa alla</translation>
     </message>
     <message>
-        <location filename="../appmenuwidget.cpp" line="505"/>
+        <location filename="../appmenuwidget.cpp" line="507"/>
         <source>System</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../appmenuwidget.cpp" line="553"/>
+        <location filename="../appmenuwidget.cpp" line="556"/>
         <source>Force Quit Application</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../appmenuwidget.cpp" line="557"/>
+        <location filename="../appmenuwidget.cpp" line="576"/>
         <source>Restart</source>
         <translation>Starta om</translation>
     </message>
     <message>
-        <location filename="../appmenuwidget.cpp" line="559"/>
+        <location filename="../appmenuwidget.cpp" line="578"/>
         <source>Log Out</source>
         <translation>Logga ut</translation>
     </message>
     <message>
-        <location filename="../appmenuwidget.cpp" line="561"/>
+        <location filename="../appmenuwidget.cpp" line="580"/>
         <source>Shut Down</source>
         <translation>Stäng av</translation>
     </message>
     <message>
-        <location filename="../appmenuwidget.cpp" line="1002"/>
+        <location filename="../appmenuwidget.cpp" line="1021"/>
         <source>File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../appmenuwidget.cpp" line="1003"/>
+        <location filename="../appmenuwidget.cpp" line="1022"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../appmenuwidget.cpp" line="1010"/>
+        <location filename="../appmenuwidget.cpp" line="1029"/>
         <source>Quit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../appmenuwidget.cpp" line="1018"/>
+        <location filename="../appmenuwidget.cpp" line="1037"/>
         <source>Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../appmenuwidget.cpp" line="1019"/>
+        <location filename="../appmenuwidget.cpp" line="1038"/>
         <source>Undo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../appmenuwidget.cpp" line="1049"/>
+        <location filename="../appmenuwidget.cpp" line="1068"/>
         <source>Cut</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../appmenuwidget.cpp" line="1054"/>
+        <location filename="../appmenuwidget.cpp" line="1073"/>
         <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../appmenuwidget.cpp" line="1059"/>
+        <location filename="../appmenuwidget.cpp" line="1078"/>
         <source>Paste</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../appmenuwidget.cpp" line="1206"/>
-        <source>About helloDesktop</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -239,13 +239,13 @@
 <context>
     <name>SystemMenu</name>
     <message>
-        <location filename="../appmenuwidget.cpp" line="85"/>
-        <location filename="../appmenuwidget.cpp" line="123"/>
+        <location filename="../appmenuwidget.cpp" line="87"/>
+        <location filename="../appmenuwidget.cpp" line="125"/>
         <source>About This Computer</source>
         <translation type="unfinished">Om Denna dator</translation>
     </message>
     <message>
-        <location filename="../appmenuwidget.cpp" line="123"/>
+        <location filename="../appmenuwidget.cpp" line="125"/>
         <source>About helloDesktop</source>
         <translation type="unfinished"></translation>
     </message>
@@ -294,7 +294,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../plugin-windows/windowswidget.cpp" line="301"/>
+        <location filename="../../plugin-windows/windowswidget.cpp" line="318"/>
+        <source>Increase Screen Brightness</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../plugin-windows/windowswidget.cpp" line="331"/>
+        <source>Decrease Screen Brightness</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../plugin-windows/windowswidget.cpp" line="348"/>
         <source>Full Screen</source>
         <translation type="unfinished"></translation>
     </message>
