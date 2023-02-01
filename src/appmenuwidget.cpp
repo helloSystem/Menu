@@ -1556,6 +1556,8 @@ AboutDialog::AboutDialog(QWidget *parent) : QDialog(parent)
     _textLabel = new QLabel;
     _buttonBox = new QDialogButtonBox(this);
 
+    _textLabel->setContentsMargins(20, 0, 20, 0);
+
     _layout->setSizeConstraint(QLayout::SetFixedSize);
     _layout->addWidget(_imageLabel, 0, Qt::AlignHCenter);
     _layout->addWidget(_textLabel, 0, Qt::AlignHCenter);
