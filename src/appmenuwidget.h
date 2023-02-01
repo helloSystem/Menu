@@ -34,7 +34,6 @@
 #include <QDebug>
 #include <QLineEdit>
 #include <QVariant>
-#include <QDialogButtonBox>
 #include "appmenu/appmenumodel.h"
 #include "appmenu/menuimporter.h"
 
@@ -179,8 +178,8 @@ private:
 
 class AboutDialog : public QDialog
 {
-    QDialogButtonBox *_buttonBox;
     QLabel *_imageLabel, *_textLabel;
+    QPushButton *_hardwareProbeButton;
     QVBoxLayout *_layout;
 
 public:

@@ -36,8 +36,6 @@
 #include <QList>
 #include <QDBusServiceWatcher>
 #include <QLineEdit>
-#include <QMessageBox>
-#include <QPushButton>
 #include <QPushButton>
 #include <QStyle>
 #include <QDesktopWidget>
@@ -67,7 +65,6 @@
 #include <sys/extattr.h>
 #endif
 
-#include <QDialogButtonBox>
 #include <QKeySequence>
 #include <signal.h>
 
@@ -1218,14 +1215,13 @@ void AppMenuWidget::actionAbout()
     qDebug() << "actionAbout() called";
 
     AboutDialog *dialog = new AboutDialog(this);
+    QString icon = "/usr/local/share/icons/elementary-xfce/devices/128/computer-hello.png";
+
+    // If we found a way to read dmi without needing to be root, we could show a notebook icon for notebooks...
+    // icon = "/usr/local/share/icons/elementary-xfce/devices/128/computer-laptop.png";
 
     if (QApplication::keyboardModifiers()){
         dialog->setWindowTitle(tr("About helloDesktop"));
-
-        QString icon = "/usr/local/share/icons/elementary-xfce/devices/128/computer-hello.png";
-
-        // If we found a way to read dmi without needing to be root, we could show a notebook icon for notebooks...
-        // icon = "/usr/local/share/icons/elementary-xfce/devices/128/computer-laptop.png";
 
         dialog->setIconPixmap(QPixmap(icon));
         dialog->setText("<center><h3>helloDesktop</h3>"
@@ -1334,11 +1330,6 @@ void AppMenuWidget::actionAbout()
         p.waitForFinished();
         QString userlandVersion(p.readAllStandardOutput());
 
-        QString icon = "/usr/local/share/icons/elementary-xfce/devices/128/computer-hello.png";
-
-        // If we found a way to read dmi without needing to be root, we could show a notebook icon for notebooks...
-        // icon = "/usr/local/share/icons/elementary-xfce/devices/128/computer-laptop.png";
-
         // See https://github.com/openwebos/qt/blob/92fde5feca3d792dfd775348ca59127204ab4ac0/tools/qdbus/qdbusviewer/qdbusviewer.cpp#L477 for loading icon from resources
         QString helloSystemInfo;
         if(sha != "" && url != "" && build != "") {
@@ -1347,8 +1338,6 @@ void AppMenuWidget::actionAbout()
             helloSystemInfo = "</p>helloSystem commit: <a href='" + url + "'>" + sha + "</a></p>";
         }
 
-        // msgBox->setStandardButtons(QMessageBox::Close);
-        // msgBox->setStandardButtons(0); // Remove button. FIXME: This makes it impossible to close the window; why?
         dialog->setIconPixmap(QPixmap(icon));
         dialog->setText("<center><h3>" + vendorname + " " + productname  + "</h3>" + \
                         "<p>" + operatingsystem +"</p><small>" + \
@@ -1554,22 +1543,20 @@ AboutDialog::AboutDialog(QWidget *parent) : QDialog(parent)
     _layout = new QVBoxLayout;
     _imageLabel = new QLabel;
     _textLabel = new QLabel;
-    _buttonBox = new QDialogButtonBox(this);
+    _hardwareProbeButton = new QPushButton("Hardware Probe");
 
     _textLabel->setContentsMargins(20, 0, 20, 0);
 
     _layout->setSizeConstraint(QLayout::SetFixedSize);
     _layout->addWidget(_imageLabel, 0, Qt::AlignHCenter);
     _layout->addWidget(_textLabel, 0, Qt::AlignHCenter);
-    _layout->addWidget(_buttonBox);
+    _layout->addWidget(_hardwareProbeButton, 0, Qt::AlignHCenter);
 
-    connect(_buttonBox, SIGNAL(clicked(QAbstractButton*)), this, SLOT(accept()));
-    QPushButton *hardwareProbeButton = _buttonBox->addButton("Hardware Probe", QDialogButtonBox::ActionRole);
-    connect(hardwareProbeButton, &QPushButton::clicked, [=]() {
+    connect(_hardwareProbeButton, &QPushButton::clicked, [=]() {
         QProcess::startDetached("launch", {"/Applications/Utilities/Hardware Probe.app"});
+        accept();
     });
-    hardwareProbeButton->setEnabled(QFile::exists("/Applications/Utilities/Hardware Probe.app"));
-    _buttonBox->addButton(QDialogButtonBox::Close);
+    _hardwareProbeButton->setEnabled(QFile::exists("/Applications/Utilities/Hardware Probe.app"));
 
     setAttribute(Qt::WA_DeleteOnClose);
     setLayout(_layout);
