@@ -1215,154 +1215,6 @@ void AppMenuWidget::actionAbout()
     qDebug() << "actionAbout() called";
 
     AboutDialog *dialog = new AboutDialog(this);
-    QString icon = "/usr/local/share/icons/elementary-xfce/devices/128/computer-hello.png";
-
-    // If we found a way to read dmi without needing to be root, we could show a notebook icon for notebooks...
-    // icon = "/usr/local/share/icons/elementary-xfce/devices/128/computer-laptop.png";
-
-    if (QApplication::keyboardModifiers()){
-        dialog->setWindowTitle(tr("About helloDesktop"));
-
-        dialog->setIconPixmap(QPixmap(icon));
-        dialog->setText("<center><h3>helloDesktop</h3>"
-                        "<p>Lovingly crafted by true connoisseurs<br>of the desktop metaphor</p>"
-                        "<p>Inspired by the timeless vision<br>of Bill Atkinson and Andy Hertzfeld</p>"
-                        "<small>"
-                        "<p>Recommended reading: <a href='https://dl.acm.org/doi/book/10.5555/573097'>ISBN 978-0-201-2216-4</a>"
-                        "</small></center>");
-    } else {
-        dialog->setWindowTitle(tr("About This Computer"));
-
-        QString url;
-        QString sha;
-        QString build;
-
-#if defined(Q_OS_FREEBSD)
-        // Try to get extended attributes on the /.url file
-        // TODO: We should use our cross-platform funcitons for this; we are using them
-        // in other places already in Menu. That way we can remove the ifdef
-        if (QFile::exists("/.url")) {
-            url = nullptr;
-            char buf[256] = "";
-            if (extattr_get_file("/.url", EXTATTR_NAMESPACE_USER, "url", buf, 256) > 0) {
-                url = QString(buf);
-            }
-            char buf2[128] = "";
-            qDebug() << "extattr 'url' from '/.url':" << url;
-            sha = nullptr;
-            if (extattr_get_file("/.url", EXTATTR_NAMESPACE_USER, "sha", buf2, 128) > 0) {
-                sha = QString(buf2);
-            }
-            qDebug() << "extattr 'sha' from '/.url':" << sha;
-
-            char buf3[128] = "";
-            build = nullptr;
-            if (extattr_get_file("/.url", EXTATTR_NAMESPACE_USER, "build", buf3, 128) > 0) {
-                build = QString(buf3);
-            }
-            qDebug() << "extattr 'build' from '/.url':" << build;
-        }
-#endif
-
-
-#if defined(Q_OS_FREEBSD)
-        // On FreeBSD, get information about the machine
-        QProcess p;
-        p.setProgram("kenv");
-        p.setArguments({"-q", "smbios.system.maker"});
-        p.start();
-        p.waitForFinished();
-        QString vendorname(p.readAllStandardOutput());
-        vendorname.replace("\n", "");
-        vendorname = vendorname.trimmed();
-        qDebug() << "vendorname:" << vendorname;
-
-        p.setArguments({"-q", "smbios.system.product"});
-        p.start();
-        p.waitForFinished();
-        QString productname(p.readAllStandardOutput());
-        productname.replace("\n", "");
-        productname = productname.trimmed();
-        qDebug() << "systemname:" << productname;
-
-        p.setProgram("pkg");
-        p.setArguments({"info", "hello"});
-        p.start();
-        p.waitForFinished();
-        QString operatingsystem(p.readAllStandardOutput());
-        operatingsystem = operatingsystem.split("\n")[0].trimmed();
-        if(operatingsystem != "") {
-            // We are running on helloSystem
-            operatingsystem = operatingsystem.replace("hello-", "helloSystem ").replace("_", " (Build ") + ")";
-        } else {
-            // We are not running on helloSystem (e.g., on FreeBSD + helloDesktop)
-            operatingsystem = "helloDesktop (not running on helloSystem)";
-        }
-
-        p.setProgram("sysctl");
-        p.setArguments({"-n", "hw.model"});
-        p.start();
-        p.waitForFinished();
-        QString cpu(p.readAllStandardOutput());
-        cpu = cpu.trimmed();
-        cpu = cpu.replace("(R)", "®");
-        cpu = cpu.replace("(TM)", "™");
-        qDebug() << "cpu:" << cpu;
-
-        p.setArguments({"-n", "hw.realmem"});
-        p.start();
-        p.waitForFinished();
-        QString memory(p.readAllStandardOutput().trimmed());
-        qDebug() << "memory:" << memory;
-        float m = memory.toFloat();
-        m = m/1024/1024/1024;
-        float roundedMem = round(m * 100.0) / 100.0; // Round to 2 digits
-        qDebug() << "roundedMem:" << roundedMem;
-
-        p.setProgram("freebsd-version");
-        p.setArguments({"-k"});
-        p.start();
-        p.waitForFinished();
-        QString kernelVersion(p.readAllStandardOutput());
-
-        p.setArguments({"-u"});
-        p.start();
-        p.waitForFinished();
-        QString userlandVersion(p.readAllStandardOutput());
-
-        // See https://github.com/openwebos/qt/blob/92fde5feca3d792dfd775348ca59127204ab4ac0/tools/qdbus/qdbusviewer/qdbusviewer.cpp#L477 for loading icon from resources
-        QString helloSystemInfo;
-        if(sha != "" && url != "" && build != "") {
-            helloSystemInfo = "</p>helloSystem build: "+ build +" for commit: <a href='" + url + "'>" + sha + "</a></p>";
-        } else if(sha != "" && url != "") {
-            helloSystemInfo = "</p>helloSystem commit: <a href='" + url + "'>" + sha + "</a></p>";
-        }
-
-        dialog->setIconPixmap(QPixmap(icon));
-        dialog->setText("<center><h3>" + vendorname + " " + productname  + "</h3>" + \
-                        "<p>" + operatingsystem +"</p><small>" + \
-                        "<p>FreeBSD kernel version: " + kernelVersion +"<br>" + \
-                        "FreeBSD userland version: " + userlandVersion + "</p>" + \
-                        "<p>Processor: " + cpu +"<br>" + \
-                        "Memory: " + QString::number(roundedMem) +" GiB<br>" + \
-                        helloSystemInfo + \
-                        "<p><a href='file:///COPYRIGHT'>FreeBSD copyright information</a><br>" + \
-                        "Other components are subject to<br>their respective license terms</p>" + \
-                        "</small></center>");
-
-#else
-        msgBox->setText(QString("<center><h3>helloDesktop</h3>"
-                                "<p>Running on an unsupported operating system<br>"
-                                "with reduced functionality</p>"
-                                "<small><p>The full desktop experience<br>"
-                                "can best be experienced on helloSystem<br>"
-                                "which helloDesktop is designed for</p>"
-                                ""
-                                "<a href='https://hellosystem.github.io'>https://hellosystem.github.io/</a>"
-                                "</small></center>"));
-
-#endif
-    }
 
     // Center window on screen
     QRect rec = QGuiApplication::screenAt(this->pos())->geometry();
@@ -1562,6 +1414,155 @@ AboutDialog::AboutDialog(QWidget *parent) : QDialog(parent)
     });
     _hardwareProbeButton->setEnabled(QFile::exists("/Applications/Utilities/Hardware Probe.app"));
 
+    QString icon = "/usr/local/share/icons/elementary-xfce/devices/128/computer-hello.png";
+
+    // If we found a way to read dmi without needing to be root, we could show a notebook icon for notebooks...
+    // icon = "/usr/local/share/icons/elementary-xfce/devices/128/computer-laptop.png";
+
+    if (QApplication::keyboardModifiers()){
+        setWindowTitle(tr("About helloDesktop"));
+
+        _imageLabel->setPixmap(QPixmap(icon));
+        _textLabel->setText("<center><h3>helloDesktop</h3>"
+                            "<p>Lovingly crafted by true connoisseurs<br>of the desktop metaphor</p>"
+                            "<p>Inspired by the timeless vision<br>of Bill Atkinson and Andy Hertzfeld</p>"
+                            "<small>"
+                            "<p>Recommended reading: <a href='https://dl.acm.org/doi/book/10.5555/573097'>ISBN 978-0-201-2216-4</a>"
+                            "</small></center>");
+    } else {
+        setWindowTitle(tr("About This Computer"));
+
+        QString url;
+        QString sha;
+        QString build;
+
+#if defined(Q_OS_FREEBSD)
+        // Try to get extended attributes on the /.url file
+        // TODO: We should use our cross-platform functions for this; we are using them
+        // in other places already in Menu. That way we can remove the ifdef
+        if (QFile::exists("/.url")) {
+            url = nullptr;
+            char buf[256] = "";
+            if (extattr_get_file("/.url", EXTATTR_NAMESPACE_USER, "url", buf, 256) > 0) {
+                url = QString(buf);
+            }
+            char buf2[128] = "";
+            qDebug() << "extattr 'url' from '/.url':" << url;
+            sha = nullptr;
+            if (extattr_get_file("/.url", EXTATTR_NAMESPACE_USER, "sha", buf2, 128) > 0) {
+                sha = QString(buf2);
+            }
+            qDebug() << "extattr 'sha' from '/.url':" << sha;
+
+            char buf3[128] = "";
+            build = nullptr;
+            if (extattr_get_file("/.url", EXTATTR_NAMESPACE_USER, "build", buf3, 128) > 0) {
+                build = QString(buf3);
+            }
+            qDebug() << "extattr 'build' from '/.url':" << build;
+        }
+#endif
+
+
+#if defined(Q_OS_FREEBSD)
+        // On FreeBSD, get information about the machine
+        QProcess p;
+        p.setProgram("kenv");
+        p.setArguments({"-q", "smbios.system.maker"});
+        p.start();
+        p.waitForFinished();
+        QString vendorname(p.readAllStandardOutput());
+        vendorname.replace("\n", "");
+        vendorname = vendorname.trimmed();
+        qDebug() << "vendorname:" << vendorname;
+
+        p.setArguments({"-q", "smbios.system.product"});
+        p.start();
+        p.waitForFinished();
+        QString productname(p.readAllStandardOutput());
+        productname.replace("\n", "");
+        productname = productname.trimmed();
+        qDebug() << "systemname:" << productname;
+
+        p.setProgram("pkg");
+        p.setArguments({"info", "hello"});
+        p.start();
+        p.waitForFinished();
+        QString operatingsystem(p.readAllStandardOutput());
+        operatingsystem = operatingsystem.split("\n")[0].trimmed();
+        if(operatingsystem != "") {
+            // We are running on helloSystem
+            operatingsystem = operatingsystem.replace("hello-", "helloSystem ").replace("_", " (Build ") + ")";
+        } else {
+            // We are not running on helloSystem (e.g., on FreeBSD + helloDesktop)
+            operatingsystem = "helloDesktop (not running on helloSystem)";
+        }
+
+        p.setProgram("sysctl");
+        p.setArguments({"-n", "hw.model"});
+        p.start();
+        p.waitForFinished();
+        QString cpu(p.readAllStandardOutput());
+        cpu = cpu.trimmed();
+        cpu = cpu.replace("(R)", "®");
+        cpu = cpu.replace("(TM)", "™");
+        qDebug() << "cpu:" << cpu;
+
+        p.setArguments({"-n", "hw.realmem"});
+        p.start();
+        p.waitForFinished();
+        QString memory(p.readAllStandardOutput().trimmed());
+        qDebug() << "memory:" << memory;
+        float m = memory.toFloat();
+        m = m/1024/1024/1024;
+        float roundedMem = round(m * 100.0) / 100.0; // Round to 2 digits
+        qDebug() << "roundedMem:" << roundedMem;
+
+        p.setProgram("freebsd-version");
+        p.setArguments({"-k"});
+        p.start();
+        p.waitForFinished();
+        QString kernelVersion(p.readAllStandardOutput());
+
+        p.setArguments({"-u"});
+        p.start();
+        p.waitForFinished();
+        QString userlandVersion(p.readAllStandardOutput());
+
+        // See https://github.com/openwebos/qt/blob/92fde5feca3d792dfd775348ca59127204ab4ac0/tools/qdbus/qdbusviewer/qdbusviewer.cpp#L477 for loading icon from resources
+        QString helloSystemInfo;
+        if(sha != "" && url != "" && build != "") {
+            helloSystemInfo = "</p>helloSystem build: "+ build +" for commit: <a href='" + url + "'>" + sha + "</a></p>";
+        } else if(sha != "" && url != "") {
+            helloSystemInfo = "</p>helloSystem commit: <a href='" + url + "'>" + sha + "</a></p>";
+        }
+
+        _imageLabel->setPixmap(QPixmap(icon));
+        _textLabel->setText("<center><h3>" + vendorname + " " + productname  + "</h3>" + \
+                            "<p>" + operatingsystem +"</p><small>" + \
+                            "<p>FreeBSD kernel version: " + kernelVersion +"<br>" + \
+                            "FreeBSD userland version: " + userlandVersion + "</p>" + \
+                            "<p>Processor: " + cpu +"<br>" + \
+                            "Memory: " + QString::number(roundedMem) +" GiB<br>" + \
+                            helloSystemInfo + \
+                            "<p><a href='file:///COPYRIGHT'>FreeBSD copyright information</a><br>" + \
+                            "Other components are subject to<br>their respective license terms</p>" + \
+                            "</small></center>");
+
+#else
+        msgBox->setText(QString("<center><h3>helloDesktop</h3>"
+                                "<p>Running on an unsupported operating system<br>"
+                                "with reduced functionality</p>"
+                                "<small><p>The full desktop experience<br>"
+                                "can best be experienced on helloSystem<br>"
+                                "which helloDesktop is designed for</p>"
+                                ""
+                                "<a href='https://hellosystem.github.io'>https://hellosystem.github.io/</a>"
+                                "</small></center>"));
+
+#endif
+    }
+
     setAttribute(Qt::WA_DeleteOnClose);
     setLayout(_layout);
     setModal(false);
@@ -1570,14 +1571,4 @@ AboutDialog::AboutDialog(QWidget *parent) : QDialog(parent)
 
 AboutDialog::~AboutDialog()
 {
-}
-
-void AboutDialog::setIconPixmap(const QPixmap &pixmap)
-{
-    _imageLabel->setPixmap(pixmap);
-}
-
-void AboutDialog::setText(const QString &text)
-{
-    _textLabel->setText(text);
 }

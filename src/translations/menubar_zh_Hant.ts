@@ -25,6 +25,19 @@
     </message>
 </context>
 <context>
+    <name>AboutDialog</name>
+    <message>
+        <location filename="../appmenuwidget.cpp" line="1423"/>
+        <source>About helloDesktop</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../appmenuwidget.cpp" line="1433"/>
+        <source>About This Computer</source>
+        <translation type="unfinished">關於這台電腦</translation>
+    </message>
+</context>
+<context>
     <name>AppMenuWidget</name>
     <message>
         <location filename="../appmenuwidget.cpp" line="529"/>
@@ -32,14 +45,8 @@
         <translation>搜尋</translation>
     </message>
     <message>
-        <location filename="../appmenuwidget.cpp" line="1224"/>
-        <source>About helloDesktop</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../appmenuwidget.cpp" line="1234"/>
         <source>About This Computer</source>
-        <translation>關於這台電腦</translation>
+        <translation type="vanished">關於這台電腦</translation>
     </message>
     <message>
         <source>Hide all</source>

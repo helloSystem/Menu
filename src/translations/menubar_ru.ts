@@ -2,6 +2,19 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="ru">
 <context>
+    <name>AboutDialog</name>
+    <message>
+        <location filename="../appmenuwidget.cpp" line="1423"/>
+        <source>About helloDesktop</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../appmenuwidget.cpp" line="1433"/>
+        <source>About This Computer</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>AppMenuWidget</name>
     <message>
         <location filename="../appmenuwidget.cpp" line="529"/>
@@ -9,14 +22,8 @@
         <translation>Поиск</translation>
     </message>
     <message>
-        <location filename="../appmenuwidget.cpp" line="1224"/>
-        <source>About helloDesktop</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../appmenuwidget.cpp" line="1234"/>
         <source>About This Computer</source>
-        <translation>О компьютере</translation>
+        <translation type="vanished">О компьютере</translation>
     </message>
     <message>
         <source>Hide all</source>

@@ -2,6 +2,19 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="hu">
 <context>
+    <name>AboutDialog</name>
+    <message>
+        <location filename="../appmenuwidget.cpp" line="1423"/>
+        <source>About helloDesktop</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../appmenuwidget.cpp" line="1433"/>
+        <source>About This Computer</source>
+        <translation type="unfinished">A Számítógép Névjegye</translation>
+    </message>
+</context>
+<context>
     <name>AppMenuWidget</name>
     <message>
         <location filename="../appmenuwidget.cpp" line="529"/>
@@ -9,14 +22,8 @@
         <translation>Keresés</translation>
     </message>
     <message>
-        <location filename="../appmenuwidget.cpp" line="1224"/>
-        <source>About helloDesktop</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../appmenuwidget.cpp" line="1234"/>
         <source>About This Computer</source>
-        <translation>A Számítógép Névjegye</translation>
+        <translation type="vanished">A Számítógép Névjegye</translation>
     </message>
     <message>
         <source>Hide all</source>

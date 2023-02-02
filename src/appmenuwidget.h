@@ -185,9 +185,6 @@ class AboutDialog : public QDialog
 public:
     AboutDialog(QWidget *parent);
     ~AboutDialog();
-
-    void setIconPixmap(const QPixmap&);
-    void setText(const QString&);
 };
 
 #endif // APPMENUWIDGET_H
