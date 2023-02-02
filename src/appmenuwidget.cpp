@@ -1228,7 +1228,7 @@ void AppMenuWidget::actionAbout()
                         "<p>Lovingly crafted by true connoisseurs<br>of the desktop metaphor</p>"
                         "<p>Inspired by the timeless vision<br>of Bill Atkinson and Andy Hertzfeld</p>"
                         "<small>"
-                        "<p>Recommended reading: <a href='https://dl.acm.org/doi/book/10.5555/573097'>ISBN 978-0-201-2216-4</a><br>"
+                        "<p>Recommended reading: <a href='https://dl.acm.org/doi/book/10.5555/573097'>ISBN 978-0-201-2216-4</a>"
                         "</small></center>");
     } else {
         dialog->setWindowTitle(tr("About This Computer"));
@@ -1358,7 +1358,7 @@ void AppMenuWidget::actionAbout()
                                 "can best be experienced on helloSystem<br>"
                                 "which helloDesktop is designed for</p>"
                                 ""
-                                "<a href='https://hellosystem.github.io'>https://hellosystem.github.io/</a><br>"
+                                "<a href='https://hellosystem.github.io'>https://hellosystem.github.io/</a>"
                                 "</small></center>"));
 
 #endif
@@ -1551,6 +1551,10 @@ AboutDialog::AboutDialog(QWidget *parent) : QDialog(parent)
     _layout->addWidget(_imageLabel, 0, Qt::AlignHCenter);
     _layout->addWidget(_textLabel, 0, Qt::AlignHCenter);
     _layout->addWidget(_hardwareProbeButton, 0, Qt::AlignHCenter);
+
+    // Insert spacing above and below the "Hardware Probe" button
+    _layout->insertSpacing(2, 14);
+    _layout->insertSpacing(-1, 10);
 
     connect(_hardwareProbeButton, &QPushButton::clicked, [=]() {
         QProcess::startDetached("launch", {"/Applications/Utilities/Hardware Probe.app"});
