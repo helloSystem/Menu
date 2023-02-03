@@ -4,12 +4,12 @@
 <context>
     <name>AboutDialog</name>
     <message>
-        <location filename="../src/appmenuwidget.cpp" line="1423"/>
+        <location filename="../src/appmenuwidget.cpp" line="1439"/>
         <source>About helloDesktop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/appmenuwidget.cpp" line="1433"/>
+        <location filename="../src/appmenuwidget.cpp" line="1449"/>
         <source>About This Computer</source>
         <translation type="unfinished"></translation>
     </message>

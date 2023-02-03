@@ -1416,8 +1416,24 @@ AboutDialog::AboutDialog(QWidget *parent) : QDialog(parent)
 
     QString icon = "/usr/local/share/icons/elementary-xfce/devices/128/computer-hello.png";
 
-    // If we found a way to read dmi without needing to be root, we could show a notebook icon for notebooks...
-    // icon = "/usr/local/share/icons/elementary-xfce/devices/128/computer-laptop.png";
+#if defined(Q_OS_FREEBSD)
+    QProcess p;
+    p.setProgram("kenv");
+    p.setArguments({"-q", "smbios.chassis.type"});
+    p.start();
+    p.waitForFinished();
+    QString chassisType(p.readAllStandardOutput());
+    chassisType.replace("\n", "");
+    chassisType = chassisType.trimmed();
+    qDebug() << "Chassis type:" << chassisType;
+
+    // https://www.dmtf.org/sites/default/files/standards/documents/DSP0134_3.2.0.pdf#%5B%7B%22num%22%3A105%2C%22gen%22%3A0%7D%2C%7B%22name%22%3A%22XYZ%22%7D%2C70%2C555%2C0%5D
+    if (chassisType.compare("Portable", Qt::CaseInsensitive) || chassisType.compare("Laptop", Qt::CaseInsensitive)
+        || chassisType.compare("Notebook", Qt::CaseInsensitive) || chassisType.compare("Hand Held", Qt::CaseInsensitive)
+        || chassisType.compare("Sub Notebook", Qt::CaseInsensitive) || chassisType.compare("Convertible", Qt::CaseInsensitive)) {
+        icon = "/usr/local/share/icons/elementary-xfce/devices/128/computer-laptop.png";
+    }
+#endif
 
     if (QApplication::keyboardModifiers()){
         setWindowTitle(tr("About helloDesktop"));
@@ -1463,11 +1479,8 @@ AboutDialog::AboutDialog(QWidget *parent) : QDialog(parent)
         }
 #endif
 
-
 #if defined(Q_OS_FREEBSD)
         // On FreeBSD, get information about the machine
-        QProcess p;
-        p.setProgram("kenv");
         p.setArguments({"-q", "smbios.system.maker"});
         p.start();
         p.waitForFinished();
@@ -1559,7 +1572,6 @@ AboutDialog::AboutDialog(QWidget *parent) : QDialog(parent)
                                 ""
                                 "<a href='https://hellosystem.github.io'>https://hellosystem.github.io/</a>"
                                 "</small></center>"));
-
 #endif
     }
 
