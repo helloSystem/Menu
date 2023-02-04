@@ -53,6 +53,7 @@
 #include <QWindow>
 #include <QTimer>
 #include <Baloo/Query>
+#include <KF5/KWindowSystem/KX11Extras>
 #include <KF5/KWindowSystem/KWindowSystem>
 #include <KF5/KWindowSystem/KWindowInfo>
 #include <KF5/KWindowSystem/NETWM>
@@ -1019,7 +1020,7 @@ void AppMenuWidget::updateMenu() {
         QAction *closeAction = new QAction(tr("Close"));
         closeAction->setShortcut(QKeySequence("Ctrl+W"));
         connect(closeAction, &QAction::triggered, [=]() {
-            NETRootInfo(QX11Info::connection(), NET::CloseWindow).closeWindowRequest(winId);
+            NETRootInfo(QX11Info::connection(), NET::CloseWindow).closeWindowRequest(KX11Extras::activeWindow());
         });
         fallbackFileMenu->addAction(closeAction);
         fallbackFileMenu->addSeparator();
