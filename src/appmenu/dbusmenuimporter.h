@@ -54,7 +54,7 @@ public:
      * The menu created from listening to the DBusMenuExporter over DBus
      */
     QMenu *menu() const;
-
+    bool m_done;
 public Q_SLOTS:
     /**
      * Load the menu

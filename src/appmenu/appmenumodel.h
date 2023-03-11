@@ -28,7 +28,7 @@
 #include <KWindowSystem>
 #include <QPointer>
 #include <QRect>
-
+#include <QTimer>
 class QMenu;
 class QAction;
 class QModelIndex;
@@ -104,6 +104,7 @@ private Q_SLOTS:
 signals:
     void menuAvailableChanged();
     void modelNeedsUpdate();
+    void menuParsed();
     void filterByActiveChanged();
     void filterChildrenChanged();
     void visibleChanged();

@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2020 PandaOS Team.
  * Author:     rekols <revenmartin@gmail.com>
- * Portions Copyright (C) 2020 Simon Peter.
+ * Portions Copyright (C) 2020-22 Simon Peter.
  * Author:     Simon Peter <probono@puredarwin.org>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -47,6 +47,7 @@
 #include <QItemSelectionModel>
 #include <QAbstractItemModel>
 #include <QListView>
+#include <QCryptographicHash>
 
 #include <KF5/KWindowSystem/KWindowSystem>
 #include <KF5/KWindowSystem/KWindowInfo>
@@ -58,6 +59,8 @@
 #include <sys/types.h>
 #include <sys/extattr.h>
 #endif
+
+#include "thumbnails.h"
 
 class MyLineEditEventFilter : public QObject
 {
@@ -105,7 +108,7 @@ public:
         {
             // When the focus goes not of the QLineEdit, empty the QLineEdit and restore the placeholder text
             // reinterpret_cast<QLineEdit *>(parent())->setPlaceholderText("Alt+Space");
-            reinterpret_cast<QLineEdit *>(parent())->setPlaceholderText("Search");
+            reinterpret_cast<QLineEdit *>(parent())->setPlaceholderText(tr("Search"));
             // Note that we write Alt-Space here but in fact this is not a feature of this application
             // but is a feature of lxqt-config-globalkeyshortcuts in our case, where we set up a shortcut
             // that simply launches this application (again). Since we are using
@@ -158,7 +161,7 @@ void AppMenuWidget::findAppsInside(QStringList locationsContainingApps, QMenu *m
 // TODO: Nested submenus rather than flat ones with '→'
 // This code is similar to the code in the 'launch' command
 {
-    QStringList nameFilter({"*.app", "*.AppDir", "*.desktop"});
+    QStringList nameFilter({"*.app", "*.AppDir", "*.desktop", "*.AppImage", "*.appimage"});
     foreach (QString directory, locationsContainingApps) {
         // Shall we process this directory? Only if it contains at least one application, to optimize for speed
         // by not descending into directory trees that do not contain any applications at all. Can make
@@ -253,6 +256,24 @@ void AppMenuWidget::findAppsInside(QStringList locationsContainingApps, QMenu *m
                 action->setDisabled(true); // As a reminder that we consider those legacy and encourage people to switch
                 // Finding the icon file is much more involved with XDG than with our simplified .app bundles, so it is not implemented here
             }
+            else if (file.fileName().endsWith(".AppImage") || file.fileName().endsWith(".appimage")) {
+                // .desktop file
+                qDebug() << "# Found" << file.fileName();
+                QFileInfo fi(file.fileName());
+                QString base = fi.completeBaseName(); // baseName() gets it wrong e.g., when there are dots in version numbers
+                QStringList executableAndArgs = {fi.absoluteFilePath()};
+                QAction *action = submenu->addAction(base);
+                action->setProperty("path", file.absoluteFilePath());
+                QString IconCand = Thumbnail(QDir(candidate).absolutePath(), QCryptographicHash::Md5,Thumbnail::ThumbnailSizeNormal, nullptr).getIconPath();
+                qDebug() << "#   ############################### thumbnail" << IconCand;
+                if(QFileInfo(IconCand).exists() == true) {
+                    qDebug() << "#   Found thumbnail" << IconCand;
+                    action->setIcon(QIcon(IconCand));
+                    action->setIconVisibleInMenu(true); // So that an icon is shown even though the theme sets Qt::AA_DontShowIconsInMenus
+                } else {
+                    qDebug() << "#   Did not find thumbnail" << IconCand << "TODO: Request it from thumbnailer";
+                }
+            }
             else if (locationsContainingApps.contains(candidate) == false && file.isDir() && candidate.endsWith("/..") == false && candidate.endsWith("/.") == false && candidate.endsWith(".app") == false && candidate.endsWith(".AppDir") == false) {
                 qDebug() << "# Found" << file.fileName() << ", a directory that is not an .app bundle nor an .AppDir";
                 QStringList locationsToBeChecked({candidate});
@@ -279,7 +300,7 @@ AppMenuWidget::AppMenuWidget(QWidget *parent)
     // Add search box to menu
     searchLineEdit = new QLineEdit(this);
     searchLineEdit->setObjectName("actionSearch"); // probono: This name can be used in qss to style it specifically
-    searchLineEdit->setPlaceholderText("Search");
+    searchLineEdit->setPlaceholderText(tr("Search"));
     auto* pLineEditEvtFilter = new MyLineEditEventFilter(searchLineEdit);
     searchLineEdit->installEventFilter(pLineEditEvtFilter);
     // searchLineEdit->setMinimumWidth(150);
@@ -351,7 +372,7 @@ AppMenuWidget::AppMenuWidget(QWidget *parent)
     menuImporter->connectToBus();
 
     m_appMenuModel = new AppMenuModel(this);
-    connect(m_appMenuModel, &AppMenuModel::modelNeedsUpdate, this, &AppMenuWidget::updateMenu);
+    connect(m_appMenuModel, &AppMenuModel::menuParsed, this, &AppMenuWidget::updateMenu);
 
     connect(KWindowSystem::self(), &KWindowSystem::activeWindowChanged, this, &AppMenuWidget::delayUpdateActiveWindow);
     connect(KWindowSystem::self(), static_cast<void (KWindowSystem::*)(WId, NET::Properties, NET::Properties2)>(&KWindowSystem::windowChanged),
@@ -604,11 +625,9 @@ void AppMenuWidget::actionAbout()
 {
     qDebug() << "actionAbout() called";
 
-    QString translatedTextAboutQtCaption;
-    translatedTextAboutQtCaption = "<h3>About This Computer</h3>";
     QMessageBox *msgBox = new QMessageBox(this);
     msgBox->setAttribute(Qt::WA_DeleteOnClose);
-    msgBox->setWindowTitle("About This Computer");
+    msgBox->setWindowTitle(tr("About This Computer"));
 
     QString url;
     QString sha;
@@ -662,23 +681,20 @@ void AppMenuWidget::actionAbout()
         qDebug() << "systemname:" << productname;
         msgBox->setText("<b>" + vendorname + " " + productname + "</b>");
 
-        QString program2 = "uname";
+        QString program2 = "pkg";
         QStringList arguments3;
-        arguments3 << "-v";
+        arguments3 << "info" << "hello";
         p.start(program2, arguments3);
         p.waitForFinished();
         QString operatingsystem(p.readAllStandardOutput());
-        operatingsystem.replace("\n", "");
-        operatingsystem = operatingsystem.trimmed();
-
-        QStringList arguments4;
-        arguments4 << "-K";
-        p.start(program2, arguments4);
-        p.waitForFinished();
-        QString kernelversion(p.readAllStandardOutput());
-        kernelversion.replace("\n", "");
-        kernelversion = kernelversion.trimmed();
-        qDebug() << "kernelversion:" << kernelversion;
+        operatingsystem = operatingsystem.split("\n")[0].trimmed();
+        if(operatingsystem != "") {
+            // We are running on helloSystem
+            operatingsystem = operatingsystem.replace("hello-", "helloSystem ").replace("_", " (Build ") + ")";
+        } else {
+            // We are not running on helloSystem (e.g., on FreeBSD + helloDesktop)
+            operatingsystem = "helloDesktop (not running on helloSystem)";
+        }
 
         QString program3 = "sysctl";
         QStringList arguments5;
@@ -721,6 +737,20 @@ void AppMenuWidget::actionAbout()
         di = diskinfo.split("\n");
         QString disksize ="Unknown";
 
+        QString program5 = "freebsd-version";
+        QStringList arguments9;
+        arguments9 << "-k";
+        p.start(program5, arguments9);
+        p.waitForFinished();
+        QString kernelVersion(p.readAllStandardOutput());
+
+
+        QStringList arguments10;
+        arguments9 << "-u";
+        p.start(program5, arguments10);
+        p.waitForFinished();
+        QString userlandVersion(p.readAllStandardOutput());
+
         foreach (QString ds, di) {
             if(ds.startsWith(disk)) {
                 // qDebug() << "ds:" << ds ;
@@ -746,7 +776,8 @@ void AppMenuWidget::actionAbout()
         // msgBox->setStandardButtons(0); // Remove button. FIXME: This makes it impossible to close the window; why?
         msgBox->setText("<center><img src=\"file://" + icon + "\"><h3>" + vendorname + " " + productname  + "</h3>" + \
                         "<p>" + operatingsystem +"</p><small>" + \
-                        "<p>Kernel version: " + kernelversion +"</p>" + \
+                        "<p>FreeBSD kernel version: " + kernelVersion +"<br>" + \
+                        "FreeBSD userland version: " + userlandVersion + "</p>" + \
                         "<p>Processor: " + cpu +"<br>" + \
                         "Memory: " + QString::number(m) +" GiB<br>" + \
                         "Startup Disk: " + disksize +"</p>" + \

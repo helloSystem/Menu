@@ -24,28 +24,19 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 #    endif()
 #endif()
 
-find_package(Qt5 COMPONENTS Widgets LinguistTools REQUIRED)
+find_package(Qt5 COMPONENTS Widgets LinguistTools Quick Qml REQUIRED)
 
 set(TS_FILES Shutdown_de_DE.ts)
 
-if(ANDROID)
-  add_library(Shutdown SHARED
-    main.cpp
-    mainwindow.cpp
-    mainwindow.h
-    mainwindow.ui
-    ${TS_FILES}
-  )
-else()
-  add_executable(Shutdown
-    main.cpp
-    mainwindow.cpp
-    mainwindow.h
-    mainwindow.ui
-    ${TS_FILES}
-  )
-endif()
+add_executable(Shutdown
+  main.cpp
+  mainwindow.cpp
+  mainwindow.h
+  mainwindow.ui
+  resources.qrc
+  ${TS_FILES}
+)
 
-target_link_libraries(Shutdown PRIVATE Qt5::Widgets)
+target_link_libraries(Shutdown PRIVATE Qt5::Widgets PUBLIC Qt5::Quick PUBLIC Qt5::Qml)
 
 qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})

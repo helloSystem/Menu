@@ -45,11 +45,11 @@ MainWindow::MainWindow(QWidget *parent)
     qDebug() << "translated: tr(\"About This Computer\"):" << tr("About This Computer");
 
     QHBoxLayout *layout = new QHBoxLayout;
-    layout->addSpacing(10);
+    layout->addSpacing(7); // Left screen edge; if space is too small, blue box overlaps rounded corner
     layout->addWidget(m_mainPanel);
-    layout->addSpacing(10);
+    layout->addSpacing(7); // Right screen edge
     layout->setMargin(0);
-    layout->setSpacing(0);
+    layout->setSpacing(10); // ?
     setLayout(layout);
 
     m_fakeWidget->setWindowFlags(Qt::FramelessWindowHint | Qt::WindowDoesNotAcceptFocus | Qt::SplashScreen);

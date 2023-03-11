@@ -27,34 +27,40 @@
 <context>
     <name>AppMenuWidget</name>
     <message>
+        <location filename="../appmenuwidget.cpp" line="282"/>
+        <source>Search</source>
+        <translation>Søk</translation>
+    </message>
+    <message>
         <location filename="../appmenuwidget.cpp" line="312"/>
+        <location filename="../appmenuwidget.cpp" line="609"/>
         <source>About This Computer</source>
-        <translation>Denne datamaskinen</translation>
+        <translation>Om denne datamaskinen</translation>
     </message>
     <message>
         <location filename="../appmenuwidget.cpp" line="316"/>
         <source>Hide all</source>
-        <translation type="unfinished">Skjul alle</translation>
+        <translation>Skjul alle</translation>
     </message>
     <message>
         <location filename="../appmenuwidget.cpp" line="318"/>
         <source>Unhide all</source>
-        <translation type="unfinished">Vis alle</translation>
+        <translation>Vis alle</translation>
     </message>
     <message>
         <location filename="../appmenuwidget.cpp" line="332"/>
         <source>Restart</source>
-        <translation type="unfinished">Omstart</translation>
+        <translation>Omstart</translation>
     </message>
     <message>
         <location filename="../appmenuwidget.cpp" line="334"/>
         <source>Log Out</source>
-        <translation type="unfinished">Logg ut</translation>
+        <translation>Logg ut</translation>
     </message>
     <message>
         <location filename="../appmenuwidget.cpp" line="336"/>
         <source>Shut Down</source>
-        <translation type="unfinished">Slå av</translation>
+        <translation>Slå av</translation>
     </message>
 </context>
 <context>
@@ -93,47 +99,60 @@
     <message>
         <location filename="../../Shutdown/mainwindow.ui" line="23"/>
         <location filename="../../Shutdown/mainwindow.ui" line="72"/>
+        <location filename="../../Shutdown/build/Shutdown_autogen/include/ui_mainwindow.h" line="100"/>
+        <location filename="../../Shutdown/build/Shutdown_autogen/include/ui_mainwindow.h" line="108"/>
         <source>Shut Down</source>
         <translation>Slå av</translation>
     </message>
     <message>
         <location filename="../../Shutdown/mainwindow.ui" line="42"/>
+        <location filename="../../Shutdown/build/Shutdown_autogen/include/ui_mainwindow.h" line="102"/>
         <source>Restart</source>
         <translation>Omstart</translation>
     </message>
     <message>
         <location filename="../../Shutdown/mainwindow.ui" line="49"/>
+        <location filename="../../Shutdown/build/Shutdown_autogen/include/ui_mainwindow.h" line="103"/>
+        <location filename="../mainwindow.cpp" line="44"/>
         <source>Log Out</source>
-        <translation type="unfinished">Logg ut</translation>
+        <translation>Logg ut</translation>
     </message>
     <message>
         <location filename="../../Shutdown/mainwindow.ui" line="56"/>
+        <location filename="../../Shutdown/build/Shutdown_autogen/include/ui_mainwindow.h" line="104"/>
         <source>Cancel</source>
         <translation>Avbryt</translation>
     </message>
     <message>
         <location filename="../../Shutdown/mainwindow.ui" line="59"/>
+        <location filename="../../Shutdown/build/Shutdown_autogen/include/ui_mainwindow.h" line="106"/>
         <source>Esc</source>
         <translation>Esc</translation>
     </message>
     <message>
         <location filename="../../Shutdown/mainwindow.ui" line="91"/>
+        <location filename="../../Shutdown/build/Shutdown_autogen/include/ui_mainwindow.h" line="109"/>
         <source>Are you sure you want to shut down your computer now?</source>
         <translation>Slå av datamaskinen nå?</translation>
     </message>
     <message>
         <location filename="../../Shutdown/mainwindow.ui" line="110"/>
+        <location filename="../../Shutdown/build/Shutdown_autogen/include/ui_mainwindow.h" line="101"/>
         <source>Log out</source>
         <translation>Logg ut</translation>
     </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="45"/>
+        <source>About This Computer</source>
+        <translation>Om denne datamaskinen</translation>
+    </message>
 </context>
 <context>
-    <name>QCocoaMenuItem</name>
+    <name>MyLineEditEventFilter</name>
     <message>
-        <location filename="../appmenu/dbusmenuimporter.cpp" line="487"/>
-        <location filename="../appmenu/dbusmenuimporter.cpp" line="489"/>
-        <source>Quit</source>
-        <translation type="unfinished"></translation>
+        <location filename="../appmenuwidget.cpp" line="108"/>
+        <source>Search</source>
+        <translation>Filtersøk</translation>
     </message>
 </context>
 </TS>

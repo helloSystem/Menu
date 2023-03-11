@@ -27,7 +27,6 @@
 #include "menuimporter.h"
 #include "menuimporteradaptor.h"
 #include "dbusmenutypes_p.h"
-
 #include <QDBusMessage>
 #include <QDBusObjectPath>
 #include <QDBusServiceWatcher>
@@ -88,8 +87,16 @@ void MenuImporter::RegisterWindow(WId id, const QDBusObjectPath& path)
         m_serviceWatcher->addWatchedService(service);
     }
 
+    // Fix for Chrome and Firefox, thanks Jesper Schmitz Mouridsen (jsmdk)
+    if(path.path().startsWith(QStringLiteral("/com/canonical/menu")) && KWindowSystem::isPlatformX11()) {
+        auto *c = QX11Info::connection();
+        xcb_change_property(c, XCB_PROP_MODE_REPLACE, id, get_xcb_atom(_KDE_NET_WM_APPMENU_OBJECT_PATH,c), XCB_ATOM_STRING, 8, path.path().size(), qPrintable(path.path()));
+	xcb_change_property(c, XCB_PROP_MODE_REPLACE, id, get_xcb_atom(_KDE_NET_WM_APPMENU_SERVICE_PATH,c), XCB_ATOM_STRING, 8, service.length(), qPrintable(service));
+    }
+
     emit WindowRegistered(id, service, path);
 }
+
 
 void MenuImporter::UnregisterWindow(WId id)
 {
@@ -114,4 +121,18 @@ void MenuImporter::slotServiceUnregistered(const QString& service)
     m_windowClasses.remove(id);
     emit WindowUnregistered(id);
     m_serviceWatcher->removeWatchedService(service);
+}
+const xcb_atom_t MenuImporter::get_xcb_atom(const QByteArray name,xcb_connection_t *c) {
+   if (!m_atoms.value(name)) {
+     const xcb_intern_atom_cookie_t cookie = xcb_intern_atom(c, false, name.length(), name.constData());
+     xcb_intern_atom_reply_t *reply = xcb_intern_atom_reply(c, cookie, nullptr);
+     if(reply) {
+       m_atoms[name] = reply->atom;
+       free(reply);
+     } else {
+       return XCB_ATOM_NONE;
+     }
+   }
+     return m_atoms[name];
+
 }

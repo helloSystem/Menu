@@ -12,6 +12,7 @@ DateTimeWidget::DateTimeWidget(QWidget *parent)
     layout->setMargin(0);
     layout->setSpacing(0);
     // m_label->setStyleSheet("padding-top: 2px;"); // FIXME: Find a way to achieve vertically centered text without this crude workaround
+    // m_label->setStyleSheet("color: grey;"); // Does not work; presumably due the QtPlugin theme overriding it
 
     layout->addWidget(m_label);
     setLayout(layout);

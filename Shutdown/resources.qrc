@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>shutdown.qml</file>
+        <file>logout.qml</file>
+    </qresource>
+</RCC>

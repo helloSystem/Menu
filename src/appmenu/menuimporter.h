@@ -26,12 +26,14 @@
 
 #ifndef MENUIMPORTER_H
 #define MENUIMPORTER_H
-
+#include <xcb/xcb.h>
 // Qt
+
 #include <QDBusArgument>
 #include <QDBusContext>
 #include <QDBusObjectPath>
 #include <QObject>
+#include <QX11Info>
 #include <QWidget> // For WId
 
 class QDBusObjectPath;
@@ -73,6 +75,10 @@ private:
     QHash<WId, QString> m_menuServices;
     QHash<WId, QDBusObjectPath> m_menuPaths;
     QHash<WId, QString> m_windowClasses;
+    QHash<QByteArray, xcb_atom_t> m_atoms;
+    const QByteArray _KDE_NET_WM_APPMENU_OBJECT_PATH = QByteArrayLiteral("_KDE_NET_WM_APPMENU_OBJECT_PATH");
+    const QByteArray _KDE_NET_WM_APPMENU_SERVICE_PATH = QByteArrayLiteral("_KDE_NET_WM_APPMENU_SERVICE_NAME");
+    const xcb_atom_t get_xcb_atom(const QByteArray name,xcb_connection_t *c);
 
 };
 

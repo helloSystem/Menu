@@ -7,13 +7,17 @@
 #include <QTime>
 #include <QPropertyAnimation>
 #include <QIcon>
+#include <QtQml/QQmlEngine>
+#include <QtQml/QQmlComponent>
+#include <QTimer>
+#include <QUrl>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    this->setWindowFlags(Qt::FramelessWindowHint);
+    // this->setWindowFlags(Qt::FramelessWindowHint);
     this->setGeometry(
                 QStyle::alignedRect(
                     Qt::LeftToRight,
@@ -22,8 +26,10 @@ MainWindow::MainWindow(QWidget *parent)
                     qApp->desktop()->availableGeometry()
                     )
                 );
-    ui->iconLabel->setPixmap(QIcon::fromTheme("exit").pixmap(48));
-    // TODO: Find a way to make this grayscale rather than color
+    ui->iconLabel->setPixmap(QIcon::fromTheme("exit").pixmap(48, QIcon::Disabled));
+
+    this->setFixedSize(this->size());
+    this->setWindowTitle(" ");
 }
 
 MainWindow::~MainWindow()
@@ -33,50 +39,35 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_logoutButton_clicked()
 {
-    // this->clearScreen();
-    QProcess::execute("killall", QStringList() << "sh");
+    QTimer::singleShot(2500, []() { QProcess::execute("killall", QStringList() << "sh"); } );
+    this->hide();
+    QTimer::singleShot(250, [this]() { this->fadeToBlack(); } );; // Give the dialog box some time to fade out before we fade out full screen
 }
 
 void MainWindow::on_restartButton_clicked()
 {
-    // this->clearScreen();
-    QProcess::execute("sudo", QStringList() << "shutdown" << "-r" << "now");
+    QTimer::singleShot(2500, []() { QProcess::execute("sudo", QStringList() << "shutdown" << "-r" << "now"); } );
+    this->hide();
+    QTimer::singleShot(250, [this]() { this->fadeToGray(); } );; // Give the dialog box some time to fade out before we fade out full screen
 }
 
 void MainWindow::on_shutdownButton_clicked()
 {
-    // this->clearScreen();
-    QProcess::execute("sudo", QStringList() << "shutdown" << "-p" << "now");
+    QTimer::singleShot(2500, []() { QProcess::execute("sudo", QStringList() << "shutdown" << "-p" << "now"); } );
+    this->hide();
+    QTimer::singleShot(250, [this]() { this->fadeToGray(); } );; // Give the dialog box some time to fade out before we fade out full screen
 }
 
-// When Xorg gets killed, window decorations disappear first, the whole thing is unsightly
-// hence we fill the screen before we exit
-void MainWindow::clearScreen()
+void MainWindow::fadeToGray()
 {
+    QQmlEngine engine1;
+    QQmlComponent component1(&engine1, QUrl("qrc:/shutdown.qml"));
+    component1.create();
+}
 
-    // TODO: Is there a way to tell all applications that they should save now?
-
-    /*
-
-    QWidget w;
-    QPalette p = w.palette();
-    p.setColor(QPalette::Window, Qt::gray);
-    w.setPalette(p);
-    w.setAutoFillBackground(true);
-
-    // TODO: Animate
-
-    w.showFullScreen();
-
-    // Wait one second so that we can see something
-    // TODO: Shorten or remove if not needed
-
-    QTime dieTime= QTime::currentTime().addSecs(1);
-    while (QTime::currentTime() < dieTime)
-        QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
-
-    // FIXME: Make sure we get killed as the very last process in Xorg
-
-    */
-
+void MainWindow::fadeToBlack()
+{
+    QQmlEngine engine2;
+    QQmlComponent component2(&engine2, QUrl("qrc:/logout.qml"));
+    component2.create();
 }

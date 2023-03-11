@@ -60,14 +60,12 @@ void rebuildSystemMenuSignalHandler(int sig){
 int main(int argc, char **argv)
 {
     QtSingleApplication instance(argc, argv);
-    if (instance.sendMessage("Wake up!"))
-    return 0;
+    if (instance.sendMessage("Wake up!")) {
+        return 0;
+    }
 
-    // Application a(argc, argv); // probono: Use this instead of the next line for debugging
-    // QApplication a(argc, argv); // probono: Use this instead of the line above for production
-
-    //QApplication *a = new QApplication(argc, argv); // probono: Use this instead of the next line for debugging
-    Application *a = new Application(argc, argv); // probono: Use this instead of the line above for production
+    QApplication *a = new QApplication(argc, argv); // probono: Use this instead of the next line for debugging
+    // Application *a = new Application(argc, argv); // probono: Use this instead of the line above for production
 
     QTranslator *qtTranslator = new QTranslator(a);
     QTranslator *translator = new QTranslator(a);

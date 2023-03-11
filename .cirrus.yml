@@ -11,7 +11,7 @@ task:
   auto_cancellation: false
   stateful: false
   setup_script:
-    - pkg install -y curl wget zip pkgconf cmake qt5-x11extras qt5-qmake qt5-widgets qt5-buildtools qt5-concurrent kf5-kdbusaddons kf5-kwindowsystem libdbusmenu-qt5 pulseaudio pulseaudio-qt
+    - pkg install -y curl wget zip pkgconf cmake qt5-x11extras qt5-quickcontrols qt5-qmake qt5-widgets qt5-buildtools qt5-concurrent kf5-kdbusaddons kf5-kwindowsystem libdbusmenu-qt5 pulseaudio pulseaudio-qt libXcomposite
   test_script:
     - mkdir build ; cd build
     - cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr

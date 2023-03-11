@@ -20,7 +20,7 @@ On Arch Linux:
 
 ```
 sudo pacman -Sy
-sudo pacman -S cmake gcc qt5-base qt5-tools qt5-svg qt5-x11extras kwindowsystem libxtst libxdamage libxcomposite libxrender libxcomposite libxcb xcb-util libdbusmenu-qt5 kdbusaddons libpulse glibc make pkgconf qt5-base icu
+sudo pacman -S cmake gcc qt5-base qt5-tools qt5-svg qt5-x11extras kwindowsystem libxtst libxdamage libxcomposite libxrender libxcb xcb-util libdbusmenu-qt5 kdbusaddons libpulse glibc make pkgconf icu
 ```
 
 __Note__ that not all functionality is implemented for anything else than FreeBSD at this point. So building the Menu for operating systems other than FreeBSD will result in partly non-functional menu, currently only usable for development.

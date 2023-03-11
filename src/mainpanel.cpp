@@ -66,14 +66,18 @@ MainPanel::MainPanel(QWidget *parent)
     layout->setSpacing(0);
     // layout->addSpacing(10);
     layout->addWidget(m_appMenuWidget); // Main menu including Action Search
+
     // layout->addStretch();
+    // layout->addSpacing(10);
+    // layout->addLayout(m_controlCenterLayout); // Volume, etc.
+    // layout->addSpacing(10);
+
+    layout->addWidget(statusnotifierWidget); // Tray applications
     layout->addSpacing(10);
-    layout->addLayout(m_controlCenterLayout); // Volume, etc.
-    layout->addSpacing(10);
-    layout->addWidget(statusnotifierWidget); // Tray applications. TODO: More before m_controlCenterLayout once m_controlCenterLayout is looking good and us functional
-    layout->addSpacing(10);
+
     layout->addWidget(dateTimeWidget);
-    layout->addSpacing(10);
+    layout->addSpacing(5); // Right edge of the screen
+
     layout->setContentsMargins(0, 0, 0, 0);
     setLayout(layout);
 

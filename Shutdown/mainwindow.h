@@ -22,7 +22,9 @@ private slots:
 
     void on_shutdownButton_clicked();
 
-    void clearScreen();
+    void fadeToGray();
+
+    void fadeToBlack();
 
 private:
     Ui::MainWindow *ui;

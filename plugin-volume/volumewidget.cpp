@@ -27,7 +27,7 @@ VolumeWidget::VolumeWidget(QWidget *parent)
     setMinimumHeight(200);
 
     layout->addWidget(m_iconButton);
-    layout->addSpacing(10);
+    // layout->addSpacing(10);
     layout->addWidget(m_slider);
 
     m_iconButton->setIcon(QIcon::fromTheme("audio-volume-medium"));

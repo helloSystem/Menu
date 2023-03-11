@@ -16,7 +16,9 @@ void ActionSearch::update(QMenuBar *menu)
 {
 	for (auto menuAction: menu->actions())
 	{
-		readMenuActions(menuAction->menu());
+		QStringList names;
+		readMenuActions(menuAction->menu(),names);
+
 	}
 }
 
@@ -27,7 +29,7 @@ void ActionSearch::execute(QString actionName)
 	}
 }
 
-void ActionSearch::readMenuActions(QMenu* menu)
+void ActionSearch::readMenuActions(QMenu* menu,QStringList names)
 {
 	// See https://doc.qt.io/qt-5/qaction.html#menu
 	// If a QAction does not have menu in it, then
@@ -36,23 +38,22 @@ void ActionSearch::readMenuActions(QMenu* menu)
 	if (!menu)
 		return;
 
-	QString menuName = menu->title().replace("&", "");
-
-
+	names << menu->title();
 	for (auto action: menu->actions())
 	{
+
 		if (action->menu() != NULL)
 		{
-			readMenuActions(action->menu());
-			continue;
+
+			readMenuActions(action->menu(),names);
 		}
 
+
 		QString actionName = action->text().replace("&", "");
-		if (!actionName.isEmpty() && action->isEnabled())
+		if (!actionName.isEmpty() && action->isEnabled() && !action->menu())
 		{
-			// TODO: we might want to have a multilevel menuName
-            // actionName += "\n(" + menuName +")";
-            actionName = menuName + " → " + actionName;
+            actionName = names.join(" → ") + " → " + actionName;
+
             if (action->shortcut().toString() != "") {
                 actionName = actionName + " (" + action->shortcut().toString() +")";
             }
@@ -60,5 +61,7 @@ void ActionSearch::readMenuActions(QMenu* menu)
 		}
 
 	}
+	names.clear();
+
 }
 

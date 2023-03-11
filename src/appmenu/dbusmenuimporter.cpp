@@ -506,6 +506,7 @@ void DBusMenuImporter::updateMenu(QMenu *menu)
     d->sendEvent(id, QStringLiteral("opened"));
 }
 
+
 void DBusMenuImporter::slotAboutToShowDBusCallFinished(QDBusPendingCallWatcher *watcher)
 {
     int id = watcher->property(DBUSMENU_PROPERTY_ID).toInt();

@@ -37,9 +37,8 @@ set(SRCS
     qtsingleapplication/qtsingleapplication.h
     qtsingleapplication/qtsingleapplication.cpp
     qtsingleapplication/qtlocalpeer.cpp
+    thumbnails.cpp
 )
-
-qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} translations/menubar_de.ts)
 
 # Create TS_FILES variable that contains all .ts files
 file(GLOB TS_FILES translations/*.ts)
@@ -51,17 +50,24 @@ qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 # Compile .ts to .qm
 qt5_add_translation(TRANSLATION_QM ${TS_FILES})
 
-add_custom_target(translations ALL DEPENDS ${QM_FILES})
+add_custom_target(translations_update DEPENDS ${QM_FILES})
+
+add_custom_target(translations ALL DEPENDS ${TRANSLATION_QM})
 
 add_custom_target(resources ALL DEPENDS ${RESOURCE_FILES})
 
-add_dependencies(resources translations)
+# add_dependencies(resources translations)
 
 add_executable(${TARGET} ${SRCS} resources.qrc)
 
 add_dependencies(${CMAKE_PROJECT_NAME} resources)
 
 find_package(Qt5 COMPONENTS Network REQUIRED)  # probono: For qtsingleapplication
+
+# Do not put qDebug() into Release builds
+if(NOT CMAKE_BUILD_TYPE STREQUAL Debug)
+    add_definitions(-DQT_NO_DEBUG_OUTPUT)
+endif()
 
 target_link_libraries(${TARGET}
     Qt5::DBus

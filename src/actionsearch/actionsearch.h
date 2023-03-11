@@ -20,7 +20,7 @@ class ActionSearch
 	private:
 		QMenuBar* menuBar;
 
-		void readMenuActions(QMenu* menu);
+		void readMenuActions(QMenu* menu, QStringList names);
 
 		QHash<QString, QAction*> actions{}; // std::unordered_map
 };

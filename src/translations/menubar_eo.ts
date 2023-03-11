@@ -1,43 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="ru">
+<TS version="2.1" language="eo">
 <context>
     <name>AppMenuWidget</name>
-    <message>
-        <location filename="../appmenuwidget.cpp" line="282"/>
-        <source>Search</source>
-        <translation>Поиск</translation>
-    </message>
     <message>
         <location filename="../appmenuwidget.cpp" line="312"/>
         <location filename="../appmenuwidget.cpp" line="609"/>
         <source>About This Computer</source>
-        <translation>Про этот Компьютер</translation>
+        <translation>Pri ĉi tiu komputilo</translation>
     </message>
     <message>
         <location filename="../appmenuwidget.cpp" line="316"/>
         <source>Hide all</source>
-        <translation>Скрыть все</translation>
+        <translation>Kaŝi ĉion</translation>
     </message>
     <message>
         <location filename="../appmenuwidget.cpp" line="318"/>
         <source>Unhide all</source>
-        <translation>Отобразить все</translation>
+        <translation>Malkaŝi ĉion</translation>
     </message>
     <message>
         <location filename="../appmenuwidget.cpp" line="332"/>
         <source>Restart</source>
-        <translation>Перезагрузить</translation>
+        <translation>Restartigi</translation>
     </message>
     <message>
         <location filename="../appmenuwidget.cpp" line="334"/>
         <source>Log Out</source>
-        <translation>Выход</translation>
+        <translation>Adiaŭi</translation>
     </message>
     <message>
         <location filename="../appmenuwidget.cpp" line="336"/>
         <source>Shut Down</source>
-        <translation>Завершение работы</translation>
+        <translation>Malŝalti</translation>
     </message>
 </context>
 <context>
@@ -45,22 +40,22 @@
     <message>
         <location filename="../../plugin-battery/batterywidget.cpp" line="103"/>
         <source>Empty</source>
-        <translation>Пусто</translation>
+        <translation>Malplena</translation>
     </message>
     <message>
         <location filename="../../plugin-battery/batterywidget.cpp" line="105"/>
         <source>Discharging</source>
-        <translation>Разряжается</translation>
+        <translation>Malŝargante</translation>
     </message>
     <message>
         <location filename="../../plugin-battery/batterywidget.cpp" line="107"/>
         <source>Fully charged</source>
-        <translation>Полностью заряжен</translation>
+        <translation>Plene ŝargita</translation>
     </message>
     <message>
         <location filename="../../plugin-battery/batterywidget.cpp" line="110"/>
         <source>Charging</source>
-        <translation>Заряжается</translation>
+        <translation>Ŝargante</translation>
     </message>
 </context>
 <context>
@@ -68,7 +63,7 @@
     <message>
         <location filename="../../plugin-volume/controlwidget.cpp" line="24"/>
         <source>Current volume</source>
-        <translation>Этот раздел</translation>
+        <translation>Aktuala laŭto</translation>
     </message>
 </context>
 <context>
@@ -79,57 +74,81 @@
         <location filename="../../Shutdown/build/Shutdown_autogen/include/ui_mainwindow.h" line="100"/>
         <location filename="../../Shutdown/build/Shutdown_autogen/include/ui_mainwindow.h" line="108"/>
         <source>Shut Down</source>
-        <translation>Завершение работы</translation>
+        <translation>Malŝalti</translation>
     </message>
     <message>
         <location filename="../../Shutdown/mainwindow.ui" line="42"/>
         <location filename="../../Shutdown/build/Shutdown_autogen/include/ui_mainwindow.h" line="102"/>
         <source>Restart</source>
-        <translation>Перезагрузка</translation>
+        <translation>Restartigi</translation>
     </message>
     <message>
         <location filename="../../Shutdown/mainwindow.ui" line="49"/>
         <location filename="../../Shutdown/build/Shutdown_autogen/include/ui_mainwindow.h" line="103"/>
         <location filename="../mainwindow.cpp" line="44"/>
         <source>Log Out</source>
-        <translation>Выход</translation>
+        <translation>Adiaŭi</translation>
     </message>
     <message>
         <location filename="../../Shutdown/mainwindow.ui" line="56"/>
         <location filename="../../Shutdown/build/Shutdown_autogen/include/ui_mainwindow.h" line="104"/>
         <source>Cancel</source>
-        <translation>Отмена</translation>
+        <translation>Nuligi</translation>
     </message>
     <message>
         <location filename="../../Shutdown/mainwindow.ui" line="59"/>
         <location filename="../../Shutdown/build/Shutdown_autogen/include/ui_mainwindow.h" line="106"/>
         <source>Esc</source>
-        <translation>Возврат</translation>
+        <translation>Eskapi</translation>
     </message>
     <message>
         <location filename="../../Shutdown/mainwindow.ui" line="91"/>
         <location filename="../../Shutdown/build/Shutdown_autogen/include/ui_mainwindow.h" line="109"/>
         <source>Are you sure you want to shut down your computer now?</source>
-        <translation>Вы действительно хотите выключить компьютер?</translation>
+        <translation>Ĉu vi certe volas malŝalti vian komputilon nun?</translation>
     </message>
     <message>
         <location filename="../../Shutdown/mainwindow.ui" line="110"/>
         <location filename="../../Shutdown/build/Shutdown_autogen/include/ui_mainwindow.h" line="101"/>
         <source>Log out</source>
-        <translation>Выход</translation>
+        <translation>Adiaŭi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="45"/>
         <source>About This Computer</source>
-        <translation>Этот компьютер</translation>
+        <translation>Pri Ĉi tiu Komputilo</translation>
     </message>
 </context>
 <context>
-    <name>MyLineEditEventFilter</name>
+    <name>QCocoaMenuItem</name>
+    <message>
+        <location filename="../appmenu/dbusmenuimporter.cpp" line="487"/>
+        <location filename="../appmenu/dbusmenuimporter.cpp" line="489"/>
+        <source>Quit</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name></name>
     <message>
         <location filename="../appmenuwidget.cpp" line="108"/>
         <source>Search</source>
-        <translation>Фильтр поиска</translation>
+        <translation>Filtrilo Serĉo</translation>
+    </message>
+    <message>
+        <location filename="../appmenuwidget.cpp" line="282"/>
+        <source>Search</source>
+        <translation>Serĉi</translation>
+    </message>
+    <message>
+        <location filename="../appmenuwidget.cpp" line="108"/>
+        <source>Search</source>
+        <translation>Filtri serĉon</translation>
+    </message>
+    <message>
+        <location filename="../appmenuwidget.cpp" line="282"/>
+        <source>Search</source>
+        <translation>Serĉi</translation>
     </message>
 </context>
 </TS>

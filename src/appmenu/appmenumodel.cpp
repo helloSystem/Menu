@@ -33,7 +33,7 @@
 #include <QDBusConnectionInterface>
 #include <QDBusServiceWatcher>
 #include <QGuiApplication>
-
+#include <QTimer>
 #include <QDebug>
 
 #include "dbusmenuimporter.h"
@@ -99,6 +99,7 @@ AppMenuModel::AppMenuModel(QObject *parent)
         if (serviceName == m_serviceName) {
             setMenuAvailable(false);
             emit modelNeedsUpdate();
+            emit menuParsed();
         }
     });
 }
@@ -302,6 +303,7 @@ void AppMenuModel::onActiveWindowChanged(WId id)
     if (!id) {
         setMenuAvailable(false);
         emit modelNeedsUpdate();
+        emit menuParsed();
         return;
     }
 
@@ -401,6 +403,7 @@ void AppMenuModel::onActiveWindowChanged(WId id)
             // rekols: 切换到桌面时要隐藏menubar
             setMenuAvailable(false);
             emit modelNeedsUpdate();
+            emit menuParsed();
             return;
         }
 
@@ -431,8 +434,11 @@ void AppMenuModel::onActiveWindowChanged(WId id)
         m_delayedMenuWindowId = id;
 
         //no menu found, set it to unavailable
+
         setMenuAvailable(false);
         emit modelNeedsUpdate();
+        emit menuParsed();
+
     }
 }
 
@@ -522,18 +528,21 @@ void AppMenuModel::updateApplicationMenu(const QString &serviceName, const QStri
     }
 
     m_importer = new KDBusMenuImporter(serviceName, menuObjectPath, this);
+    if(serviceName =="org.kde.plasma.gmenu_dbusmenu_proxy") {
+        QTimer::singleShot(200,this, [=](){m_importer->updateMenu();});
+    } else {
     QMetaObject::invokeMethod(m_importer, "updateMenu", Qt::QueuedConnection);
+    }
 
+    m_menu = m_importer->menu();
 
     connect(m_importer.data(), &DBusMenuImporter::menuUpdated, this, [=](QMenu *menu) {
-        m_menu = m_importer->menu();
+        for (QAction *a : menu->actions()) {
 
-        if (m_menu.isNull() || menu != m_menu) {
-            return;
-        }
+            if(a->menu()) {
+		           m_importer->updateMenu(a->menu());
 
-        //cache first layer of sub menus, which we'll be popping up
-        for (QAction *a : m_menu->actions()) {
+            }
             // signal dataChanged when the action changes
             connect(a, &QAction::changed, this, [this, a] {
                 if (m_menuAvailable && m_menu)
@@ -549,13 +558,13 @@ void AppMenuModel::updateApplicationMenu(const QString &serviceName, const QStri
 
             connect(a, &QAction::destroyed, this, &AppMenuModel::modelNeedsUpdate);
 
-            if (a->menu()) {
-		m_importer->updateMenu(a->menu());
-            }
         }
-    
-    	setMenuAvailable(true);
-        emit modelNeedsUpdate();
+
+
+    if(m_menu && !m_menu->actions().isEmpty() && m_menu->actions().last() == menu->menuAction()) {
+            setMenuAvailable(true);
+            emit menuParsed();
+          }
     });
 
     connect(m_importer.data(), &DBusMenuImporter::actionActivationRequested, this, [this](QAction * action) {
