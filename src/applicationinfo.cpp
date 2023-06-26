@@ -148,7 +148,7 @@ QString ApplicationInfo::environmentVariableForPId(unsigned int pid,
             char *envvar = *proc_inf->environ;
             while (envvar) {
                 char *key = strtok(envvar, "=");
-                if (strncmp(environmentVariable.toStdString().c_str(), key,
+                if (key != NULL && strncmp(environmentVariable.toStdString().c_str(), key,
                             strlen(environmentVariable))
                     == 0) {
                     path = QString::fromLocal8Bit(strtok(NULL, "="));

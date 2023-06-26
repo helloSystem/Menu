@@ -55,7 +55,6 @@
 #include <QWindow>
 #include <QTimer>
 #include <Baloo/Query>
-#include <KF5/KWindowSystem/KX11Extras>
 #include <KF5/KWindowSystem/KWindowSystem>
 #include <KF5/KWindowSystem/KWindowInfo>
 #include <KF5/KWindowSystem/NETWM>
@@ -1779,6 +1778,8 @@ AboutDialog::AboutDialog(QWidget *parent) : QDialog(parent)
         || chassisType == "Convertible") {
         icon = QIcon::fromTheme("computer-laptop");
     }
+#else
+    QIcon icon = QIcon::fromTheme("computer");
 
 #endif
 
@@ -1931,7 +1932,7 @@ AboutDialog::AboutDialog(QWidget *parent) : QDialog(parent)
                 + "Other components are subject to<br>their respective license terms</p>"
                 + "</small></center>");
 #else
-        msgBox->setText(
+        _textLabel->setText(
                 QString("<center><h3>helloDesktop</h3>"
                         "<p>Running on an unsupported operating system<br>"
                         "with reduced functionality</p>"
