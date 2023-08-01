@@ -22,10 +22,10 @@ jobs:
             g++ \
             qtbase5-dev \
             qttools5-dev \
-            qtsvg5-dev \
+            libqt5svg5-dev \
             libqt5x11extras5-dev \
             libkf5windowsystem-dev \
-            libkf5baloo-dev \
+            baloo-kf5-dev \
             libxtst-dev \
             libxdamage-dev \
             libxcomposite-dev \
@@ -33,9 +33,8 @@ jobs:
             libxcb1-dev \
             libxcb-util0-dev \
             libdbusmenu-qt5-dev \
-            libkf5kdbusaddons-dev \
+            libkf5dbusaddons-dev \
             libpulse-dev \
-            glibc \
             make \
             pkg-config \
             libicu-dev
