@@ -1,0 +1,62 @@
+name: Build Menu_Ubuntu.zip
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            curl \
+            wget \
+            zip \
+            pkgconf \
+            cmake \
+            qtbase5-dev \
+            qtbase5-dev-tools \
+            qtdeclarative5-dev \
+            libdbusmenu-qt5-dev \
+            libpulse-dev \
+            libxcomposite-dev \
+            libqalculate-dev
+
+      - name: Build Menu_Ubuntu.zip
+        run: |
+          mkdir build ; cd build
+          cmake .. -DCMAKE_BUILD_TYPE=Release
+          make -j$(nproc) install
+          find System/Menu.app/
+          cd ./System/
+          zip --symlinks -r ../Menu_Ubuntu.zip Menu.app/
+
+      - name: Upload Menu_Ubuntu.zip
+        uses: actions/upload-artifact@v2
+        with:
+          name: Menu_Ubuntu.zip
+          path: build/Menu_Ubuntu.zip
+          
+      - name: Create GitHub Release using Continuous Release Manager
+        if: github.event_name == 'push'  # Only run for push events, not pull requests
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl -L -o continuous-release-manager-linux https://github.com/probonopd/continuous-release-manager/releases/download/continuous/continuous-release-manager-linux
+          chmod +x continuous-release-manager-linux
+          ./continuous-release-manager-linux
+
+      - name: Upload to GitHub Release
+        if: github.event_name == 'push'  # Only run for push events, not pull requests
+        run: |
+          gh release upload continuous ./build/Menu_Ubuntu.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
