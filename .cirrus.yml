@@ -18,6 +18,5 @@ task:
     - make DESTDIR=. -j$(sysctl -n hw.ncpu) install
     - find System/Menu.app/
     - ( cd ./System/ ; zip --symlinks -r ../Menu_FreeBSD.zip Menu.app/ )
-    # curl --upload-file ./Filer_FreeBSD.zip https://transfer.sh/Filer_FreeBSD.zip
-    - case "$CIRRUS_BRANCH" in *pull/*) echo skipping since PR ;; * ) wget https://github.com/tcnksm/ghr/files/5247714/ghr.zip ; unzip ghr.zip ; rm ghr.zip ; ./ghr -delete -t "${GITHUB_TOKEN}" -u "${CIRRUS_REPO_OWNER}" -r "${CIRRUS_REPO_NAME}" -c "${CIRRUS_CHANGE_IN_REPO}" continuous "${CIRRUS_WORKING_DIR}"/build/*zip ; esac
+    - case "$CIRRUS_BRANCH" in *pull/*) echo "Skipping since it's a pull request" ;; * ) wget https://github.com/tcnksm/ghr/files/5247714/ghr.zip ; unzip ghr.zip ; rm ghr.zip ; fetch https://github.com/probonopd/continuous-release-manager/releases/download/continuous/continuous-release-manager-freebsd && chmod +x continuous-release-manager-freebsd && ./continuous-release-manager-freebsd && ./ghr -replace -t "${GITHUB_TOKEN}" -u "${CIRRUS_REPO_OWNER}" -r "${CIRRUS_REPO_NAME}" -c "${CIRRUS_CHANGE_IN_REPO}" continuous "${CIRRUS_WORKING_DIR}"/build/*zip ; esac
   only_if: $CIRRUS_TAG != 'continuous'
