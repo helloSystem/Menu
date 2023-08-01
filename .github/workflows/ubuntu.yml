@@ -41,6 +41,7 @@ jobs:
             libpulse-dev \
             libqalculate-dev \
             qtdeclarative5-dev \
+            libprocps-dev \
             make \
             pkg-config \
             libicu-dev
