@@ -32,6 +32,8 @@ jobs:
             libxrender-dev \
             libxcb1-dev \
             libx11-xcb-dev \
+            libxcb-damage0-dev \
+            libxcb-util-dev \
             libdbusmenu-qt5-dev \
             libkf5dbusaddons-dev \
             libpulse-dev \
