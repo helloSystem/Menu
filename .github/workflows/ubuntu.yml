@@ -18,19 +18,27 @@ jobs:
           sudo add-apt-repository universe
           sudo apt-get update
           sudo apt-get install -y \
-            curl \
-            wget \
-            zip \
-            pkgconf \
             cmake \
+            g++ \
             qtbase5-dev \
-            qtbase5-dev-tools \
-            qtdeclarative5-dev \
-            libdbusmenu-qt5-dev \
-            libpulse-dev \
+            qttools5-dev \
+            qtsvg5-dev \
+            libqt5x11extras5-dev \
+            libkf5windowsystem-dev \
+            libkf5baloo-dev \
+            libxtst-dev \
+            libxdamage-dev \
             libxcomposite-dev \
-            libqalculate-dev \
-            libqtx11extras5-dev
+            libxrender-dev \
+            libxcb1-dev \
+            libxcb-util0-dev \
+            libdbusmenu-qt5-dev \
+            libkf5kdbusaddons-dev \
+            libpulse-dev \
+            glibc \
+            make \
+            pkg-config \
+            libicu-dev
 
       - name: Build Menu_Ubuntu.zip
         run: |
