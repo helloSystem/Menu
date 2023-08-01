@@ -2,7 +2,7 @@ name: Build Menu_Ubuntu.zip
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
 
 jobs:
