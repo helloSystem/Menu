@@ -34,6 +34,7 @@ jobs:
             libx11-xcb-dev \
             libxcb-damage0-dev \
             libxcb-util-dev \
+            libxcb-ewmh-dev \
             libdbusmenu-qt5-dev \
             libkf5dbusaddons-dev \
             libpulse-dev \
