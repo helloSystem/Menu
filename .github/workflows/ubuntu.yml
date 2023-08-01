@@ -30,7 +30,7 @@ jobs:
             libpulse-dev \
             libxcomposite-dev \
             libqalculate-dev \
-            qtx11extras5-dev
+            libqtx11extras5-dev
 
       - name: Build Menu_Ubuntu.zip
         run: |
