@@ -50,7 +50,8 @@ jobs:
         run: |
           mkdir build ; cd build
           cmake .. -DCMAKE_BUILD_TYPE=Release
-          make -j$(nproc) install
+          make -j$(nproc)
+          make DESTDIR=. install
           find System/Menu.app/
           cd ./System/
           zip --symlinks -r ../Menu_Ubuntu.zip Menu.app/
