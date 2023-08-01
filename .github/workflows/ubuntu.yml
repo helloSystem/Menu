@@ -25,6 +25,7 @@ jobs:
             libqt5svg5-dev \
             libqt5x11extras5-dev \
             libkf5windowsystem-dev \
+            libkf5globalaccel-dev \
             baloo-kf5-dev \
             libxtst-dev \
             libxdamage-dev \
