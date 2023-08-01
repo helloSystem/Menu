@@ -73,7 +73,13 @@ jobs:
 
       - name: Upload to GitHub Release
         if: github.event_name == 'push'  # Only run for push events, not pull requests
-        run: |
-          gh release upload continuous ./build/Menu_Ubuntu.zip
+        uses: xresloader/upload-to-github-release@v1.3.12
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          file: "./build/Menu_Ubuntu.zip"
+          draft: false
+          verbose: true
+          branches: main
+          update_latest_release: true
+          tag_name: continuous
