@@ -39,6 +39,7 @@ jobs:
             libdbusmenu-qt5-dev \
             libkf5dbusaddons-dev \
             libpulse-dev \
+            libqalculate-dev \
             make \
             pkg-config \
             libicu-dev
