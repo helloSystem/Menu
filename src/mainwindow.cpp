@@ -150,23 +150,15 @@ MainWindow::MainWindow(QWidget *parent)
                                 "not configured correctly."));
     }
 
-    // Warn if UBUNTU_MENUPROXY environment variable is missing or not set to "1"
-    if (!QProcessEnvironment().systemEnvironment().contains("UBUNTU_MENUPROXY")) {
-        QMessageBox::warning(nullptr, " ",
-                             tr("The UBUNTU_MENUPROXY environment variable is missing. The system "
-                                "is not configured correctly."));
-    } else if (QProcessEnvironment().systemEnvironment().value("UBUNTU_MENUPROXY") != "1") {
+    // Warn if UBUNTU_MENUPROXY environment variable is not set to "1"
+    if (QProcessEnvironment().systemEnvironment().value("UBUNTU_MENUPROXY") != "1") {
         QMessageBox::warning(nullptr, " ",
                              tr("The UBUNTU_MENUPROXY environment variable is not set to \"1\". "
                                 "The system is not configured correctly."));
     }
 
-    // Warn if GTK_MODULES environment variable is missing or does not contain "appmenu-gtk-module"
-    if (!QProcessEnvironment().systemEnvironment().contains("GTK_MODULES")) {
-        QMessageBox::warning(nullptr, " ",
-                             tr("The GTK_MODULES environment variable is missing. The system is "
-                                "not configured correctly."));
-    } else if (!QProcessEnvironment()
+    // Warn if GTK_MODULES environment variable does not contain "appmenu-gtk-module"
+    if (!QProcessEnvironment()
                         .systemEnvironment()
                         .value("GTK_MODULES")
                         .contains("appmenu-gtk-module")) {
@@ -175,26 +167,16 @@ MainWindow::MainWindow(QWidget *parent)
                                 "\"appmenu-gtk-module\". The system is not configured correctly."));
     }
 
-    // Warn if QT_QPA_PLATFORMTHEME environment variable is missing or not set to "panda"
-    if (!QProcessEnvironment().systemEnvironment().contains("QT_QPA_PLATFORMTHEME")) {
+    // Warn if QT_QPA_PLATFORMTHEME environment variable is not set to "panda" or "kde"
+    if (QProcessEnvironment().systemEnvironment().value("QT_QPA_PLATFORMTHEME") != "panda"
+               && QProcessEnvironment().systemEnvironment().value("QT_QPA_PLATFORMTHEME") != "kde") {
         QMessageBox::warning(nullptr, " ",
-                             tr("The QT_QPA_PLATFORMTHEME environment variable is missing. The "
-                                "system is not configured correctly."));
-    } else if (!QProcessEnvironment()
-                        .systemEnvironment()
-                        .value("QT_QPA_PLATFORMTHEME")
-                        .contains("panda")) {
-        QMessageBox::warning(nullptr, " ",
-                             tr("The QT_QPA_PLATFORMTHEME environment variable does not contain "
-                                "\"panda\". The system is not configured correctly."));
+                             tr("The QT_QPA_PLATFORMTHEME environment variable is not set to "
+                                "\"panda\" or \"kde\". The system is not configured correctly."));
     }
 
-    // Warn if XDG_SESSION_TYPE environment variable is missing or not set to "x11"
-    if (!QProcessEnvironment().systemEnvironment().contains("XDG_SESSION_TYPE")) {
-        QMessageBox::warning(nullptr, " ",
-                             tr("The XDG_SESSION_TYPE environment variable is missing. The system "
-                                "is not configured correctly."));
-    } else if (QProcessEnvironment().systemEnvironment().value("XDG_SESSION_TYPE") != "x11") {
+    // Warn if XDG_SESSION_TYPE environment variable is not set to "x11"
+    if (QProcessEnvironment().systemEnvironment().value("XDG_SESSION_TYPE") != "x11") {
         QMessageBox::warning(nullptr, " ",
                              tr("The XDG_SESSION_TYPE environment variable is not set to \"x11\". "
                                 "The system is not configured correctly."));
