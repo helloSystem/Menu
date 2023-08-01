@@ -55,7 +55,9 @@ Currently only works with `QT_QPA_PLATFORMTHEME=kde` and https://github.com/hell
 
 For this, it would probably need to support the __Unity protocol__?
 
-### Gtk applications (Inkscape, GIMP, Audacity work; Firefox, Thunderbird do not work yet)
+### Gtk applications (Inkscape, GIMP, Audacity work)
+
+Firefox, Thunderbird need special [patches](https://aur.archlinux.org/packages/firefox-appmenu?O=50) to enable the global menu functionality. The Firefox derivative [Pale Moon](https://www.palemoon.org/) has it built it, but it needs to be specifically [enabled](https://github.com/helloSystem/Utilities/issues/183#issuecomment-1656432129).
 
 Prerequisite: https://www.freshports.org/x11/gtk-app-menu/
 
