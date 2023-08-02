@@ -67,9 +67,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          curl -L -o continuous-release-manager-linux https://github.com/probonopd/continuous-release-manager/releases/download/continuous/continuous-release-manager-linux
-          chmod +x continuous-release-manager-linux
-          ./continuous-release-manager-linux
+              curl -L -o continuous-release-manager-linux https://github.com/probonopd/continuous-release-manager/releases/download/continuous/continuous-release-manager-linux
+              chmod +x continuous-release-manager-linux
+              ./continuous-release-manager-linux
+              RELEASE_ID=$(./continuous-release-manager-linux)
+              echo "RELEASE_ID=${RELEASE_ID}" >> $GITHUB_ENV
 
       - name: Upload to GitHub Release
         if: github.event_name == 'push'  # Only run for push events, not pull requests
@@ -77,9 +79,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          file: "./build/Menu_Ubuntu.zip"
+          file: "build/*zip"
           draft: false
           verbose: true
           branches: main
-          update_latest_release: true
           tag_name: continuous
+          release_id: ${{ env.RELEASE_ID }}
