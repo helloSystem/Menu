@@ -720,7 +720,7 @@ void AppMenuWidget::refreshTimer()
 
 void AppMenuWidget::focusMenu()
 {
-    QMouseEvent event(QEvent::MouseButtonPress, QPoint(0, 0), m_menuBar->mapToGlobal(QPoint(0, 0)),
+    QMouseEvent event(QEvent::MouseButtonPress, QPoint(20, 0), m_menuBar->mapToGlobal(QPoint(0, 0)),
                       Qt::LeftButton, 0, 0);
     QApplication::sendEvent(m_menuBar, &event);
     searchLineEdit->setFocus();
