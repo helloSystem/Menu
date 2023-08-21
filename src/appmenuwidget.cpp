@@ -61,6 +61,7 @@
 #include <kglobalaccel.h>
 #include <cmath>
 #include <QClipboard>
+#include <QUrl>
 
 #if defined(Q_OS_FREEBSD)
 #  include <magic.h>
@@ -1546,12 +1547,6 @@ void AppMenuWidget::openPath(QAction *action)
             || pathToBeLaunched.endsWith(".AppImage")) {
             p.setProgram("launch");
             p.startDetached();
-        } else if (QFileInfo(pathToBeLaunched).isDir()) {
-            QDBusInterface interface("org.freedesktop.FileManager1",
-                                     "/org/freedesktop/FileManager1",
-                                     "org.freedesktop.FileManager1");
-            interface.call(QDBus::NoBlock, "launchFiles", pathToBeLaunched,
-                           QStringList({ pathToBeLaunched }), false); // No URL here!
         } else {
             p.setProgram("open");
             p.startDetached();
