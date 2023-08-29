@@ -50,12 +50,14 @@ public:
     }
 };
 
+/*
 // Rebuild the system menu on SIGUSR1
 // https://github.com/helloSystem/Menu/issues/16
 void rebuildSystemMenuSignalHandler(int sig)
 {
     window->m_MainWidget->rebuildSystemMenu();
 }
+*/
 
 // probono: Using QtSingleApplication so that only one instance can run at any time,
 // launching it again just brings the running instance into focus
@@ -115,7 +117,7 @@ int main(int argc, char **argv)
     // instance.setActivationWindow(&w);
 
     // set up a signal for SIGUSR1
-    signal(SIGUSR1, rebuildSystemMenuSignalHandler);
+    // signal(SIGUSR1, rebuildSystemMenuSignalHandler);
     QTimer delayedSearchFocus;
     delayedSearchFocus.setSingleShot(true);
     delayedSearchFocus.setInterval(200);

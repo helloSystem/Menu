@@ -181,6 +181,8 @@ private:
     // int m_buttonsWidth;
 
     void keyPressEvent(QKeyEvent *event) override;
+
+    void populateSystemMenu(QWidget *parent);
 };
 
 class AboutDialog : public QDialog

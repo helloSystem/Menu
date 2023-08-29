@@ -97,9 +97,10 @@ MainWidget::MainWidget(QWidget *parent)
     m_layout = layout;
 }
 
+/*
 void MainWidget::rebuildSystemMenu()
 {
-    qDebug() << "SIGSUR1 recived, rebuild the system menu";
+    qDebug() << "SIGSUR1 received, rebuild the system menu";
 
     if (m_appMenuWidget) {
         m_layout->removeWidget(m_appMenuWidget);
@@ -109,6 +110,8 @@ void MainWidget::rebuildSystemMenu()
         m_layout->insertWidget(0, m_appMenuWidget);
     }
 }
+*/
+
 void MainWidget::triggerFocusMenu()
 {
     m_appMenuWidget->focusMenu();

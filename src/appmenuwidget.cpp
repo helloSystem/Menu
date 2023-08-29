@@ -303,7 +303,7 @@ void AppMenuWidget::addAppToMenu(QString candidate, QMenu *submenu)
         }
     } else if (file.fileName().endsWith(".desktop")) {
         // .desktop file
-        qDebug() << "# Found" << file.fileName();
+        // qDebug() << "# Found" << file.fileName();
         QFileInfo fi(file.fileName());
         QString base = fi.completeBaseName(); // baseName() gets it wrong e.g., when there are dots
                                               // in version numbers
@@ -344,9 +344,9 @@ void AppMenuWidget::addAppToMenu(QString candidate, QMenu *submenu)
                     for (QString pixmapsPath :
                          QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation)) {
                         QString iconCandFile = pixmapsPath + "/pixmaps/" + IconCand + iconSuffix;
-                        qDebug() << iconCandFile;
+                        // qDebug() << "iconCandFile" << iconCandFile;
                         if (QFileInfo::exists(iconCandFile)) {
-                            qDebug() << "Found!";
+                            // qDebug() << "Found icon" << iconCandFile;
                             action->setIcon(QIcon(iconCandFile));
                         }
                     }
@@ -447,16 +447,21 @@ void AppMenuWidget::findAppsInside(QStringList locationsContainingApps)
             // https://github.com/helloSystem/Menu/issues/15
             // probono: Watch this directory for changes and if we detect any, rebuild the menu
             if (!watchedLocations.contains(directory) && QFileInfo(directory).isDir()) {
-                qDebug() << "Start watching" << directory;
                 watchedLocations.append(directory);
-                // probono: Without the next two lines, we get crashes
-                // when we open a watched directory. Qt bug?
-                watcher->~QFileSystemWatcher(); // probono: This is a crash workaround
-                watcher = new QFileSystemWatcher(); // probono: This is a crash workaround
-                QStringList failedToWatch = watcher->addPaths(watchedLocations);
-                if (failedToWatch.length() > 0) {
-                    qDebug() << "failedToWatch! Now a crash is imminent?";
-                    qDebug() << "failedToWatch:" << failedToWatch;
+                if (watcher->addPath(directory) == false) {
+                    qDebug() << "Failed to watch" << directory;
+                    qDebug() << "Now a crash is imminent?";
+                } else {
+                    qDebug() << "Now watching" << directory;
+                }
+            } else if (!watchedLocations.contains(directory) && !QFileInfo(directory).exists()) {
+                qDebug() << "Directory" << directory << "does not exist anymore";
+                watchedLocations.removeAll(directory);
+                if (watcher->removePath(directory) == false) {
+                    qDebug() << "Failed to unwatch" << directory;
+                    qDebug() << "Now a crash is imminent?";
+                } else {
+                    qDebug() << "No longer watching" << directory;
                 }
             }
 
@@ -577,9 +582,9 @@ AppMenuWidget::AppMenuWidget(QWidget *parent)
     });
 
     setFocusPolicy(Qt::NoFocus);
-    // Prepare System menu
+
     m_systemMenu = new SystemMenu(this); // Using our SystemMenu subclass instead of a QMenu to be
-                                         // able to toggle "About..." when modifier key is pressed
+    // able to toggle "About..." when modifier key is pressed
     m_systemMenu->setTitle(tr("System"));
     QWidgetAction *widgetAction = new QWidgetAction(this);
     widgetAction->setDefaultWidget(searchLineEdit);
@@ -596,6 +601,59 @@ AppMenuWidget::AppMenuWidget(QWidget *parent)
 
     m_systemMenu->setToolTipsVisible(true); // Works; shows the full path
 
+    // Populate the contents of the search menu
+    populateSystemMenu(parent);
+
+    // Add main menu
+    m_menuBar = new QMenuBar(this);
+    m_menuBar->setContentsMargins(0, 0, 0, 0);
+
+    integrateSystemMenu(m_menuBar); // Add System menu to main menu
+    layout->addWidget(m_menuBar, 0, Qt::AlignLeft);
+    layout->insertStretch(2); // Stretch after the main menu, which is the 2nd item in the layout
+
+    m_appMenuModel = new AppMenuModel(m_menuBar);
+
+    connect(m_appMenuModel, &AppMenuModel::menuAboutToBeImported, this,
+            &AppMenuWidget::menuAboutToBeImported);
+    connect(m_appMenuModel, &AppMenuModel::menuImported, this,
+            [this, traverse](QString serviceName) {
+                m_wasVisible.clear();
+                if (m_appMenuModel->menuAvailable()) {
+
+                    QTimer::singleShot(100, this, [this, traverse] {
+                        iterate(QModelIndex(), m_appMenuModel, traverse);
+                    });
+                }
+                m_appMenuModel->m_pending_service[serviceName] = false;
+            });
+    connect(m_appMenuModel, &AppMenuModel::menuAvailableChanged, this, &AppMenuWidget::updateMenu);
+
+    connect(KWindowSystem::self(), &KWindowSystem::activeWindowChanged, this,
+            &AppMenuWidget::delayUpdateActiveWindow);
+    connect(KWindowSystem::self(),
+            static_cast<void (KWindowSystem::*)(WId, NET::Properties, NET::Properties2)>(
+                    &KWindowSystem::windowChanged),
+            this, &AppMenuWidget::onWindowChanged);
+
+    // Load action search
+    actionCompleter = nullptr;
+    MenuImporter *menuImporter = new MenuImporter(this);
+    menuImporter->connectToBus();
+}
+
+void AppMenuWidget::populateSystemMenu(QWidget *parent) {
+
+    qDebug() << "populateSystemMenu";
+
+    // Empty the menu
+    if (m_systemMenu->actions().size() > 1) {
+        QList<QAction *> actions = m_systemMenu->actions();
+        for (int i = 1; i < actions.size(); i++) {
+            m_systemMenu->removeAction(actions.at(i));
+        }
+    }
+
     // If we were using a QMenu, we would do:
     // QAction *aboutAction = m_systemMenu->addAction(tr("About This Computer"));
     // connect(aboutAction, SIGNAL(triggered()), this, SLOT(actionAbout()));
@@ -608,11 +666,11 @@ AppMenuWidget::AppMenuWidget(QWidget *parent)
     // Search menu item, so that we have a place to show the shortcut in the menu (discoverability!)
     QAction *searchAction = m_systemMenu->addAction(tr("Search"));
     searchAction->setObjectName("Search"); // Needed for KGlobalAccel global shortcut; becomes
-                                           // visible in kglobalshortcutsrc
+    // visible in kglobalshortcutsrc
     KGlobalAccel::self()->setShortcut(
             searchAction, { QKeySequence("Ctrl+Space") },
             KGlobalAccel::NoAutoloading); // Set global shortcut; this also becomes editable in
-                                          // kglobalshortcutsrc
+    // kglobalshortcutsrc
     connect(searchAction, &QAction::triggered, this, [searchAction, parent, this]() {
         qobject_cast<MainWidget *>(parent)->triggerFocusMenu();
         emit menuAboutToBeImported(); // Stop showing application name upon Command+Space; this gets
@@ -666,42 +724,6 @@ AppMenuWidget::AppMenuWidget(QWidget *parent)
     connect(logoutAction, SIGNAL(triggered()), this, SLOT(actionLogout()));
     QAction *shutdownAction = m_systemMenu->addAction(tr("Shut Down"));
     connect(shutdownAction, SIGNAL(triggered()), this, SLOT(actionLogout()));
-    // Add main menu
-    m_menuBar = new QMenuBar(this);
-    m_menuBar->setContentsMargins(0, 0, 0, 0);
-
-    integrateSystemMenu(m_menuBar); // Add System menu to main menu
-    layout->addWidget(m_menuBar, 0, Qt::AlignLeft);
-    layout->insertStretch(2); // Stretch after the main menu, which is the 2nd item in the layout
-
-    m_appMenuModel = new AppMenuModel(m_menuBar);
-
-    connect(m_appMenuModel, &AppMenuModel::menuAboutToBeImported, this,
-            &AppMenuWidget::menuAboutToBeImported);
-    connect(m_appMenuModel, &AppMenuModel::menuImported, this,
-            [this, traverse](QString serviceName) {
-                m_wasVisible.clear();
-                if (m_appMenuModel->menuAvailable()) {
-
-                    QTimer::singleShot(100, this, [this, traverse] {
-                        iterate(QModelIndex(), m_appMenuModel, traverse);
-                    });
-                }
-                m_appMenuModel->m_pending_service[serviceName] = false;
-            });
-    connect(m_appMenuModel, &AppMenuModel::menuAvailableChanged, this, &AppMenuWidget::updateMenu);
-
-    connect(KWindowSystem::self(), &KWindowSystem::activeWindowChanged, this,
-            &AppMenuWidget::delayUpdateActiveWindow);
-    connect(KWindowSystem::self(),
-            static_cast<void (KWindowSystem::*)(WId, NET::Properties, NET::Properties2)>(
-                    &KWindowSystem::windowChanged),
-            this, &AppMenuWidget::onWindowChanged);
-
-    // Load action search
-    actionCompleter = nullptr;
-    MenuImporter *menuImporter = new MenuImporter(this);
-    menuImporter->connectToBus();
 }
 
 void AppMenuWidget::searchEditingDone()
@@ -1258,7 +1280,11 @@ void AppMenuWidget::searchMenu()
 void AppMenuWidget::rebuildMenu()
 {
     qDebug() << "AppMenuWidget::rebuildMenu() called";
-    qobject_cast<MainWidget *>(parent())->rebuildSystemMenu();
+    // qobject_cast<MainWidget *>(parent())->rebuildSystemMenu();
+
+    populateSystemMenu(parentWidget());
+
+
 }
 
 void AppMenuWidget::updateMenu()
