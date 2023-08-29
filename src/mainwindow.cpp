@@ -61,7 +61,7 @@ MainWindow::MainWindow(QWidget *parent)
     // TODO: Instead of having applicationStartingLabel here, we might want to make it a part of
     // m_MainWidget to allow for it to be animated from the center to the side and morph into a menu
     // with an animation...
-    applicationStartingLabel->setStyleSheet("align: center; font-weight: bold;");
+    applicationStartingLabel->setStyleSheet("font-weight: bold;");
     layout->setContentsMargins(0, 0, 0, 0);
     layout->addWidget(applicationStartingLabel, 0, Qt::AlignCenter);
 

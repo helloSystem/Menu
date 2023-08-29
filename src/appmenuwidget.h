@@ -92,7 +92,7 @@ public:
     void updateMenu();
     void toggleMaximizeWindow();
     QMenuBar *m_menuBar;
-    QFileSystemWatcher *watcher;
+
     void focusMenu();
 signals:
     void menuAboutToBeImported();
@@ -150,6 +150,7 @@ private:
     void addAppToMenu(QString candidate, QMenu *submenu);
 
 private:
+    QFileSystemWatcher *watcher;
     QWidget *searchLineWidget;
     SearchLineEdit *searchLineEdit;
     QCompleter *actionCompleter;

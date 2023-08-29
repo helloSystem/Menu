@@ -153,56 +153,58 @@ public:
     {
         // qDebug() << "probono: e->type()" << e->type();
         switch (e->type()) {
-        case QEvent::WindowActivate: {
-            // Whenever this window becomes active, then set the focus on the search box
-            if (reinterpret_cast<QLineEdit *>(parent())->hasFocus() == false) {
-                reinterpret_cast<QLineEdit *>(parent())->setFocus();
+            case QEvent::WindowActivate: {
+                // Whenever this window becomes active, then set the focus on the search box
+                if (reinterpret_cast<QLineEdit *>(parent())->hasFocus() == false) {
+                    reinterpret_cast<QLineEdit *>(parent())->setFocus();
+                }
+                break;
             }
-            break;
-        }
-        case QEvent::KeyPress: {
-            QKeyEvent *keyEvent = static_cast<QKeyEvent *>(e);
-            // qDebug() << "probono: keyEvent->key()" << keyEvent->key();
-            if (keyEvent->key() == Qt::Key_Escape) {
-                // When esc key is pressed while cursor is in QLineEdit, empty the QLineEdit
-                // https://stackoverflow.com/a/38066410
+            case QEvent::KeyPress: {
+                QKeyEvent *keyEvent = static_cast<QKeyEvent *>(e);
+                // qDebug() << "probono: keyEvent->key()" << keyEvent->key();
+                if (keyEvent->key() == Qt::Key_Escape) {
+                    // When esc key is pressed while cursor is in QLineEdit, empty the QLineEdit
+                    // https://stackoverflow.com/a/38066410
+                    reinterpret_cast<QLineEdit *>(parent())->clear();
+                    reinterpret_cast<QLineEdit *>(parent())->setText("");
+                }
+                if (keyEvent->key() == (Qt::Key_Tab | Qt::Key_Alt)) {
+                    // When esc Tab is pressed while cursor is in QLineEdit, also empty the QLineEdit
+                    // and prevent the focus from going elsewhere in the menu. This effectively prevents
+                    // the menu from being operated by cursor keys. If we want that functionality back,
+                    // we might remove the handling of Qt::Key_Tab but instead we would have to ensure
+                    // that we put the focus back on the search box whenever this application is
+                    // launched (again) and re-invoked by QSingleApplication
+                    reinterpret_cast<QLineEdit *>(parent())->clear();
+                    reinterpret_cast<QLineEdit *>(parent())->setText("");
+                }
+                break;
+            }
+            case QEvent::FocusOut: // QEvent::FocusOut:
+            {
+                // When the focus goes not of the QLineEdit, empty the QLineEdit and restore the
+                // placeholder text reinterpret_cast<QLineEdit
+                // *>(parent())->setPlaceholderText("Alt+Space"); reinterpret_cast<QLineEdit
+                // *>(parent())->setPlaceholderText(tr("Search")); Note that we write Alt-Space here but
+                // in fact this is not a feature of this application but is a feature of
+                // lxqt-config-globalkeyshortcuts in our case, where we set up a shortcut that simply
+                // launches this application (again). Since we are using
+                // searchLineEdit->setStyleSheet("background: white"); // Do this in stylesheet.qss
+                // instead reinterpret_cast<QLineEdit
+                // *>(parent())->setAlignment(Qt::AlignmentFlag::AlignRight);
                 reinterpret_cast<QLineEdit *>(parent())->clear();
                 reinterpret_cast<QLineEdit *>(parent())->setText("");
+                break;
             }
-            if (keyEvent->key() == (Qt::Key_Tab | Qt::Key_Alt)) {
-                // When esc Tab is pressed while cursor is in QLineEdit, also empty the QLineEdit
-                // and prevent the focus from going elsewhere in the menu. This effectively prevents
-                // the menu from being operated by cursor keys. If we want that functionality back,
-                // we might remove the handling of Qt::Key_Tab but instead we would have to ensure
-                // that we put the focus back on the search box whenever this application is
-                // launched (again) and re-invoked by QSingleApplication
-                reinterpret_cast<QLineEdit *>(parent())->clear();
-                reinterpret_cast<QLineEdit *>(parent())->setText("");
+            case QEvent::FocusIn: {
+                // When the focus goes into the QLineEdit, empty the QLineEdit
+                // reinterpret_cast<QLineEdit *>(parent())->setPlaceholderText("");
+                // reinterpret_cast<QLineEdit *>(parent())->setAlignment(Qt::AlignmentFlag::AlignLeft);
+                break;
             }
-            break;
-        }
-        case QEvent::FocusOut: // QEvent::FocusOut:
-        {
-            // When the focus goes not of the QLineEdit, empty the QLineEdit and restore the
-            // placeholder text reinterpret_cast<QLineEdit
-            // *>(parent())->setPlaceholderText("Alt+Space"); reinterpret_cast<QLineEdit
-            // *>(parent())->setPlaceholderText(tr("Search")); Note that we write Alt-Space here but
-            // in fact this is not a feature of this application but is a feature of
-            // lxqt-config-globalkeyshortcuts in our case, where we set up a shortcut that simply
-            // launches this application (again). Since we are using
-            // searchLineEdit->setStyleSheet("background: white"); // Do this in stylesheet.qss
-            // instead reinterpret_cast<QLineEdit
-            // *>(parent())->setAlignment(Qt::AlignmentFlag::AlignRight);
-            reinterpret_cast<QLineEdit *>(parent())->clear();
-            reinterpret_cast<QLineEdit *>(parent())->setText("");
-            break;
-        }
-        case QEvent::FocusIn: {
-            // When the focus goes into the QLineEdit, empty the QLineEdit
-            // reinterpret_cast<QLineEdit *>(parent())->setPlaceholderText("");
-            // reinterpret_cast<QLineEdit *>(parent())->setAlignment(Qt::AlignmentFlag::AlignLeft);
-            break;
-        }
+        default:
+            return QObject::eventFilter(obj, e);
         }
         return QObject::eventFilter(obj, e);
     }
