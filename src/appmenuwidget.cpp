@@ -1717,11 +1717,16 @@ bool AppMenuWidget::eventFilter(QObject *watched, QEvent *event)
             qDebug() << "Submenu clicked:" << submenu->property("path").toString();
             this->m_systemMenu->close(); // Could instead figure out the top-level menu iterating
                                          // through submenu->parent();
-            QString pathToBeLaunched = submenu->property("path").toString();
-            if (QFile::exists(pathToBeLaunched)) {
-                QProcess::startDetached("open", { pathToBeLaunched });
+            QString pathToBeOpened = submenu->property("path").toString();
+            if (QFile::exists(pathToBeOpened)) {
+                // Via D-Bus ask the file manager to open the window for the path
+                QString url = QUrl::fromLocalFile(pathToBeOpened).toString();
+                QStringList urls = QStringList() << url;
+                QDBusInterface interface("org.freedesktop.FileManager1", "/org/freedesktop/FileManager1",
+                                         "org.freedesktop.FileManager1");
+                interface.call(QDBus::NoBlock, "ShowFolders", urls, "");
             } else {
-                qDebug() << pathToBeLaunched << "does not exist";
+                qDebug() << pathToBeOpened << "does not exist";
             }
         }
     }
