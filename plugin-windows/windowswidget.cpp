@@ -150,10 +150,10 @@ void WindowsWidget::updateWindows()
     QAction *showAllAction = m_menu->addAction(tr("Show All"));
     showAllAction->setObjectName("Show All"); // Needed for KGlobalAccel global shortcut; becomes
                                               // visible in kglobalshortcutsrc
-    KGlobalAccel::self()->setShortcut(
-            showAllAction, { QKeySequence("Shift+Ctrl+H") },
-            KGlobalAccel::Autoloading); // Set global shortcut; this also becomes editable in
-                                        // kglobalshortcutsrc
+    // This would override the shortcut for "Home" in Filer
+    // KGlobalAccel::self()->setShortcut(
+    //         showAllAction, { QKeySequence("Shift+Ctrl+H") },
+    //         KGlobalAccel::Autoloading); // Set global shortcut; this also becomes editable in kglobalshortcutsrc
     connect(showAllAction, &QAction::triggered, this, [showAllAction, id, this]() {
         const QList<WId> winIds = KWindowSystem::windows();
         for (WId cand_id : winIds) {
