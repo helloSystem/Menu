@@ -654,11 +654,16 @@ void AppMenuWidget::populateSystemMenu(QWidget *parent) {
         }
     }
 
+
+
     // If we were using a QMenu, we would do:
     // QAction *aboutAction = m_systemMenu->addAction(tr("About This Computer"));
     // connect(aboutAction, SIGNAL(triggered()), this, SLOT(actionAbout()));
     // Since we are using our SystemMenu subclass instead which already contains the first menu
     // item, we do:
+    // Remove existing connection from m_systemMenu->actions().constFirst(),
+    m_systemMenu->actions().constFirst()->disconnect();
+    // and connect it to our new slot
     connect(m_systemMenu->actions().constFirst(), SIGNAL(triggered()), this, SLOT(actionAbout()));
 
     m_systemMenu->addSeparator();
