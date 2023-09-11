@@ -66,22 +66,22 @@
     <message>
         <location filename="../appmenuwidget.cpp" line="1263"/>
         <source>File</source>
-        <translation type="unfinished"></translation>
+        <translation>Soubor</translation>
     </message>
     <message>
         <location filename="../appmenuwidget.cpp" line="1264"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Zavřít</translation>
     </message>
     <message>
         <location filename="../appmenuwidget.cpp" line="1277"/>
         <source>Quit</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukončit</translation>
     </message>
     <message>
         <location filename="../appmenuwidget.cpp" line="1292"/>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Editovat</translation>
     </message>
     <message>
         <location filename="../appmenuwidget.cpp" line="1293"/>
@@ -96,12 +96,12 @@
     <message>
         <location filename="../appmenuwidget.cpp" line="1327"/>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopírovat</translation>
     </message>
     <message>
         <location filename="../appmenuwidget.cpp" line="1332"/>
         <source>Paste</source>
-        <translation type="unfinished"></translation>
+        <translation>Vložit</translation>
     </message>
 </context>
 <context>
