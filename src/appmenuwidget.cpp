@@ -961,9 +961,41 @@ void AppMenuWidget::searchMenu()
                 p.setProgram("launch");
                 QString path = res->property("path").toString();
                 QStringList arguments = QProcess::splitCommand(path);
-                arguments.prepend("-e");
-                arguments.prepend("QTerminal"); // FIXME: Would be nice to keep it open;
-                                                // https://github.com/lxqt/qterminal/issues/1030
+                bool isGraphical = false;
+                // With ldd, check whether the first argument is a graphical application
+                if (arguments.size() > 0) {
+                    QProcess ldd;
+                    ldd.setProcessChannelMode(QProcess::MergedChannels);
+                    ldd.setProgram("ldd");
+                    // Find arguments.first() on the $PATH
+                    QString pathEnv = getenv("PATH");
+                    QStringList directories = pathEnv.split(":");
+                    bool found = false;
+                    for (const QString &directory : directories) {
+                        QFile file(directory + "/" + arguments.first());
+                        if (file.exists() && (file.permissions() & QFileDevice::ExeUser)) {
+                            found = true;
+                            arguments[0] = file.fileName();
+                            break;
+                        }
+                    }
+                    ldd.setArguments({arguments.first()});
+                    ldd.start();
+                    ldd.waitForFinished();
+                    QString lddOutput = ldd.readAllStandardOutput();
+                    if (lddOutput.contains("libxcb.so.1") || lddOutput.contains("libfontconfig.so.1")) {
+                        qDebug() << "Graphical application";
+                        isGraphical = true;
+                    } else {
+                        qDebug() << "Not a graphical application";
+                    }
+                }
+                // If it is not a graphical application, then run it in a terminal
+                if (!isGraphical) {
+                    arguments.prepend("-e");
+                    arguments.prepend("QTerminal"); // FIXME: Would be nice to keep it open;
+                    // https://github.com/lxqt/qterminal/issues/1030
+                }
                 qDebug() << "Executing:" << p.program(), p.arguments();
                 p.setArguments(arguments);
                 p.startDetached();
