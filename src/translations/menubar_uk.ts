@@ -6,7 +6,7 @@
     <message>
         <location filename="../appmenuwidget.cpp" line="1724"/>
         <source>About helloDesktop</source>
-        <translation>Про helloDesktop</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../appmenuwidget.cpp" line="1737"/>
@@ -16,7 +16,7 @@
     <message>
         <location filename="../appmenuwidget.cpp" line="1846"/>
         <source>Unknown</source>
-        <translation>Невідомо</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -41,12 +41,12 @@
     <message>
         <location filename="../appmenuwidget.cpp" line="578"/>
         <source>System</source>
-        <translation>Система</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../appmenuwidget.cpp" line="636"/>
         <source>Force Quit Application</source>
-        <translation>Примусово завершити додаток</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../appmenuwidget.cpp" line="658"/>
@@ -66,42 +66,42 @@
     <message>
         <location filename="../appmenuwidget.cpp" line="1263"/>
         <source>File</source>
-        <translation>Файл</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../appmenuwidget.cpp" line="1264"/>
         <source>Close</source>
-        <translation>Закрити</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../appmenuwidget.cpp" line="1277"/>
         <source>Quit</source>
-        <translation>Вийти</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../appmenuwidget.cpp" line="1292"/>
         <source>Edit</source>
-        <translation>Редагувати</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../appmenuwidget.cpp" line="1293"/>
         <source>Undo</source>
-        <translation>Відмінити</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../appmenuwidget.cpp" line="1322"/>
         <source>Cut</source>
-        <translation>Вирізати</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../appmenuwidget.cpp" line="1327"/>
         <source>Copy</source>
-        <translation>Копіювати</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../appmenuwidget.cpp" line="1332"/>
         <source>Paste</source>
-        <translation>Вставити</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -213,7 +213,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="180"/>
         <source>The QT_QPA_PLATFORMTHEME environment variable is missing. The system is not configured correctly.</source>
-        <translation>Змінна середовища QT_QPA_PLATFORMTHEME відсутня. Система налаштована неправильно.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="187"/>
@@ -233,12 +233,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="218"/>
         <source>Your disk &apos;%1&apos; is almost full. %2 percent left.</source>
-        <translation>Ваш диск &apos;%1&apos; майже заповнений. Залишилось %2 відсотків.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="319"/>
         <source>Screen resolution is below the minimum system requirement of 640x480 pixels.</source>
-        <translation>Роздільна здатність екрана нижча за мінімальну системну вимогу 640x480 пікселів.</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -259,7 +259,7 @@
     <message>
         <location filename="../appmenuwidget.cpp" line="119"/>
         <source>About helloDesktop</source>
-        <translation>Про helloDesktop</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -267,17 +267,17 @@
     <message>
         <location filename="../../plugin-windows/windowswidget.cpp" line="23"/>
         <source>Windows</source>
-        <translation>Вікна</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../plugin-windows/windowswidget.cpp" line="112"/>
         <source>Hide %1</source>
-        <translation>Приховати %1</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../plugin-windows/windowswidget.cpp" line="135"/>
         <source>Hide Others</source>
-        <translation>Приховати інші</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../plugin-windows/windowswidget.cpp" line="150"/>
@@ -293,32 +293,32 @@
         <location filename="../../plugin-windows/windowswidget.cpp" line="239"/>
         <location filename="../../plugin-windows/windowswidget.cpp" line="288"/>
         <source>Desktop</source>
-        <translation>Стільниця</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../plugin-windows/windowswidget.cpp" line="322"/>
         <source>Zoom In</source>
-        <translation>Збільшити</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../plugin-windows/windowswidget.cpp" line="337"/>
         <source>Zoom Out</source>
-        <translation type="unfinished">Зменшити</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../plugin-windows/windowswidget.cpp" line="371"/>
         <source>Increase Screen Brightness</source>
-        <translation>Збільшити яскравість екрану</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../plugin-windows/windowswidget.cpp" line="390"/>
         <source>Decrease Screen Brightness</source>
-        <translation>Зменшити яскравість екрану</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../plugin-windows/windowswidget.cpp" line="412"/>
         <source>Full Screen</source>
-        <translation>Повноекранний режим</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>
