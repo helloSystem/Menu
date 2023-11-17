@@ -14,7 +14,7 @@ void ignoreUnixSignals(std::initializer_list<int> ignoreSignals) {
 
 void catchUnixSignals(std::initializer_list<int> quitSignals) {
     auto handler = [](int sig) -> void {
-        // blocking and not aysnc-signal-safe func are valid
+        // blocking and not async-signal-safe func are valid
         printf("\nquit the application by signal(%d).\n", sig);
         QCoreApplication::quit();
     };
