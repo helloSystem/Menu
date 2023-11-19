@@ -23,7 +23,7 @@
 #include <QObject>
 #include <QMap>
 #include "extensionwidget.h"
-#include "../interfaces/pluginsiterface.h"
+#include "../interfaces/pluginsinterface.h"
 
 class PluginManager : public QObject
 {

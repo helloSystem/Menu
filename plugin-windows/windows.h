@@ -1,7 +1,7 @@
 #ifndef WINDOWS_H
 #define WINDOWS_H
 
-#include "pluginsiterface.h"
+#include "pluginsinterface.h"
 #include "windowswidget.h"
 #include <QObject>
 

@@ -1,7 +1,7 @@
 #ifndef DATETIME_H
 #define DATETIME_H
 
-#include "pluginsiterface.h"
+#include "pluginsinterface.h"
 #include "datetimewidget.h"
 #include <QObject>
 

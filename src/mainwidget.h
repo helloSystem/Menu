@@ -22,7 +22,7 @@
 
 #include <QWidget>
 #include <QHBoxLayout>
-#include "../interfaces/pluginsiterface.h"
+#include "../interfaces/pluginsinterface.h"
 #include "pluginmanager.h"
 #include "appmenuwidget.h"
 
