@@ -1748,7 +1748,7 @@ bool AppMenuWidget::eventFilter(QObject *watched, QEvent *event)
         QMenu *submenu = qobject_cast<QMenu *>(
                 watched); // Workaround for: no member named 'toolTip' in 'QObject'
         if (!submenu->rect().contains(
-                    mouseEvent->pos())) { // Prevent the Menu action from getting triggred when user
+                    mouseEvent->pos())) { // Prevent the Menu action from getting triggered when user
                                           // click on actions in submenu
             // Gets executed when the submenu is clicked
             qDebug() << "Submenu clicked:" << submenu->property("path").toString();
