@@ -1043,7 +1043,7 @@ void AppMenuWidget::searchMenu()
         return; // Don't show any other results in this case
     }
 
-    std::function<int(QModelIndex idx, int depth)> setResultVisbileMbar = [this, searchString](
+    std::function<int(QModelIndex idx, int depth)> setResultVisibleMbar = [this, searchString](
                                                                                   QModelIndex idx,
                                                                                   int depth) {
         QAction *action = idx.data().value<QAction *>();
@@ -1125,7 +1125,7 @@ void AppMenuWidget::searchMenu()
     searchResults << m_searchMenu->addSeparator(); // The items in searchResults get removed when
                                                    // search results change
 
-    iterate(QModelIndex(), m_appMenuModel, setResultVisbileMbar);
+    iterate(QModelIndex(), m_appMenuModel, setResultVisibleMbar);
     m_isSearching = false;
 
     searchResults << m_searchMenu->addSeparator(); // The items in searchResults get removed when
