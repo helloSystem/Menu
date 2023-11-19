@@ -460,7 +460,7 @@ void AppMenuModel::onActiveWindowChanged(WId id)
 
         if (info.hasState(NET::SkipTaskbar) || info.windowType(NET::UtilityMask) == NET::Utility) {
 
-            //! hide when the windows or their transiet(s) do not have a menu
+            //! hide when the windows or their transient(s) do not have a menu
             if (filterByActive()) {
 
                 KWindowInfo transientInfo = KWindowInfo(
@@ -558,7 +558,7 @@ void AppMenuModel::filterWindow(KWindowInfo &info)
 {
     if (m_currentWindowId == info.win()) {
         //! HACK: if the user has enabled screen scaling under X11 environment
-        //! then the window and screen geometries can not be trusted for comparison
+        //! then the window and screen geometries cannot be trusted for comparison
         //! before windows coordinates be adjusted properly.
         //! BUG: 404500
         QPoint windowCenter = info.geometry().center();

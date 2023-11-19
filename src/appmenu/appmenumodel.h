@@ -97,7 +97,7 @@ public:
     QMenu *createMenu(QWidget *parent) override
     {
         HMenu *menu = new HMenu(parent);
-        // Make some workarounds for focus loss which  calls closeAllPoupus();
+        // Make some workarounds for focus loss which  calls closeAllPopups();
         if (parent && qobject_cast<QMenuBar *>(parent->parent())) {
             connect(menu, &QMenu::aboutToShow, this, [this] {
                 recent = qobject_cast<HMenu *>(sender());
@@ -114,7 +114,7 @@ public:
                 std::chrono::duration<double, std::milli> dur =
                         std::chrono::high_resolution_clock::now() - reshow->lastOpened;
 
-                if (dur.count() < 350) // start reshow timer on fastly reclosed menus
+                if (dur.count() < 350) // start reshow timer on quickly reclosed menus
                     m_reshowTimer->start();
             });
         }
@@ -346,7 +346,7 @@ private Q_SLOTS:
 
     //! there are apps that are not releasing their menu properly after closing
     //! and as such their menu is still shown even though the app does not exist
-    //! any more. Such apps are Java based e.g. smartgit
+    //! anymore. Such apps are Java based e.g. smartgit
     void onWindowRemoved(WId id);
 
     void filterWindow(KWindowInfo &info);

@@ -68,7 +68,7 @@ void WindowsWidget::updateWindows()
 // we could keep some internal state and change just what needs to be changed;
 // but writing the code for this would be significantly more complex
 // and error-prone; so let's see whether we can get away with this.
-// Looks like preformance is good since we use X11 atoms to store the kind of
+// Looks like performance is good since we use X11 atoms to store the kind of
 // information we need directly on the windows themselves, so that we don't have
 // to re-compute it each time windows are switched.
 
@@ -182,7 +182,7 @@ void WindowsWidget::updateWindows()
 
     m_menu->addSeparator();
 
-    // Add one menu item for each appliction
+    // Add one menu item for each application
 
     for (WId id : distinctApps) {
 
@@ -265,7 +265,7 @@ void WindowsWidget::updateWindows()
         } else {
             // If there are multiple windows for the same PID, then add a submenu (a QMenu with
             // QActions) So don't add an action here, but a submenu which contains all windows that
-            // beloong to that PID
+            // belong to that PID
             QMenu *subMenu = m_menu->addMenu(niceName);
             subMenu->setToolTipsVisible(true);
 

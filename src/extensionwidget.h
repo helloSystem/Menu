@@ -24,7 +24,7 @@
 #include <QTimer>
 #include "blurwindow.h"
 #include "popupwindow.h"
-#include "../interfaces/pluginsiterface.h"
+#include "../interfaces/pluginsinterface.h"
 
 class ExtensionWidget : public QWidget
 {

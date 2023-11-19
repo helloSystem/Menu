@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.0)
 
 project(Menu)
 
-# Disable depreciation warnings
+# Disable deprecation warnings
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated-declarations")
 
 set(CMAKE_INSTALL_PREFIX "/System/Menu.app")

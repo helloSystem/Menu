@@ -358,7 +358,7 @@ void AppMenuWidget::addAppToMenu(QString candidate, QMenu *submenu)
             action->setToolTip(file.absoluteFilePath());
             action->setProperty("path", file.absoluteFilePath());
             // action->setDisabled(true); // As a reminder that we consider those legacy and
-            // encourage people to swtich
+            // encourage people to switch
         }
 
     } else if (file.fileName().endsWith(".AppImage") || file.fileName().endsWith(".appimage")) {
@@ -476,7 +476,7 @@ void AppMenuWidget::findAppsInside(QStringList locationsContainingApps)
             continue;
         }
 
-        // Use QDir::entryList() insted of QDirIterator because it supports sorting
+        // Use QDir::entryList() instead of QDirIterator because it supports sorting
         QStringList candidates = dir.entryList();
         QString candidate;
         foreach (candidate, candidates) {
@@ -735,9 +735,9 @@ void AppMenuWidget::searchEditingDone()
 {
     if (m_searchMenu && m_searchMenu->actions().count() > 1) {
         searchLineEdit->clearFocus();
-        for (QAction *findActivateeCanidcate : m_searchMenu->actions())
-            if (!findActivateeCanidcate->isSeparator()) {
-                m_searchMenu->setActiveAction(findActivateeCanidcate);
+        for (QAction *findCandidateAction : m_searchMenu->actions())
+            if (!findCandidateAction->isSeparator()) {
+                m_searchMenu->setActiveAction(findCandidateAction);
                 break;
             }
     }
@@ -798,7 +798,7 @@ void AppMenuWidget::updateActionSearch()
     // TODO: https://stackoverflow.com/a/33790639
     // We could customize more aspects of the list view of the completer by
     //setting the CompletionMode to InlineCompletion, so there will be no popup.
-    // Then make your QListView indepedant of the QLineEdit;
+    // Then make your QListView independent of the QLineEdit;
     // just react to signals that indicate when a view types some text,...
 
     KWindowSystem::setType(actionCompleter->popup()->winId(), NET::DropdownMenu);
@@ -874,7 +874,7 @@ void AppMenuWidget::searchMenu()
         qDebug() << result;
         return;
     }
-    // Only initialize fscompleter if searhcstring hints a path;
+    // Only initialize fscompleter if searchstring hints a path;
     if (searchString.startsWith("/") || searchString == "~") {
 
         if (searchString == "~") {
@@ -1043,7 +1043,7 @@ void AppMenuWidget::searchMenu()
         return; // Don't show any other results in this case
     }
 
-    std::function<int(QModelIndex idx, int depth)> setResultVisbileMbar = [this, searchString](
+    std::function<int(QModelIndex idx, int depth)> setResultVisibleMbar = [this, searchString](
                                                                                   QModelIndex idx,
                                                                                   int depth) {
         QAction *action = idx.data().value<QAction *>();
@@ -1125,7 +1125,7 @@ void AppMenuWidget::searchMenu()
     searchResults << m_searchMenu->addSeparator(); // The items in searchResults get removed when
                                                    // search results change
 
-    iterate(QModelIndex(), m_appMenuModel, setResultVisbileMbar);
+    iterate(QModelIndex(), m_appMenuModel, setResultVisibleMbar);
     m_isSearching = false;
 
     searchResults << m_searchMenu->addSeparator(); // The items in searchResults get removed when
@@ -1298,7 +1298,7 @@ void AppMenuWidget::searchMenu()
             number_of_enabled_actions++;
     }
     qDebug() << "probono: number_of_enabled_actions" << number_of_enabled_actions;
-    // QUESITON: Unclear whether it is 2 or 3, depending on whether one menu action or one Baloo
+    // QUESTION: Unclear whether it is 2 or 3, depending on whether one menu action or one Baloo
     // search result is there...
     if (number_of_enabled_actions == 2
         || (number_of_enabled_actions == 3 && m_appMenuModel->filteredActions().count() == 1)) {
@@ -1442,7 +1442,7 @@ void AppMenuWidget::toggleMaximizeWindow()
     if (isMax) {
         restoreWindow();
     } else {
-        maxmizeWindow();
+        maximizeWindow();
     }
 }
 
@@ -1548,7 +1548,7 @@ void AppMenuWidget::closeWindow()
             .closeWindowRequest(KWindowSystem::activeWindow());
 }
 
-void AppMenuWidget::maxmizeWindow()
+void AppMenuWidget::maximizeWindow()
 {
     KWindowSystem::setState(KWindowSystem::activeWindow(), NET::Max);
 }
@@ -1654,7 +1654,7 @@ void AppMenuWidget::actionMinimizeAll()
              << "0x" + QString::number(KWindowSystem::activeWindow(), 16);
     // NOTE: This always prints the window ID of the menu itself, rather than the one of the
     // otherwise frontmost application window Hence we would need to store a variable somewhere that
-    // contains the window ID of the last non-menu window... or is there a btter way?
+    // contains the window ID of the last non-menu window... or is there a better way?
     const auto &windows = KWindowSystem::windows();
     for (WId wid : windows) {
         KWindowSystem::minimizeWindow(wid);
@@ -1669,7 +1669,7 @@ void AppMenuWidget::actionMaximizeAll()
              << "0x" + QString::number(KWindowSystem::activeWindow(), 16);
     // NOTE: This always prints the window ID of the menu itself, rather than the one of the
     // otherwise frontmost application window Hence we would need to store a variable somewhere that
-    // contains the window ID of the last non-menu window... or is there a btter way?
+    // contains the window ID of the last non-menu window... or is there a better way?
     const auto &windows = KWindowSystem::windows();
     for (WId wid : windows) {
         KWindowSystem::activateWindow(wid);
@@ -1748,7 +1748,7 @@ bool AppMenuWidget::eventFilter(QObject *watched, QEvent *event)
         QMenu *submenu = qobject_cast<QMenu *>(
                 watched); // Workaround for: no member named 'toolTip' in 'QObject'
         if (!submenu->rect().contains(
-                    mouseEvent->pos())) { // Prevent the Menu action from getting triggred when user
+                    mouseEvent->pos())) { // Prevent the Menu action from getting triggered when user
                                           // click on actions in submenu
             // Gets executed when the submenu is clicked
             qDebug() << "Submenu clicked:" << submenu->property("path").toString();

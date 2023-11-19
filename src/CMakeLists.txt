@@ -65,7 +65,7 @@ find_package(PkgConfig REQUIRED)
 find_package(Qt5 COMPONENTS Network REQUIRED)  # probono: For qtsingleapplication
 find_package(dbusmenu-qt5 REQUIRED)
 find_package(KF5GlobalAccel REQUIRED)
-pkg_check_modules(QCALCULATE REQUIRED libqalculate)
+pkg_check_modules(QALCULATE REQUIRED libqalculate)
 target_include_directories(${TARGET} PUBLIC ${dbusmenu-qt5_INCLUDE_DIRS})
 
 target_link_libraries(${TARGET}
@@ -85,7 +85,7 @@ target_link_libraries(${TARGET}
     ${XCB_LIBRARIES}
     ${XCB_EWMH_LIBRARIES}
     ${XCB_EWMH_LIBRARIES}
-    ${QCALCULATE_LIBRARIES}
+    ${QALCULATE_LIBRARIES}
     dbusmenu-qt5
 )
 if("${CMAKE_SYSTEM_NAME}" MATCHES "FreeBSD")

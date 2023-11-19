@@ -1,7 +1,7 @@
 #ifndef PLUGIN_H
 #define PLUGIN_H
 
-#include "pluginsiterface.h"
+#include "pluginsinterface.h"
 #include "batterywidget.h"
 #include <QObject>
 

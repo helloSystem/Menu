@@ -48,7 +48,7 @@ void DateTimeWidget::updateCurrentTimeString()
 
 void DateTimeWidget::change()
 {
-    qDebug() << "pronbono: To be implemented";
+    qDebug() << "probono: To be implemented";
     QProcess *p = new QProcess();
     p->setArguments({ "Date and Time" });
     p->setProgram("launch");

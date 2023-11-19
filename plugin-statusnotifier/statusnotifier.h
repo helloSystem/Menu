@@ -1,7 +1,7 @@
 #ifndef STATUSNOTIFIER_H
 #define STATUSNOTIFIER_H
 
-#include "pluginsiterface.h"
+#include "pluginsinterface.h"
 #include "statusnotifierwidget.h"
 #include <QObject>
 
