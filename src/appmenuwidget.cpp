@@ -476,7 +476,7 @@ void AppMenuWidget::findAppsInside(QStringList locationsContainingApps)
             continue;
         }
 
-        // Use QDir::entryList() insted of QDirIterator because it supports sorting
+        // Use QDir::entryList() instead of QDirIterator because it supports sorting
         QStringList candidates = dir.entryList();
         QString candidate;
         foreach (candidate, candidates) {
