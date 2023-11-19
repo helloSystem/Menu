@@ -346,7 +346,7 @@ private Q_SLOTS:
 
     //! there are apps that are not releasing their menu properly after closing
     //! and as such their menu is still shown even though the app does not exist
-    //! any more. Such apps are Java based e.g. smartgit
+    //! anymore. Such apps are Java based e.g. smartgit
     void onWindowRemoved(WId id);
 
     void filterWindow(KWindowInfo &info);
