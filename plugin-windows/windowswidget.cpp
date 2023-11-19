@@ -182,7 +182,7 @@ void WindowsWidget::updateWindows()
 
     m_menu->addSeparator();
 
-    // Add one menu item for each appliction
+    // Add one menu item for each application
 
     for (WId id : distinctApps) {
 
