@@ -83,7 +83,7 @@ void StatusNotifierWidget::itemAdded(QString serviceAndPath)
     m_layout->insertWidget(0, button);
     button->show();
 
-    // FIXME: The follwoing can crash. Why? Likely because when this is fist called,
+    // FIXME: The following can crash. Why? Likely because when this is fist called,
     // the objects that this tries to manipulate are not there yet. Race condition?
     // reinterpret_cast<MainWindow*>(parent()->parent())->hideApplicationName();
     //
