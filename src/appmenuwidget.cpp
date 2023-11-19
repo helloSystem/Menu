@@ -1298,7 +1298,7 @@ void AppMenuWidget::searchMenu()
             number_of_enabled_actions++;
     }
     qDebug() << "probono: number_of_enabled_actions" << number_of_enabled_actions;
-    // QUESITON: Unclear whether it is 2 or 3, depending on whether one menu action or one Baloo
+    // QUESTION: Unclear whether it is 2 or 3, depending on whether one menu action or one Baloo
     // search result is there...
     if (number_of_enabled_actions == 2
         || (number_of_enabled_actions == 3 && m_appMenuModel->filteredActions().count() == 1)) {
