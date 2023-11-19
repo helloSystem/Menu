@@ -368,7 +368,7 @@ QString MainWindow::showApplicationName(const QString &arg)
     }
     */
 
-    // This seeme to be a reasonable compromise in terms of speed,
+    // This seems to be a reasonable compromise in terms of speed,
     // but we are not showing the second of two applications with the same name
     // being launched from two different locations. Maybe this is good enough for now
     ApplicationInfo *ai = new ApplicationInfo();
