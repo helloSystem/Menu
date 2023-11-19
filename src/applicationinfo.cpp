@@ -46,7 +46,7 @@
 // directly on the window itself, so that it can be easily
 // retrieved next time we need it. And fast!
 //
-// Similarly for information that is intreresting about files and directories,
+// Similarly for information that is interesting about files and directories,
 // in which case we may do a similar thing using extended attributes.
 
 ApplicationInfo::ApplicationInfo() { }
