@@ -558,7 +558,7 @@ void AppMenuModel::filterWindow(KWindowInfo &info)
 {
     if (m_currentWindowId == info.win()) {
         //! HACK: if the user has enabled screen scaling under X11 environment
-        //! then the window and screen geometries can not be trusted for comparison
+        //! then the window and screen geometries cannot be trusted for comparison
         //! before windows coordinates be adjusted properly.
         //! BUG: 404500
         QPoint windowCenter = info.geometry().center();
