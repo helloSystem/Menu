@@ -114,7 +114,7 @@ public:
                 std::chrono::duration<double, std::milli> dur =
                         std::chrono::high_resolution_clock::now() - reshow->lastOpened;
 
-                if (dur.count() < 350) // start reshow timer on fastly reclosed menus
+                if (dur.count() < 350) // start reshow timer on quickly reclosed menus
                     m_reshowTimer->start();
             });
         }
