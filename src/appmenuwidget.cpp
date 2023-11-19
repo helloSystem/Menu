@@ -1654,7 +1654,7 @@ void AppMenuWidget::actionMinimizeAll()
              << "0x" + QString::number(KWindowSystem::activeWindow(), 16);
     // NOTE: This always prints the window ID of the menu itself, rather than the one of the
     // otherwise frontmost application window Hence we would need to store a variable somewhere that
-    // contains the window ID of the last non-menu window... or is there a btter way?
+    // contains the window ID of the last non-menu window... or is there a better way?
     const auto &windows = KWindowSystem::windows();
     for (WId wid : windows) {
         KWindowSystem::minimizeWindow(wid);
@@ -1669,7 +1669,7 @@ void AppMenuWidget::actionMaximizeAll()
              << "0x" + QString::number(KWindowSystem::activeWindow(), 16);
     // NOTE: This always prints the window ID of the menu itself, rather than the one of the
     // otherwise frontmost application window Hence we would need to store a variable somewhere that
-    // contains the window ID of the last non-menu window... or is there a btter way?
+    // contains the window ID of the last non-menu window... or is there a better way?
     const auto &windows = KWindowSystem::windows();
     for (WId wid : windows) {
         KWindowSystem::activateWindow(wid);
