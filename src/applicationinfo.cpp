@@ -163,7 +163,7 @@ QString ApplicationInfo::environmentVariableForPId(unsigned int pid,
     }
     path = "";
 #else
-    path = "NotImplemeted";
+    path = "NotImplemented";
 #endif
 
     return path;
