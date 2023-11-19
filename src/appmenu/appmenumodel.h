@@ -97,7 +97,7 @@ public:
     QMenu *createMenu(QWidget *parent) override
     {
         HMenu *menu = new HMenu(parent);
-        // Make some workarounds for focus loss which  calls closeAllPoupus();
+        // Make some workarounds for focus loss which  calls closeAllPopups();
         if (parent && qobject_cast<QMenuBar *>(parent->parent())) {
             connect(menu, &QMenu::aboutToShow, this, [this] {
                 recent = qobject_cast<HMenu *>(sender());
