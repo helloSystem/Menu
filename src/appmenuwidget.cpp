@@ -735,9 +735,9 @@ void AppMenuWidget::searchEditingDone()
 {
     if (m_searchMenu && m_searchMenu->actions().count() > 1) {
         searchLineEdit->clearFocus();
-        for (QAction *findActivateeCanidcate : m_searchMenu->actions())
-            if (!findActivateeCanidcate->isSeparator()) {
-                m_searchMenu->setActiveAction(findActivateeCanidcate);
+        for (QAction *findCandidateAction : m_searchMenu->actions())
+            if (!findCandidateAction->isSeparator()) {
+                m_searchMenu->setActiveAction(findCandidateAction);
                 break;
             }
     }
