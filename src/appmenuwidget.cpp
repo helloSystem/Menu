@@ -358,7 +358,7 @@ void AppMenuWidget::addAppToMenu(QString candidate, QMenu *submenu)
             action->setToolTip(file.absoluteFilePath());
             action->setProperty("path", file.absoluteFilePath());
             // action->setDisabled(true); // As a reminder that we consider those legacy and
-            // encourage people to swtich
+            // encourage people to switch
         }
 
     } else if (file.fileName().endsWith(".AppImage") || file.fileName().endsWith(".appimage")) {
