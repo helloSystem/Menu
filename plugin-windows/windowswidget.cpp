@@ -265,7 +265,7 @@ void WindowsWidget::updateWindows()
         } else {
             // If there are multiple windows for the same PID, then add a submenu (a QMenu with
             // QActions) So don't add an action here, but a submenu which contains all windows that
-            // beloong to that PID
+            // belong to that PID
             QMenu *subMenu = m_menu->addMenu(niceName);
             subMenu->setToolTipsVisible(true);
 
