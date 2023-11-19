@@ -874,7 +874,7 @@ void AppMenuWidget::searchMenu()
         qDebug() << result;
         return;
     }
-    // Only initialize fscompleter if searhcstring hints a path;
+    // Only initialize fscompleter if searchstring hints a path;
     if (searchString.startsWith("/") || searchString == "~") {
 
         if (searchString == "~") {
