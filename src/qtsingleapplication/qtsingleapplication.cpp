@@ -52,7 +52,7 @@
     This class allows you to create applications where only one
     instance should be running at a time. I.e., if the user tries to
     launch another instance, the already running instance will be
-    activated instead. Another usecase is a client-server system,
+    activated instead. Another use case is a client-server system,
     where the first started instance will assume the role of server,
     and the later instances will act as clients of that server.
 
