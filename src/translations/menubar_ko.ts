@@ -261,7 +261,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="319"/>
         <source>Screen resolution is below the minimum system requirement of 640x480 pixels.</source>
-        <translation type="unfinished">화면 해상도는 최소 시스템 요구 사항인 640x480 픽셀 미만입니다.</translation>
+        <translation>화면 해상도는 최소 시스템 요구 사항인 640x480 픽셀 미만입니다.</translation>
     </message>
 </context>
 <context>
