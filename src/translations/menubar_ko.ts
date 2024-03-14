@@ -84,7 +84,7 @@
     <message>
         <location filename="../appmenuwidget.cpp" line="662"/>
         <source>Shut Down</source>
-        <translation>끄세요</translation>
+        <translation>시스템 종료</translation>
     </message>
     <message>
         <location filename="../appmenuwidget.cpp" line="1263"/>
@@ -164,7 +164,7 @@
         <location filename="../../Shutdown/mainwindow.ui" line="75"/>
         <location filename="../../build/Shutdown/Shutdown_autogen/include/ui_mainwindow.h" line="111"/>
         <source>Shut Down</source>
-        <translation>끄세요</translation>
+        <translation>시스템 종료</translation>
     </message>
     <message>
         <location filename="../../Shutdown/mainwindow.ui" line="45"/>
@@ -195,7 +195,7 @@
         <location filename="../../Shutdown/mainwindow.ui" line="94"/>
         <location filename="../../build/Shutdown/Shutdown_autogen/include/ui_mainwindow.h" line="112"/>
         <source>Are you sure you want to shut down your computer now?</source>
-        <translation>지금 종료하시겠습니까?</translation>
+        <translation>지금 컴퓨터를 시스템 종료하시겠습니까?</translation>
     </message>
     <message>
         <location filename="../../Shutdown/mainwindow.ui" line="113"/>
