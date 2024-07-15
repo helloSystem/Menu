@@ -29,7 +29,7 @@
     <message>
         <location filename="../appmenuwidget.cpp" line="1724"/>
         <source>About helloDesktop</source>
-        <translation>Acerca do helloDesktop</translation>
+        <translation>Sobre o helloDesktop</translation>
     </message>
     <message>
         <location filename="../appmenuwidget.cpp" line="1737"/>
