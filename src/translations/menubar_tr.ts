@@ -251,7 +251,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="198"/>
         <source>The XDG_SESSION_TYPE environment variable is not set to &quot;x11&quot;. The system is not configured correctly.</source>
-        <translation type="unfinished"></translation>
+        <translation>XDG_SESSION_TYPE ortam değişkeni &quot;x11&quot; olarak ayarlanmamış. Sistem doğru konfigüre edilemedi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="218"/>
@@ -261,7 +261,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="319"/>
         <source>Screen resolution is below the minimum system requirement of 640x480 pixels.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ekran çözünürlüğü minimum sistem gereksinimi olan 640x480 pixelin altında.</translation>
     </message>
 </context>
 <context>
@@ -282,7 +282,7 @@
     <message>
         <location filename="../appmenuwidget.cpp" line="119"/>
         <source>About helloDesktop</source>
-        <translation type="unfinished"></translation>
+        <translation>helloDesktop Hakkında</translation>
     </message>
 </context>
 <context>
@@ -290,58 +290,58 @@
     <message>
         <location filename="../../plugin-windows/windowswidget.cpp" line="23"/>
         <source>Windows</source>
-        <translation type="unfinished"></translation>
+        <translation>Pencereler</translation>
     </message>
     <message>
         <location filename="../../plugin-windows/windowswidget.cpp" line="112"/>
         <source>Hide %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Gizle %1</translation>
     </message>
     <message>
         <location filename="../../plugin-windows/windowswidget.cpp" line="135"/>
         <source>Hide Others</source>
-        <translation type="unfinished"></translation>
+        <translation>Diğerlerini Gizle</translation>
     </message>
     <message>
         <location filename="../../plugin-windows/windowswidget.cpp" line="150"/>
         <source>Show All</source>
-        <translation type="unfinished"></translation>
+        <translation>Tümünü Göster</translation>
     </message>
     <message>
         <location filename="../../plugin-windows/windowswidget.cpp" line="169"/>
         <source>Overview</source>
-        <translation type="unfinished"></translation>
+        <translation>Genel Bakış</translation>
     </message>
     <message>
         <location filename="../../plugin-windows/windowswidget.cpp" line="239"/>
         <location filename="../../plugin-windows/windowswidget.cpp" line="288"/>
         <source>Desktop</source>
-        <translation type="unfinished"></translation>
+        <translation>Masaüstü</translation>
     </message>
     <message>
         <location filename="../../plugin-windows/windowswidget.cpp" line="322"/>
         <source>Zoom In</source>
-        <translation type="unfinished"></translation>
+        <translation>Yakınlaştır</translation>
     </message>
     <message>
         <location filename="../../plugin-windows/windowswidget.cpp" line="337"/>
         <source>Zoom Out</source>
-        <translation type="unfinished"></translation>
+        <translation>Uzaklaştır</translation>
     </message>
     <message>
         <location filename="../../plugin-windows/windowswidget.cpp" line="371"/>
         <source>Increase Screen Brightness</source>
-        <translation type="unfinished"></translation>
+        <translation>Ekran Parlaklığını Artır</translation>
     </message>
     <message>
         <location filename="../../plugin-windows/windowswidget.cpp" line="390"/>
         <source>Decrease Screen Brightness</source>
-        <translation type="unfinished"></translation>
+        <translation>Ekran Parlaklığını Azalt</translation>
     </message>
     <message>
         <location filename="../../plugin-windows/windowswidget.cpp" line="412"/>
         <source>Full Screen</source>
-        <translation type="unfinished"></translation>
+        <translation>Tam Ekran</translation>
     </message>
 </context>
 </TS>
