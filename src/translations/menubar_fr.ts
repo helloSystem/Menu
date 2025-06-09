@@ -228,7 +228,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="198"/>
         <source>The XDG_SESSION_TYPE environment variable is not set to &quot;x11&quot;. The system is not configured correctly.</source>
-        <translation type="unfinished"></translation>
+        <translation>La variable d&apos;environnement XDG_SESSION_TYPE n&apos;est pas défini tu &quot;x11&quot;. Le systeme n&apos;est pas configuré correctement.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="218"/>
